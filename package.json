@@ -1,0 +1,22 @@
+{
+  "name": "select-and-move",
+  "version": "0.0.0",
+  "description": "a rts select and move lab",
+  "scripts": {
+    "build": "webpack --env.prod",
+    "build development": "webpack --env.dev",
+    "watch": "webpack --progress --watch --env.dev",
+    "start": "webpack-dev-server --open --hot"
+  },
+  "keywords": [
+    "rts"
+  ],
+  "author": "stho",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-loader": "^3.1.1",
+    "typescript": "^2.6.1",
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.9.4"
+  }
+}

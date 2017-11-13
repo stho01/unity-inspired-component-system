@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "module": "es6",
+        "target": "es5",
+        "noImplicitAny": false,
+        "sourceMap": true,
+        "lib": [
+            "es5",
+            "es2015",
+            "es6",
+            "dom",
+            "es2015.promise",
+            "es2015.collection",
+            "es2015.symbol",
+            "es2015.core",
+            "es2015.iterable"
+        ]
+    },
+    "exclude": [
+        "./wwwroot/",
+        "./node_modules/"
+    ]
+}
