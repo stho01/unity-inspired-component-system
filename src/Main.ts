@@ -5,12 +5,10 @@ import { ShapeRenderer } from "./engine/components/ShapeRenderer";
 import { Circle } from "./engine/geometry/Circle";
 import { Vector2D } from "./engine/math/Vector2D";
 
-Game.Instance.init({
-    clearColor: "wheat"
-});
+let game = new Game({clearColor: "wheat"});
 
-let initialScene: Scene = new Scene(Game.Instance);
 
+let initialScene: Scene = new Scene(game);
 let player: Player = new Player(initialScene);
 
 let renderer = new ShapeRenderer(player);
@@ -18,8 +16,10 @@ renderer.color = "blue";
 renderer.shape = new Circle(30);
 
 player.attachComponent(ShapeRenderer, renderer);
-player.transform.position = new Vector2D(Game.Instance.viewPort.width/2, Game.Instance.viewPort.height/2);
+player.transform.position = new Vector2D(game.viewPort.width/2, game.viewPort.height/2);
 
-Game.Instance.sceneManager.push(initialScene);
+initialScene.addGameObject(player);
 
-Game.Instance.run();
+game.sceneManager.push(initialScene);
+game.init();
+game.run();

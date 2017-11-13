@@ -8,11 +8,6 @@ import { SceneManager } from './scenes/SceneManager';
 
 export class Game {
     "use strict";
-
-    /**
-     * Game intance. 
-     */
-    public static readonly Instance: Game = new Game();
     
     //****************************************x|****
     //** attributes
@@ -30,7 +25,8 @@ export class Game {
     //** ctor:
     //********************************************
     
-    private constructor() { 
+    constructor(options?: GameOptions) { 
+        this._options = Object.assign({}, _defaultOptions, options);        
         this._canvas        = document.getElementById("c") as HTMLCanvasElement;
         this._input         = new InputManager();
         this._renderer      = new Canvas2DRenderer(this._canvas);
@@ -56,10 +52,11 @@ export class Game {
      * Initialize game variables and configs. 
      * @param options 
      */
-    init(options?: GameOptions): Game {
-        this._options = Object.assign({}, _defaultOptions, options);
+    init(): Game {
 
         this._input.init();
+        
+        
 
         return this;
     }

@@ -47,7 +47,7 @@ export class GameObject implements IDisposable {
     //********************************************
     
     initialize(): void {
-
+        this._components.forEach(componentOfType => componentOfType.forEach(x => x.initialize()));
     }
 
     /**
@@ -71,8 +71,6 @@ export class GameObject implements IDisposable {
         else if(Array.isArray(value)) { 
             value.push(component);
         }
-
-        component.initialize();
     }
 
     /**

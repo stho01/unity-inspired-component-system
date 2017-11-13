@@ -103,31 +103,6 @@ export class StateMachine<T> {
 
         return removed;
     }
-
-    // /**
-    //  * Updates current state. 
-    //  * 
-    //  * @param dt 
-    //  */
-    // update(dt: number): void {
-    //     let top: IState<T> = this.peek();
-    //     if(top != null) {
-    //         top.update(dt, this._entity);
-    //     }
-    // }
-
-    // /**
-    //  * Renders current state.
-    //  * 
-    //  * @param dt 
-    //  * @param renderer 
-    //  */
-    // render(dt: number): void {
-    //     let top: IState<T> = this.peek();
-    //     if (top != null) {
-    //         top.render(dt, this._entity);
-    //     }
-    // }
 }
 
 
