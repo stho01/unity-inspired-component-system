@@ -54,18 +54,18 @@ export class GameObject implements IDisposable {
      * 
      * @param component 
      */
-    attachComponent(constructor: ComponentConstructor, component: Component): void {
+    attachComponent(type: ComponentConstructor, component: Component): void {
         if (component == null) {
             throw new Error("Component cannot be null or undefined");
         }
-        if (component instanceof Transform && this._components.has(constructor)) {
+        if (component instanceof Transform && this._components.has(type)) {
             throw new Error("A game object can only have one Transform component.");
         }
 
-        let value = this._components.get(constructor);
+        let value = this._components.get(type);
          // Component does not exist on game object
         if(value == null) {
-            this._components.set(constructor, [component]);
+            this._components.set(type, [component]);
         }
         //  One or more components exist on game object. Add to existing list.
         else if(Array.isArray(value)) { 
@@ -79,17 +79,17 @@ export class GameObject implements IDisposable {
      * 
      * @param component 
      */
-    detachComponent(constructor: ComponentConstructor, instance: Component = null): Component[] {
-        if(this._components.has(constructor) === false) {
+    detachComponent(type: ComponentConstructor, instance: Component = null): Component[] {
+        if(this._components.has(type) === false) {
             return null;
         }
         
         if (instance != null) {
-            let collection: Component[] = this._components.get(constructor);
+            let collection: Component[] = this._components.get(type);
             
             if (collection.length === 1) {  
-                let detached: Component = this.getComponent(constructor); 
-                this._components.delete(constructor);
+                let detached: Component = this.getComponent(type); 
+                this._components.delete(type);
             
                 return [detached];
             } else {
@@ -99,8 +99,8 @@ export class GameObject implements IDisposable {
                 return [detached];
             }
         } else {
-            let detached: Component[] = this._components.get(constructor);
-            this._components.delete(constructor);
+            let detached: Component[] = this._components.get(type);
+            this._components.delete(type);
             
             return detached;
         }
@@ -110,30 +110,30 @@ export class GameObject implements IDisposable {
      * 
      * @param component 
      */
-    getComponent(constructor: ComponentConstructor) {
-        if (this._components.has(constructor) === false) {
+    getComponent(type: ComponentConstructor) {
+        if (this._components.has(type) === false) {
             return null;
         }
 
-        return this._components.get(constructor)[0];
+        return this._components.get(type)[0];
     }
 
     /**
      * 
      * @param constructor 
      */
-    getComponents(constructor: ComponentConstructor): Component[] {
-        if (this._components.has(constructor) === false) {
+    getComponents(type: ComponentConstructor): Component[] {
+        if (this._components.has(type) === false) {
             return null;
         }
 
-        return this._components.get(constructor);
+        return this._components.get(type);
     }
 
     /**
      * 
      */
     dispose(): void {
-        this._components.forEach(components => components.forEach(x => x.dispose()));
+        this._components.forEach(componentsOfType => componentsOfType.forEach(x => x.dispose()));
     }
 }
