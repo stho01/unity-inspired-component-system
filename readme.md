@@ -1,6 +1,7 @@
-# HTML 2D Canvas boilerplate  
+# A Unity inspired game component system  
 
 ## Description
+A unitiy inspired game component system that is written with TypeScript and HTML Canvas 2D Context.
 
 
 ## Structure
