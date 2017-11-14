@@ -1,5 +1,5 @@
 import { Point } from "./../math/point";
-import { Vector2D } from "./../math/Vector2D";
+import { Vector2D } from "../math/Vector2D";
 import { IShape } from "./IShape";
 
 export class Line  implements IShape {
@@ -22,7 +22,7 @@ export class Line  implements IShape {
         this._p1     = new Vector2D(p1.x, p1.y);
         this._p2     = new Vector2D(p2.x, p2.y);
         this._dir    = this._p2.subtract(this._p1);
-        this._length = this._dir.lenght();
+        this._length = this._dir.length();
     }
     
     //********************************************

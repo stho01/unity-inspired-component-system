@@ -1,7 +1,7 @@
 import { Rectangle } from './../geometry/Rectangle';
 import { Circle } from "./../geometry/Circle";
 import { Line } from "./../geometry/Line";
-import { Vector2D } from "./../math/Vector2D";
+import { Vector2D } from "../math/Vector2D";
 import { IRenderable } from './IRenderable';
 
 export class Canvas2DRenderer {
@@ -12,7 +12,6 @@ export class Canvas2DRenderer {
     //********************************************
     
     private readonly _ctx           : CanvasRenderingContext2D;
-    private readonly _renderables   : Set<IRenderable> = new Set<IRenderable>();
     
     //********************************************
     //** ctor:
@@ -29,32 +28,6 @@ export class Canvas2DRenderer {
     //** public:
     //********************************************
     
-    public addRenderable(renderable: IRenderable): void {
-        if(renderable == null) {
-            throw new Error("Renderable cannot be null or undefined");
-        }
-
-        this._renderables.add(renderable);
-    }
-
-    /**
-     * 
-     * @param renderable 
-     */
-    public removeRenderable(renderable: IRenderable): void {
-        if (renderable == null) {
-            throw new Error("Cannot delete renderable of null or undefined");
-        }
-
-        this._renderables.delete(renderable);
-    }
-
-    /**
-     * 
-     */
-    public render() {
-        this._renderables.forEach(r => r.render(this));
-    }
 
     /**
      * 
@@ -138,5 +111,11 @@ export class Canvas2DRenderer {
         } else {
             this._ctx.fillText(txt, x.x, x.y);
         }
+    }
+    
+    
+    public getTextWidth(txt: string): number {
+        this._ctx.font = "30px Arial";
+        return this._ctx.measureText(txt).width;
     }
 }

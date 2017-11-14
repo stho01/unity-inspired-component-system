@@ -2,11 +2,11 @@ import { Game } from "./engine/Game";
 import { Scene } from "./engine/scenes/Scene";
 import { ShapeRenderer } from "./engine/components/ShapeRenderer";
 import { Circle } from "./engine/geometry/Circle";
-import { Vector2D } from "./engine/math/Vector2D";
-import { CenterBehaviour } from "./game/components/CenterBehaviour";
-import { PlayerInputBahaviour } from "./game/components/PlayerInputBehaviour";
+import { PlayerInputBehaviour } from "./game/components/PlayerInputBehaviour";
 import { GameObject } from "./engine/gameobjects/gameobject";
-
+import {Camera} from "./engine/gameobjects/Camera";
+import {MoveCameraBehaviour} from "./game/components/MoveCameraBehaviour";
+import {Rectangle} from "./engine/geometry/Rectangle";
 
 // create game instance. 
 let game: Game = new Game({clearColor: "wheat"});
@@ -14,22 +14,34 @@ let game: Game = new Game({clearColor: "wheat"});
 // create initial scene 
 let initialScene: Scene = new Scene(game);
 
-// create some game object.
-let someGameObject: GameObject = new GameObject(initialScene);
-someGameObject.transform.position = new Vector2D(game.viewPort.width/2, game.viewPort.height/2);
+// create and add camera to scene
+let camera: Camera = new Camera(initialScene);
+camera.attachComponent(MoveCameraBehaviour);
+initialScene.setMainCamera(camera);
 
-// attach a rendering component to game object.
-let renderer: ShapeRenderer = someGameObject.attachComponent(ShapeRenderer);
+// create a game object that represents the player.
+let player: GameObject = new GameObject(initialScene);
+
+// attach a rendering component to player game object.
+let renderer: ShapeRenderer = player.attachComponent(ShapeRenderer);
 renderer.color = "blue";
 renderer.shape = new Circle(30);
 
-// attach a CenterBehaviour component to game object.
-// someGameObject.attachComponent(CenterBehaviour);
+// attach a PlayerInputBehaviour component to player.
+player.attachComponent(PlayerInputBehaviour);
 
-someGameObject.attachComponent(PlayerInputBahaviour);
+// add player to scene. 
+initialScene.addGameObject(player);
 
-// add game object to scene. 
-initialScene.addGameObject(someGameObject);
+// create a game object that represents a obstacle 
+let obstacle: GameObject = new GameObject(initialScene);
+obstacle.transform.translate(100, 100);
+
+let obstacleShape: ShapeRenderer = obstacle.attachComponent(ShapeRenderer);
+obstacleShape.color = "red";
+obstacleShape.shape = new Circle(100);
+
+initialScene.addGameObject(obstacle);
 
 // push initial scene to game's scene manager. 
 game.sceneManager.push(initialScene);

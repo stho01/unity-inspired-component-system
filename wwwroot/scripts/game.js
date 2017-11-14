@@ -419,7 +419,7 @@ var Vector2D = /** @class */ (function () {
      * Returns a new instance of Vector2D
      */
     Vector2D.prototype.normalize = function () {
-        var lenght = this.lenght();
+        var lenght = this.length();
         if (lenght != 0) {
             return new Vector2D(this._x / lenght, this._y / lenght);
         }
@@ -436,7 +436,7 @@ var Vector2D = /** @class */ (function () {
     /**
      * Gets the length of the current vector.
      */
-    Vector2D.prototype.lenght = function () {
+    Vector2D.prototype.length = function () {
         return Math.sqrt((this._x * this._x) + (this._y * this._y));
     };
     /**
@@ -1357,7 +1357,7 @@ var Line = /** @class */ (function () {
         this._p1 = new __WEBPACK_IMPORTED_MODULE_0__math_Vector2D__["a" /* Vector2D */](p1.x, p1.y);
         this._p2 = new __WEBPACK_IMPORTED_MODULE_0__math_Vector2D__["a" /* Vector2D */](p2.x, p2.y);
         this._dir = this._p2.subtract(this._p1);
-        this._length = this._dir.lenght();
+        this._length = this._dir.length();
     }
     Object.defineProperty(Line.prototype, "p1", {
         //********************************************

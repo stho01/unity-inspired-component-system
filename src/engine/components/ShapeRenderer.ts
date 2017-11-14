@@ -7,6 +7,8 @@ import { Rectangle } from "../geometry/Rectangle";
 import { Line } from "../geometry/Line";
 import { Canvas2DRenderer } from "../rendering/Canvas2DRenderer";
 import { GameObject } from "../gameobjects/gameobject";
+import {Camera} from "../gameobjects/Camera";
+import {Vector2D} from "../math/Vector2D";
 
 export class ShapeRenderer extends Component implements IRenderable {
     
@@ -42,26 +44,22 @@ export class ShapeRenderer extends Component implements IRenderable {
      * 
      * @param ctx 
      */
-    render(renderer: Canvas2DRenderer): void {
+    render(renderer: Canvas2DRenderer, camera: Camera): void {
+        let screenPos: Vector2D = camera.getScreenPosition(this._owner);
+        
         if (this.shape instanceof Circle) {
             let c: Circle = new Circle(this.shape.r * this._transform.scale.x);
-            renderer.renderCircle(
-                this._transform.position.x,
-                this._transform.position.y,
-                c, 
-                this.color);
+            
+            renderer.renderCircle(screenPos.x,screenPos.y,c,this.color);
 
         } else if (this.shape instanceof Rectangle) {
             let rect: Rectangle = new Rectangle(this.shape.width*this._transform.scale.x, this.shape.heigth*this._transform.scale.y);
-            renderer.renderRect(
-                this._transform.position.x,
-                this._transform.position.y,
-                this.shape, 
-                this.color);
-
-        } else if (this.shape instanceof Line) {
+            
+            renderer.renderRect(screenPos.x,screenPos.y,this.shape,this.color);
+        } 
+        /*else if (this.shape instanceof Line) {
             renderer.renderLine(this.shape, this.color);
-        }
+        }*/
     }    
 
     /**
