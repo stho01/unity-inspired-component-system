@@ -4,17 +4,13 @@ import { Scene } from "../scenes/Scene";
 import { IDisposable } from "../../abstract/IDisposable";
 
 
-interface ComponentConstructor {
-    new(owner: GameObject);
-}
-
 export class GameObject implements IDisposable {
     
     //********************************************
     //** attributes:
     //********************************************
     
-    private readonly _components: Map<ComponentConstructor, Component[]>;
+    private readonly _components: Map<new(owner: GameObject) => Component, Component[]>;
     private _transform  : Transform;
     private _scene      : Scene;
 
@@ -24,7 +20,7 @@ export class GameObject implements IDisposable {
     
     constructor(scene: Scene) {
         this._scene         = scene;
-        this._components    = new Map<ComponentConstructor, Component[]>();
+        this._components    = new Map<new(owner: GameObject) => Component, Component[]>();
         this._transform     = new Transform(this);
         this._transform     = this.attachComponent(Transform);
     }
@@ -63,6 +59,7 @@ export class GameObject implements IDisposable {
         if(value == null) {
             this._components.set(type, [component]);
         }
+        
         //  One or more components exist on game object. Add to existing list.
         else if(Array.isArray(value)) { 
             value.push(component);
@@ -76,10 +73,8 @@ export class GameObject implements IDisposable {
      * @param type
      * @param instance
      */
-    detachComponent(type: ComponentConstructor, instance: Component = null): Component[] {
-        if(this._components.has(type) === false) {
-            return null;
-        }
+    detachComponent<T extends Component>(type: new(owner: GameObject) => T, instance: Component = null): T[] {
+        if(this._components.has(type) === false) { return null; }
         
         if (instance != null) {
             let collection: Component[] = this._components.get(type);
@@ -88,18 +83,18 @@ export class GameObject implements IDisposable {
                 let detached: Component = this.getComponent(type); 
                 this._components.delete(type);
             
-                return [detached];
+                return [detached] as T[];
             } else {
                 let detached: Component = collection[collection.indexOf(instance)]; 
-                collection = collection.slice(collection.indexOf(instance), 1);
-            
-                return [detached];
+                this._components.set(type, collection.slice(collection.indexOf(instance), 1));
+                
+                return [detached] as T[];
             }
         } else {
             let detached: Component[] = this._components.get(type);
             this._components.delete(type);
             
-            return detached;
+            return detached as T[];
         }
     }
 
@@ -107,24 +102,24 @@ export class GameObject implements IDisposable {
      *
      * @param type
      */
-    getComponent(type: ComponentConstructor) {
+    getComponent<T extends Component>(type: new(owner: GameObject) => T) : T {
         if (this._components.has(type) === false) {
             return null;
         }
 
-        return this._components.get(type)[0];
+        return this._components.get(type)[0] as T;
     }
 
     /**
      *
      * @param type
      */
-    getComponents(type: ComponentConstructor): Component[] {
+    getComponents<T extends Component>(type: new(owner: GameObject) => T) : T[] {
         if (this._components.has(type) === false) {
             return null;
         }
 
-        return this._components.get(type);
+        return this._components.get(type) as T[];
     }
 
     /**
