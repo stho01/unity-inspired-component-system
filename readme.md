@@ -3,6 +3,7 @@
 ## Description
 A unitiy inspired game component system that is written with TypeScript and HTML Canvas 2D Context.
 
+## Example code
 ```TypeScript
 // create game instance. 
 let game: Game = new Game({clearColor: "wheat"});
