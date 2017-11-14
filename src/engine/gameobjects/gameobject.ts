@@ -26,7 +26,7 @@ export class GameObject implements IDisposable {
         this._scene         = scene;
         this._components    = new Map<ComponentConstructor, Component[]>();
         this._transform     = new Transform(this);
-        this.attachComponent(this._transform);
+        this._transform     = this.attachComponent(Transform);
     }
     
     //********************************************
@@ -46,18 +46,18 @@ export class GameObject implements IDisposable {
     }
 
     /**
-     * 
-     * @param component 
+     *
+     * @param type
      */
-    attachComponent(component: Component): void {
-        if (component == null) {
+    attachComponent<T extends Component>(type: new(owner: GameObject) => T): T {
+        if (type == null) {
             throw new Error("Component cannot be null or undefined");
         }
-        let type: any = component.constructor;
-        if (component instanceof Transform && this._components.has(type)) {
+        if (<any>type === Transform && this._components.has(type)) {
             throw new Error("A game object can only have one Transform component.");
         }
-
+        let component = new type(this);
+        
         let value = this._components.get(type);
          // Component does not exist on game object
         if(value == null) {
@@ -67,6 +67,8 @@ export class GameObject implements IDisposable {
         else if(Array.isArray(value)) { 
             value.push(component);
         }
+        
+        return component;
     }
 
     /**
