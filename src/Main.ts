@@ -4,6 +4,7 @@ import { ShapeRenderer } from "./engine/components/ShapeRenderer";
 import { Circle } from "./engine/geometry/Circle";
 import { Vector2D } from "./engine/math/Vector2D";
 import { CenterBehaviour } from "./game/components/CenterBehaviour";
+import { PlayerInputBahaviour } from "./game/components/PlayerInputBehaviour";
 import { GameObject } from "./engine/gameobjects/gameobject";
 
 
@@ -23,7 +24,9 @@ renderer.color = "blue";
 renderer.shape = new Circle(30);
 
 // attach a CenterBehaviour component to game object.
-someGameObject.attachComponent(CenterBehaviour);
+// someGameObject.attachComponent(CenterBehaviour);
+
+someGameObject.attachComponent(PlayerInputBahaviour);
 
 // add game object to scene. 
 initialScene.addGameObject(someGameObject);

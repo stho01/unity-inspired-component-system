@@ -1,9 +1,12 @@
 import { Component } from "./Component";
 import { IUpdateable } from "../update/IUpdateable";
 import { GameObject } from "../gameobjects/gameobject";
+import { InputManager } from "../input/InputManager";
 
 export abstract class Behaviour extends Component implements IUpdateable {
     
+    protected _input: InputManager;
+
     //********************************************
     //**ctor:
     //********************************************
@@ -12,6 +15,7 @@ export abstract class Behaviour extends Component implements IUpdateable {
         super(owner);
         // add component to update manager.
         owner.scene.updateManager.add(this);
+        this._input = owner.scene.game.input;
     }
     
     //********************************************

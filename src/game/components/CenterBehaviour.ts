@@ -7,7 +7,7 @@ export class CenterBehaviour extends Behaviour {
     private _transform: Transform;
 
     initialize() {
-        this._transform = this._owner.getComponent(Transform) as Transform;
+        this._transform = this._owner.getComponent(Transform);
     }
 
     update(deltaTime: number): void {

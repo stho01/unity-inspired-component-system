@@ -10,9 +10,12 @@ export class GameObject implements IDisposable {
     //** attributes:
     //********************************************
     
-    private readonly _components: Map<new(owner: GameObject) => Component, Component[]>;
+    private readonly _components : Map<new(owner: GameObject) => Component, Component[]>;
     private _transform  : Transform;
     private _scene      : Scene;
+    
+    private readonly _children   : Set<GameObject> = new Set<GameObject>();
+    private _parent: GameObject;
 
     //********************************************
     //**ctor:
@@ -39,6 +42,36 @@ export class GameObject implements IDisposable {
     
     initialize(): void {
         this._components.forEach(componentOfType => componentOfType.forEach(x => x.initialize()));
+    }
+
+    /**
+     * 
+     * @param parent 
+     */
+    setParent(parent: GameObject): void {
+        if (parent != null) {
+            parent.addChild(this);
+            this._parent = parent;
+        } else if(this._parent != null) {
+            this._parent.removeChild(this);
+            this._parent = null;
+        }
+    }
+
+    /**
+     * 
+     * @param child 
+     */
+    addChild(child: GameObject): void {
+        this._children.add(child);
+    }
+
+    /**
+     * 
+     * @param child 
+     */
+    removeChild(child: GameObject): void {
+        this._children.delete(child);
     }
 
     /**
