@@ -1,4 +1,3 @@
-import { Vector2D } from "../math/Vector2D";
 import { Transform } from "../components/Transform";
 import { Component } from "../components/Component";
 import { Scene } from "../scenes/Scene";

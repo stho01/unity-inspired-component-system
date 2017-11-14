@@ -1,7 +1,7 @@
 {
-  "name": "select-and-move",
+  "name": "unity-inspired-component-system",
   "version": "0.0.0",
-  "description": "a rts select and move lab",
+  "description": "",
   "scripts": {
     "build": "webpack --env.prod",
     "build development": "webpack --env.dev",
@@ -9,7 +9,7 @@
     "start": "webpack-dev-server --open --hot"
   },
   "keywords": [
-    "rts"
+    
   ],
   "author": "stho",
   "license": "ISC",

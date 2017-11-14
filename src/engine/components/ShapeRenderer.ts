@@ -3,7 +3,6 @@ import { Component } from "./Component";
 import { Transform } from "./Transform";
 import { Circle } from "../geometry/Circle";
 import { IRenderable } from "../rendering/IRenderable";
-import { Game } from "../Game";
 import { Rectangle } from "../geometry/Rectangle";
 import { Line } from "../geometry/Line";
 import { Canvas2DRenderer } from "../rendering/Canvas2DRenderer";

@@ -1,4 +1,3 @@
-import { Vector2D } from './../math/Vector2D';
 import { IShape } from './IShape';
 
 export class Circle implements IShape {

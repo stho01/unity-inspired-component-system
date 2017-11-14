@@ -1,8 +1,6 @@
 import { IState } from "../state/State";
 import { Game } from "../Game";
 import { UpdateManager } from "../update/UpdateManager";
-import { IUpdateable } from "../update/IUpdateable";
-import { Canvas2DRenderer } from "../rendering/Canvas2DRenderer";
 import { RenderManager } from "../rendering/RenderManager";
 import { GameObject } from "../gameobjects/gameobject";
 

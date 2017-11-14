@@ -1,8 +1,6 @@
 import { Rectangle } from './geometry/Rectangle';
 import { Canvas2DRenderer } from "./rendering/Canvas2DRenderer";
 import { InputManager } from "./input/InputManager";
-import { IState } from "./state/State";
-import { StateMachine } from "./state/StateMachine";
 import { ViewPort } from "./types/ViewPort";
 import { SceneManager } from './scenes/SceneManager';
 
@@ -128,4 +126,4 @@ export interface GameOptions {
  */
 let _defaultOptions: GameOptions = {
     clearColor: "#000000"
-}
+};
