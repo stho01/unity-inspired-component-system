@@ -6,6 +6,8 @@ import { Vector2D } from "./engine/math/Vector2D";
 import { CenterBehaviour } from "./game/components/CenterBehaviour";
 import { GameObject } from "./engine/gameobjects/gameobject";
 
+console.log(Game.prototype.constructor);
+
 // create game instance. 
 let game = new Game({clearColor: "wheat"});
 
@@ -22,8 +24,8 @@ renderer.color = "blue";
 renderer.shape = new Circle(30);
 
 // attach components to game object.
-someGameObject.attachComponent(ShapeRenderer, renderer);
-someGameObject.attachComponent(CenterBehaviour, new CenterBehaviour(someGameObject));
+someGameObject.attachComponent(renderer);
+someGameObject.attachComponent(new CenterBehaviour(someGameObject));
 
 // add game object to scene. 
 initialScene.addGameObject(someGameObject);

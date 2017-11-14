@@ -21,15 +21,12 @@ export class GameObject implements IDisposable {
     //********************************************
     //**ctor:
     //********************************************
-    //********************************************
-    //**ctor:
-    //********************************************
     
     constructor(scene: Scene) {
         this._scene         = scene;
         this._components    = new Map<ComponentConstructor, Component[]>();
         this._transform     = new Transform(this);
-        this.attachComponent(Transform, this._transform);
+        this.attachComponent(this._transform);
     }
     
     //********************************************
@@ -39,7 +36,6 @@ export class GameObject implements IDisposable {
     public get transform()  : Transform { return this._transform; }
     public get scene()      : Scene { return this._scene; } 
     public set transform(v : Transform) { this._transform = v; }
-    
 
     //********************************************
     //**public:
@@ -53,10 +49,11 @@ export class GameObject implements IDisposable {
      * 
      * @param component 
      */
-    attachComponent(type: ComponentConstructor, component: Component): void {
+    attachComponent(component: Component): void {
         if (component == null) {
             throw new Error("Component cannot be null or undefined");
         }
+        let type: any = component.constructor;
         if (component instanceof Transform && this._components.has(type)) {
             throw new Error("A game object can only have one Transform component.");
         }
@@ -73,8 +70,9 @@ export class GameObject implements IDisposable {
     }
 
     /**
-     * 
-     * @param component 
+     *
+     * @param type
+     * @param instance
      */
     detachComponent(type: ComponentConstructor, instance: Component = null): Component[] {
         if(this._components.has(type) === false) {
@@ -104,8 +102,8 @@ export class GameObject implements IDisposable {
     }
 
     /**
-     * 
-     * @param component 
+     *
+     * @param type
      */
     getComponent(type: ComponentConstructor) {
         if (this._components.has(type) === false) {
@@ -116,8 +114,8 @@ export class GameObject implements IDisposable {
     }
 
     /**
-     * 
-     * @param constructor 
+     *
+     * @param type
      */
     getComponents(type: ComponentConstructor): Component[] {
         if (this._components.has(type) === false) {
