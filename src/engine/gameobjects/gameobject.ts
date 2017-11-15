@@ -5,7 +5,6 @@ import { IDisposable } from "../../abstract/IDisposable";
 
 
 export class GameObject implements IDisposable {
-    
     //********************************************
     //** attributes:
     //********************************************
@@ -16,12 +15,13 @@ export class GameObject implements IDisposable {
     
     private readonly _children   : Set<GameObject> = new Set<GameObject>();
     private _parent: GameObject;
-
+    private _name: string;
+    
     //********************************************
     //**ctor:
     //********************************************
     
-    constructor(scene: Scene) {
+    constructor(scene: Scene, name?: string) {
         this._scene         = scene;
         this._components    = new Map<new(owner: GameObject) => Component, Component[]>();
         this._transform     = new Transform(this);
@@ -32,9 +32,14 @@ export class GameObject implements IDisposable {
     //** getters and setters:
     //********************************************
     
-    public get transform()  : Transform { return this._transform; }
-    public get scene()      : Scene { return this._scene; } 
-    public set transform(v : Transform) { this._transform = v; }
+    get transform()  : Transform     { return this._transform; }
+    get scene()      : Scene         { return this._scene; } 
+    get children()   : GameObject[]  { return Array.from(this._children); }
+    get parent()     : GameObject    { return this._parent; }
+    get name()       : string        { return this._name; }
+    
+    set transform(v: Transform)      { this._transform = v; }
+    
 
     //********************************************
     //**public:

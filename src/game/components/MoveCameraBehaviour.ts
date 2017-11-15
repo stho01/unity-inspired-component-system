@@ -1,9 +1,9 @@
-import { Behaviour } from "../../engine/components/Behaviour";
-import { KeyCode } from "../../engine/input/KeyCode";
-import { Transform } from "../../engine/components/Transform";
-import { Vector2D } from "../../engine/math/Vector2D";
+import {Behaviour} from "../../engine/components/Behaviour";
+import {Vector2D} from "../../engine/math/Vector2D";
+import {KeyCode} from "../../engine/input/KeyCode";
+import {Transform} from "../../engine/components/Transform";
 
-export class PlayerInputBehaviour extends Behaviour {
+export class MoveCameraBehaviour extends Behaviour {
     //********************************************************************************
     //** attributes:
     //********************************************************************************
@@ -16,30 +16,32 @@ export class PlayerInputBehaviour extends Behaviour {
     //********************************************************************************
 
     /**
-     * Initialize component
+     * Initialize component.
      */
     initialize(): void {
         this._transform = this._owner.getComponent(Transform);
     }
 
     /**
-     * Update component
+     * Update component.
      * @param {number} deltaTime
      */
     update(deltaTime: number): void {
         let dir: Vector2D = Vector2D.Zero;
-        if (this._input.isKeyDown(KeyCode.A)) {
+        
+        if (this._input.isKeyDown(KeyCode.Arrow_Left)) {
             dir = dir.add(Vector2D.Left);
         }
-        if (this._input.isKeyDown(KeyCode.D)) {
-            dir = dir.add(Vector2D.Right); 
+        if (this._input.isKeyDown(KeyCode.Arrow_Right)) {
+            dir = dir.add(Vector2D.Right);
         }
-        if (this._input.isKeyDown(KeyCode.W)) {
+        if (this._input.isKeyDown(KeyCode.Arrow_Up)) {
             dir = dir.add(Vector2D.Up);
         }
-        if (this._input.isKeyDown(KeyCode.S)) {
+        if (this._input.isKeyDown(KeyCode.Arrow_Down)) {
             dir = dir.add(Vector2D.Down);
         }
+
         let acceleration: Vector2D = dir.multiply(this.speed * deltaTime);
         this._transform.translate(acceleration);
     }

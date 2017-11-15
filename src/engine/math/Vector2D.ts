@@ -47,19 +47,19 @@ export class Vector2D {
      * 
      * @param vec 
      */
-    add(vec: Vector2D|number): Vector2D {
-        let x: number,
-            y: number;
+    add(vec: Vector2D|number, y?: number): Vector2D {
+        let nx: number,
+            ny: number;
 
         if (typeof vec === "number") {
-            x = this._x + vec;
-            y = this._y + vec;
+            nx = this._x + vec;
+            ny = this._y + (y || vec);
         } else {
-            x = this._x + vec.x;
-            y = this._y + vec.y;
+            nx = this._x + vec.x;
+            ny = this._y + vec.y;
         }
         
-        return new Vector2D(x, y);
+        return new Vector2D(nx, ny);
     }
 
     /**
@@ -68,32 +68,19 @@ export class Vector2D {
      * 
      * @param vec 
      */
-    subtract(vec: Vector2D): Vector2D {
-        let x: number = this._x - vec.x,
-            y: number = this._y - vec.y;
+    subtract(vec: Vector2D|number, y?: number): Vector2D { 
+        let nx: number,
+            ny: number;
 
-        return new Vector2D(x, y);
-    }
-
-    /**
-     * Multiplies another vector to the vector.
-     * Returns a new instance of Vector2D
-     *
-     * @param multiplyWith
-     */
-    multiply(multiplyWith: Vector2D|number): Vector2D {
-        let x: number = 0,
-            y: number = 0;
-
-        if (typeof multiplyWith === "number") {
-            x = this._x * multiplyWith;
-            y = this._y * multiplyWith;
+        if (typeof vec === "number") {
+            nx = this._x - vec;
+            ny = this._y - (y || vec);
         } else {
-            x = this._x * multiplyWith.x;
-            y = this._y * multiplyWith.y;
+            nx = this._x - vec.x;
+            ny = this._y - vec.y;
         }
 
-        return new Vector2D(x, y);
+        return new Vector2D(nx, ny);
     }
 
     /**
@@ -102,19 +89,40 @@ export class Vector2D {
      *
      * @param vec
      */
-    divide(multiplyWith: Vector2D|number): Vector2D {
-        let x: number = 0,
-            y: number = 0;
+    multiply(vec: Vector2D|number, y?: number): Vector2D {
+        let nx: number = 0,
+            ny: number = 0;
 
-        if (typeof multiplyWith === "number") {
-            x = this._x / multiplyWith;
-            y = this._y / multiplyWith;
+        if (typeof vec === "number") {
+            nx = this._x * vec;
+            ny = this._y * (y || vec);
         } else {
-            x = this._x / multiplyWith.x;
-            y = this._y / multiplyWith.y;
+            nx = this._x * vec.x;
+            ny = this._y * vec.y;
         }
 
-        return new Vector2D(x, y);
+        return new Vector2D(nx, ny);
+    }
+
+    /**
+     * Multiplies another vector to the vector.
+     * Returns a new instance of Vector2D
+     *
+     * @param vec
+     */
+    divide(vec: Vector2D|number, y?: number): Vector2D {
+        let nx: number = 0,
+            ny: number = 0;
+
+        if (typeof vec === "number") {
+            nx = this._x / vec;
+            ny = this._y / (y || vec);
+        } else {
+            nx = this._x / vec.x;
+            ny = this._y / vec.y;
+        }
+
+        return new Vector2D(nx, ny);
     }
 
     /**
@@ -122,7 +130,7 @@ export class Vector2D {
      * Returns a new instance of Vector2D
      */
     normalize(): Vector2D {
-        let lenght: number = this.lenght();
+        let lenght: number = this.length();
         if (lenght != 0) {
             return new Vector2D(this._x / lenght, this._y / lenght);
         } else {
@@ -140,9 +148,9 @@ export class Vector2D {
     /**
      * Gets the length of the current vector.
      */
-    lenght(): number {
+    length(): number {
         return Math.sqrt((this._x * this._x) + (this._y * this._y));
-    }
+    } 
 
     /**
      * Checks if the vector x and y is equal to the given vector.
@@ -205,10 +213,18 @@ export class Vector2D {
      * @param {number} angle
      * @return {Vector2D}
      */
-    public rotate(angle: number): Vector2D {
+    rotate(angle: number): Vector2D {
         let x: number = this.x * Math.cos(angle) - this.y * Math.sin(angle);
         let y: number = this.x * Math.sin(angle) + this.y * Math.cos(angle);
 
         return new Vector2D(x, y);
+    }
+
+    /**
+     * 
+     * @return {Vector2D}
+     */
+    flip(): Vector2D {
+        return new Vector2D(-this.x, -this.y);
     }
 }
