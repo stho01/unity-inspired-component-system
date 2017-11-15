@@ -4,15 +4,28 @@ import { Transform } from "../../engine/components/Transform";
 import { Vector2D } from "../../engine/math/Vector2D";
 
 export class PlayerInputBehaviour extends Behaviour {
+    //********************************************************************************
+    //** attributes:
+    //********************************************************************************
     
     public speed: number = 100;
-
     private _transform: Transform;
     
+    //********************************************************************************
+    //** public:
+    //********************************************************************************
+
+    /**
+     * Initialize component
+     */
     initialize(): void {
         this._transform = this._owner.getComponent(Transform);
     }
 
+    /**
+     * Update component
+     * @param {number} deltaTime
+     */
     update(deltaTime: number): void {
         let dir: Vector2D = Vector2D.Zero;
         if (this._input.isKeyDown(KeyCode.A)) {

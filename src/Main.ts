@@ -39,7 +39,7 @@ obstacle.transform.translate(100, 100);
 
 let obstacleShape: ShapeRenderer = obstacle.attachComponent(ShapeRenderer);
 obstacleShape.color = "red";
-obstacleShape.shape = new Circle(100);
+obstacleShape.shape = new Rectangle(100, 100);
 
 initialScene.addGameObject(obstacle);
 

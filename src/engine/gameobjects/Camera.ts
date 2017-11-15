@@ -12,7 +12,7 @@ export class Camera extends GameObject {
      */
     getScreenPosition(gameObject: GameObject): Vector2D {
         let viewPort     : ViewPort = this.scene.game.viewPort;
-        let cameraOrigin : Vector2D = this.transform.position.add(viewPort.width/2, viewPort.height/2);
+        let cameraOrigin : Vector2D = this.transform.position.flip().add(viewPort.width/2, viewPort.height/2);
         let worldPos     : Vector2D = this.getWorldPosition(gameObject); 
         let offset       : Vector2D = cameraOrigin.add(worldPos);
         
