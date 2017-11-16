@@ -60,7 +60,7 @@ game.run();
 ```TypeScript
 Game.add(scene: Scene);
 Scene.add(gameobject: GameObject);
-GameObject.add(constructor: ComponentConstructor, component: IComponent);
+GameObject.add(component: Component);
 ```
 
 ## Development environment
