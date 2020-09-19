@@ -1,51 +1,49 @@
 export class Vector2D {
-    "use strict";
-    
     //********************************************
-    //** read only attributes. 
+    //** read only attributes.
     //********************************************
-    
-    public static readonly Zero     = new Vector2D(); 
-    public static readonly One      = new Vector2D(1,1); 
-    public static readonly Left     = new Vector2D(-1,0); 
-    public static readonly Right    = new Vector2D(1,0); 
-    public static readonly Up       = new Vector2D(0,-1); 
+
+    public static readonly Zero     = new Vector2D();
+    public static readonly One      = new Vector2D(1,1);
+    public static readonly Left     = new Vector2D(-1,0);
+    public static readonly Right    = new Vector2D(1,0);
+    public static readonly Up       = new Vector2D(0,-1);
     public static readonly Down     = new Vector2D(0,1);
 
     //********************************************
     //** attributes:
     //********************************************
-    
+
     private _x: number;
     private _y: number;
 
     //********************************************
     //** ctor:
     //********************************************
-    
+
     constructor(x: number = 0, y: number = 0) {
         this._x = x;
         this._y = y;
     }
 
     //********************************************
-    //** 
+    //**
     //********************************************
-    
+
     get x(): number { return this._x; }
     get y(): number { return this._y; }
     get isZero(): boolean { return this.equal(Vector2D.Zero); }
     get isOne(): boolean { return this.equal(Vector2D.One); }
-    
+
     //********************************************
     //** public:
     //********************************************
-    
+
     /**
-     * Adds another vector to the vector. 
+     * Adds another vector to the vector.
      * Returns a new instance of Vector2D
-     * 
-     * @param vec 
+     *
+     * @param vec
      */
     add(vec: Vector2D|number, y?: number): Vector2D {
         let nx: number,
@@ -58,17 +56,17 @@ export class Vector2D {
             nx = this._x + vec.x;
             ny = this._y + vec.y;
         }
-        
+
         return new Vector2D(nx, ny);
     }
 
     /**
-     * Subtracts another vector to the vector. 
+     * Subtracts another vector to the vector.
      * Returns a new instance of Vector2D
-     * 
-     * @param vec 
+     *
+     * @param vec
      */
-    subtract(vec: Vector2D|number, y?: number): Vector2D { 
+    subtract(vec: Vector2D|number, y?: number): Vector2D {
         let nx: number,
             ny: number;
 
@@ -139,7 +137,7 @@ export class Vector2D {
     }
 
     /**
-     * 
+     *
      */
     normal(): Vector2D {
         return new Vector2D(-this.y, this.x).normalize();
@@ -150,12 +148,12 @@ export class Vector2D {
      */
     length(): number {
         return Math.sqrt((this._x * this._x) + (this._y * this._y));
-    } 
+    }
 
     /**
      * Checks if the vector x and y is equal to the given vector.
-     * 
-     * @param vec 
+     *
+     * @param vec
      */
     equal(vec: Vector2D): boolean {
         return vec != null && this._x === vec.x && this._y === vec.y;
@@ -163,10 +161,10 @@ export class Vector2D {
 
     /**
      * Finds the dot product between the two vectors.
-     * 
-     * @param vec 
+     *
+     * @param vec
      */
-    dot(vec: Vector2D): number {        
+    dot(vec: Vector2D): number {
         let unit1: Vector2D = this.normalize(),
             unit2: Vector2D = vec.normalize();
 
@@ -175,26 +173,26 @@ export class Vector2D {
 
     /**
      * Finds the cross product between two vectors.
-     * @param vec 
+     * @param vec
      */
     cross(vec: Vector2D): number {
         let unit1: Vector2D = this.normalize(),
-            unit2: Vector2D = vec.normalize(); 
+            unit2: Vector2D = vec.normalize();
 
         return (unit1.x * unit2.x) - (unit1.y * unit2.y);
     }
-    
+
     /**
-     * Checks if the 
-     * 
-     * @param vec 
+     * Checks if the
+     *
+     * @param vec
      */
     isPerpendicular(vec: Vector2D): boolean {
         return this.dot(vec) === 0;
     }
 
     /**
-     * 
+     *
      * @param {Vector2D} normal
      * @return {Vector2D}
      */
@@ -203,13 +201,13 @@ export class Vector2D {
         let dot: number = (this.x * n.x) + (this.y * n.y);
         let x: number = this.x - 2 * dot * n.x;
         let y: number = this.y - 2 * dot * n.y;
-        
+
         return new Vector2D(x, y);
     }
 
     /**
-     * Rotates the vector. 
-     * 
+     * Rotates the vector.
+     *
      * @param {number} angle
      * @return {Vector2D}
      */
@@ -221,7 +219,7 @@ export class Vector2D {
     }
 
     /**
-     * 
+     *
      * @return {Vector2D}
      */
     flip(): Vector2D {

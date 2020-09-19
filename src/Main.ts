@@ -4,14 +4,14 @@ import { ShapeRenderer } from "./engine/components/ShapeRenderer";
 import { Circle } from "./engine/geometry/Circle";
 import { PlayerInputBehaviour } from "./game/components/PlayerInputBehaviour";
 import { GameObject } from "./engine/gameobjects/gameobject";
-import {Camera} from "./engine/gameobjects/Camera";
-import {MoveCameraBehaviour} from "./game/components/MoveCameraBehaviour";
-import {Rectangle} from "./engine/geometry/Rectangle";
+import { Camera } from "./engine/gameobjects/Camera";
+import { MoveCameraBehaviour } from "./game/components/MoveCameraBehaviour";
+import { Rectangle } from "./engine/geometry/Rectangle";
 
-// create game instance. 
+// create game instance.
 let game: Game = new Game({clearColor: "wheat"});
 
-// create initial scene 
+// create initial scene
 let initialScene: Scene = new Scene(game);
 
 // create and add camera to scene
@@ -30,10 +30,10 @@ renderer.shape = new Circle(30);
 // attach a PlayerInputBehaviour component to player.
 player.attachComponent(PlayerInputBehaviour);
 
-// add player to scene. 
+// add player to scene.
 initialScene.addGameObject(player);
 
-// create a game object that represents a obstacle 
+// create a game object that represents a obstacle
 let obstacle: GameObject = new GameObject(initialScene);
 obstacle.transform.translate(100, 100);
 
@@ -43,7 +43,7 @@ obstacleShape.shape = new Rectangle(100, 100);
 
 initialScene.addGameObject(obstacle);
 
-// push initial scene to game's scene manager. 
+// push initial scene to game's scene manager.
 game.sceneManager.push(initialScene);
 
 // initialize game

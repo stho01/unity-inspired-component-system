@@ -4,13 +4,14 @@ import {KeyCode} from "../../engine/input/KeyCode";
 import {Transform} from "../../engine/components/Transform";
 
 export class MoveCameraBehaviour extends Behaviour {
+
     //********************************************************************************
     //** attributes:
     //********************************************************************************
-    
+
     public speed: number = 100;
     private _transform: Transform;
-    
+
     //********************************************************************************
     //** public:
     //********************************************************************************
@@ -28,7 +29,7 @@ export class MoveCameraBehaviour extends Behaviour {
      */
     update(deltaTime: number): void {
         let dir: Vector2D = Vector2D.Zero;
-        
+
         if (this._input.isKeyDown(KeyCode.Arrow_Left)) {
             dir = dir.add(Vector2D.Left);
         }
