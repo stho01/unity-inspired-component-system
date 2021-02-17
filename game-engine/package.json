@@ -1,0 +1,25 @@
+{
+  "name": "game-engine",
+  "version": "0.0.1",
+  "description": "A untity inspired game engine",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "tsc": "tsc",
+    "build": "webpack --env.prod",
+    "build development": "webpack --env.dev",
+    "build library": "webpack --config webpack.config.js --env.dev",
+    "watch": "webpack --progress --watch --env.dev",
+    "start": "webpack-dev-server --open --hot"
+  },
+  "keywords": [],
+  "author": "stho",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-loader": "^5.3.0",
+    "typescript": "^3.1.6",
+    "webpack": "4.41.4",
+    "webpack-cli": "3.1.2",
+    "webpack-dev-server": "^3.1.11"
+  }
+}
