@@ -81,3 +81,27 @@ Build bundle:
 $ npm run build
 ```
 
+
+## npm linking
+
+Navigate to the game-engine directory to link game engine as a local npm package.
+
+```
+> cd game-engine
+```
+
+```
+> npm link
+```
+
+Then link the game-engine to the example code
+
+```
+> cd example
+```
+
+```
+> npm link game-engine
+```
+
+more info https://docs.npmjs.com/cli/v6/commands/npm-link
