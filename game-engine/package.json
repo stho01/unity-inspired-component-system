@@ -6,7 +6,8 @@
   "types": "./lib/index.d.ts",
   "scripts": {
     "clean": "node ./build/clean.js",
-    "build": "tsc && tsc -m es6 -outDir lib-esm && webpack"
+    "build": "node ./build/clean.js && tsc && tsc -m es6 -outDir lib-esm && webpack",
+    "build dev": "node ./build/clean.js && tsc"
   },
   "keywords": [],
   "author": "stho",

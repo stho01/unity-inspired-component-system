@@ -1,4 +1,4 @@
-import {Circle, GameObject, Scene, ShapeRenderer} from 'game-engine';
+import {Triangle, GameObject, Scene, ShapeRenderer} from 'game-engine';
 import {PlayerInputBehaviour} from '../components/PlayerInputBehaviour';
 
 export default function playerFactory(scene: Scene): GameObject {
@@ -7,8 +7,9 @@ export default function playerFactory(scene: Scene): GameObject {
 
     // attach a rendering component to player game object.
     let renderer: ShapeRenderer = player.attachComponent(ShapeRenderer);
-    renderer.color = "blue";
-    renderer.shape = new Circle(30);
+    renderer.color = "purple";
+    renderer.shape = new Triangle(30, 40);
+    renderer.shape.rotationOffset = Math.PI/2;
 
     // attach a PlayerInputBehaviour component to player.
     player.attachComponent(PlayerInputBehaviour);

@@ -2,10 +2,9 @@ import { Rectangle } from './../geometry/Rectangle';
 import { Circle } from "./../geometry/Circle";
 import { Line } from "./../geometry/Line";
 import { Vector2D } from "../math/Vector2D";
-import Polygon from '../geometry/Polygon';
+import { Polygon } from '../geometry/Polygon';
 
 export class Canvas2DRenderer {
-    "use strict";
 
     //********************************************
     //** attributes:
@@ -124,11 +123,12 @@ export class Canvas2DRenderer {
     public renderPolygon(x: number, y: number, rotation: number, polygon: Polygon, color: string = "red") {
         this._ctx.save();
         this._ctx.fillStyle = color;
-
         const origin = polygon.origin || [0,0];
-        this._ctx.translate(x+origin[0],y+origin[1]);
+
+        this._ctx.translate(x, y);
+        this._ctx.translate(origin[0],origin[1]);
         this._ctx.rotate(rotation);
-        this._ctx.translate(-origin[0], -origin[1]);
+        this._ctx.translate(x-origin[0], y-origin[1]);
 
         this._ctx.beginPath();
         polygon.vertices.forEach((vertex, i) => {

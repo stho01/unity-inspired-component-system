@@ -1,11 +1,11 @@
-import { IShape } from './IShape';
+import {Shape} from './Shape';
 
-export class Circle implements IShape {
+export class Circle extends Shape {
     "use strict";
     //********************************************
     //** attributes:
     //********************************************
-    
+
     private _r   : number;
 
     //********************************************
@@ -13,12 +13,13 @@ export class Circle implements IShape {
     //********************************************
 
     constructor(radius: number) {
+        super();
         this._r = radius;
     }
-    
+
     //********************************************
     //** getters:
     //********************************************
-    
+
     get r() { return this._r; }
 }

@@ -1,8 +1,8 @@
-import {IShape} from './IShape';
+import {Shape} from './Shape';
 import {Vertex} from '../types/CommonTypes';
 import {Point} from '../math/Point';
 
-export class Polygon implements IShape {
+export class Polygon extends Shape {
 
     //********************************************
     //** attributes:
@@ -16,6 +16,7 @@ export class Polygon implements IShape {
     //********************************************
 
     constructor(vertices: Vertex[]) {
+        super();
         this._vertices = vertices;
     }
 

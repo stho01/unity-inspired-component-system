@@ -1,24 +1,24 @@
-import { IShape } from './IShape';
+import { Shape } from './Shape';
 
-export class Rectangle implements IShape {
-    "use strict";
+export class Rectangle extends Shape {
 
     //********************************************
     //** attributes:
     //********************************************
-    
+
     private _width  : number;
     private _height : number;
 
     //********************************************
     //** ctor:
     //********************************************
-    
+
     constructor(width: number, height: number) {
+        super();
         this._width   = width;
         this._height  = height;
     }
-    
+
     //********************************************
     //** getters:
     //********************************************

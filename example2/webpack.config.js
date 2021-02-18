@@ -19,9 +19,11 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.js']
     },
     devServer: {
+        open: true,
         contentBase: "./wwwroot",
         compress: true,
         port: 9000,
-        publicPath: "/scripts/"
+        publicPath: "/scripts/",
+        hot: true
     }
 }

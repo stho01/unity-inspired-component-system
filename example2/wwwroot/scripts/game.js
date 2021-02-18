@@ -451,7 +451,7 @@ var ShapeRenderer = /** @class */ (function (_super) {
             var rect = new Rectangle_1.Rectangle(this.shape.width * this._transform.scale.x, this.shape.heigth * this._transform.scale.y);
             renderer.renderRect(screenPos.x, screenPos.y, this.shape, this.color);
         }
-        else if (this.shape instanceof Polygon_1.default) {
+        else if (this.shape instanceof Polygon_1.Polygon) {
             renderer.renderPolygon(screenPos.x, screenPos.y, this._owner.transform.rotation.angle(), this.shape);
         }
         /*else if (this.shape instanceof Line) {
@@ -877,6 +877,7 @@ exports.Line = Line;
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Polygon = void 0;
 var Polygon = /** @class */ (function () {
     //********************************************
     //** ctor:
@@ -925,7 +926,7 @@ var Polygon = /** @class */ (function () {
     };
     return Polygon;
 }());
-exports.default = Polygon;
+exports.Polygon = Polygon;
 //# sourceMappingURL=Polygon.js.map
 
 /***/ }),
