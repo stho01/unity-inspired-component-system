@@ -9,6 +9,7 @@ export * from "./engine/geometry/Circle";
 export * from "./engine/geometry/IShape";
 export * from "./engine/geometry/Line";
 export * from "./engine/geometry/Rectangle";
+export * from "./engine/geometry/Polygon";
 export * from "./engine/input/InputManager";
 export * from "./engine/input/KeyCode";
 export * from "./engine/input/MouseButtonCode";
@@ -22,6 +23,7 @@ export * from "./engine/scenes/SceneManager"; // no export needed?
 export * from "./engine/state/State";
 export * from "./engine/state/StateMachine";
 export * from "./engine/types/ViewPort";
+export * from "./engine/types/CommonTypes";
 export * from "./engine/update/IUpdateable";
 export * from "./engine/update/UpdateManager"; // no export needed?
 export * from "./engine/Game";

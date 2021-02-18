@@ -5,6 +5,7 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
+    "clean": "node ./build/clean.js",
     "build": "tsc && tsc -m es6 -outDir lib-esm && webpack"
   },
   "keywords": [],

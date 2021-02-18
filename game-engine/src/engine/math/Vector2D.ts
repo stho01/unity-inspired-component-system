@@ -1,4 +1,4 @@
-export class Vector2D {
+ export class Vector2D {
     //********************************************
     //** read only attributes.
     //********************************************
@@ -150,6 +150,13 @@ export class Vector2D {
         return Math.sqrt((this._x * this._x) + (this._y * this._y));
     }
 
+     /**
+      * Gets the squared length of the current vector.
+      */
+    lengthSqr(): number {
+        return (this._x * this._x) + (this._y * this._y);
+    }
+
     /**
      * Checks if the vector x and y is equal to the given vector.
      *
@@ -224,5 +231,12 @@ export class Vector2D {
      */
     flip(): Vector2D {
         return new Vector2D(-this.x, -this.y);
+    }
+
+     /**
+      * Gets the angle of the vector
+      */
+    angle(): number {
+        return Math.atan2(this.x, this.y);
     }
 }
