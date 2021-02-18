@@ -1,109 +1,181 @@
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/main.ts");
-/******/ })
-/************************************************************************/
-/******/ ({
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/engine/Game.ts":
-/*!****************************!*\
-  !*** ./src/engine/Game.ts ***!
-  \****************************/
-/*! exports provided: Game */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Game", function() { return Game; });
-/* harmony import */ var _geometry_Rectangle__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./geometry/Rectangle */ "./src/engine/geometry/Rectangle.ts");
-/* harmony import */ var _rendering_Canvas2DRenderer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./rendering/Canvas2DRenderer */ "./src/engine/rendering/Canvas2DRenderer.ts");
-/* harmony import */ var _input_InputManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./input/InputManager */ "./src/engine/input/InputManager.ts");
-/* harmony import */ var _scenes_SceneManager__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./scenes/SceneManager */ "./src/engine/scenes/SceneManager.ts");
+/***/ "./src/game/components/MoveCameraBehaviour.ts":
+/*!****************************************************!*\
+  !*** ./src/game/components/MoveCameraBehaviour.ts ***!
+  \****************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.MoveCameraBehaviour = void 0;
+var game_engine_1 = __webpack_require__(/*! game-engine */ "../game-engine/lib/index.js");
+var MoveCameraBehaviour = /** @class */ (function (_super) {
+    __extends(MoveCameraBehaviour, _super);
+    function MoveCameraBehaviour() {
+        //********************************************************************************
+        //** attributes:
+        //********************************************************************************
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.speed = 100;
+        return _this;
+    }
+    //********************************************************************************
+    //** public:
+    //********************************************************************************
+    /**
+     * Initialize component.
+     */
+    MoveCameraBehaviour.prototype.initialize = function () {
+        this._transform = this._owner.getComponent(game_engine_1.Transform);
+    };
+    /**
+     * Update component.
+     * @param {number} deltaTime
+     */
+    MoveCameraBehaviour.prototype.update = function (deltaTime) {
+        var dir = game_engine_1.Vector2D.Zero;
+        if (this._input.isKeyDown(game_engine_1.KeyCode.Arrow_Left)) {
+            dir = dir.add(game_engine_1.Vector2D.Left);
+        }
+        if (this._input.isKeyDown(game_engine_1.KeyCode.Arrow_Right)) {
+            dir = dir.add(game_engine_1.Vector2D.Right);
+        }
+        if (this._input.isKeyDown(game_engine_1.KeyCode.Arrow_Up)) {
+            dir = dir.add(game_engine_1.Vector2D.Up);
+        }
+        if (this._input.isKeyDown(game_engine_1.KeyCode.Arrow_Down)) {
+            dir = dir.add(game_engine_1.Vector2D.Down);
+        }
+        var acceleration = dir.multiply(this.speed * deltaTime);
+        this._transform.translate(acceleration);
+    };
+    return MoveCameraBehaviour;
+}(game_engine_1.Behaviour));
+exports.MoveCameraBehaviour = MoveCameraBehaviour;
 
 
+/***/ }),
+
+/***/ "./src/game/components/PlayerInputBehaviour.ts":
+/*!*****************************************************!*\
+  !*** ./src/game/components/PlayerInputBehaviour.ts ***!
+  \*****************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PlayerInputBehaviour = void 0;
+var game_engine_1 = __webpack_require__(/*! game-engine */ "../game-engine/lib/index.js");
+var PlayerInputBehaviour = /** @class */ (function (_super) {
+    __extends(PlayerInputBehaviour, _super);
+    function PlayerInputBehaviour() {
+        //********************************************************************************
+        //** attributes:
+        //********************************************************************************
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.speed = 100;
+        return _this;
+    }
+    //********************************************************************************
+    //** public:
+    //********************************************************************************
+    /**
+     * Initialize component
+     */
+    PlayerInputBehaviour.prototype.initialize = function () {
+        this._transform = this._owner.getComponent(game_engine_1.Transform);
+    };
+    /**
+     * Update component
+     * @param {number} deltaTime
+     */
+    PlayerInputBehaviour.prototype.update = function (deltaTime) {
+        var dir = game_engine_1.Vector2D.Zero;
+        if (this._input.isKeyDown(game_engine_1.KeyCode.A)) {
+            dir = dir.add(game_engine_1.Vector2D.Left);
+        }
+        if (this._input.isKeyDown(game_engine_1.KeyCode.D)) {
+            dir = dir.add(game_engine_1.Vector2D.Right);
+        }
+        if (this._input.isKeyDown(game_engine_1.KeyCode.W)) {
+            dir = dir.add(game_engine_1.Vector2D.Up);
+        }
+        if (this._input.isKeyDown(game_engine_1.KeyCode.S)) {
+            dir = dir.add(game_engine_1.Vector2D.Down);
+        }
+        var acceleration = dir.multiply(this.speed * deltaTime);
+        this._transform.translate(acceleration);
+    };
+    return PlayerInputBehaviour;
+}(game_engine_1.Behaviour));
+exports.PlayerInputBehaviour = PlayerInputBehaviour;
+
+
+/***/ }),
+
+/***/ "../game-engine/lib/abstract/IDisposable.js":
+/*!**************************************************!*\
+  !*** ../game-engine/lib/abstract/IDisposable.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.isDisposable = void 0;
+/**
+ * Checks if object is disposable.
+ * @param object
+ */
+function isDisposable(object) {
+    return typeof object["dispose"] === "function";
+}
+exports.isDisposable = isDisposable;
+//# sourceMappingURL=IDisposable.js.map
+
+/***/ }),
+
+/***/ "../game-engine/lib/engine/Game.js":
+/*!*****************************************!*\
+  !*** ../game-engine/lib/engine/Game.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Game = void 0;
+var Rectangle_1 = __webpack_require__(/*! ./geometry/Rectangle */ "../game-engine/lib/engine/geometry/Rectangle.js");
+var Canvas2DRenderer_1 = __webpack_require__(/*! ./rendering/Canvas2DRenderer */ "../game-engine/lib/engine/rendering/Canvas2DRenderer.js");
+var InputManager_1 = __webpack_require__(/*! ./input/InputManager */ "../game-engine/lib/engine/input/InputManager.js");
+var SceneManager_1 = __webpack_require__(/*! ./scenes/SceneManager */ "../game-engine/lib/engine/scenes/SceneManager.js");
 var Game = /** @class */ (function () {
     //********************************************
     //** ctor:
@@ -112,9 +184,9 @@ var Game = /** @class */ (function () {
         this._previousDelta = 0;
         this._options = Object.assign({}, _defaultOptions, options);
         this._canvas = document.getElementById("c");
-        this._input = new _input_InputManager__WEBPACK_IMPORTED_MODULE_2__["InputManager"]();
-        this._renderer = new _rendering_Canvas2DRenderer__WEBPACK_IMPORTED_MODULE_1__["Canvas2DRenderer"](this._canvas);
-        this._sceneManager = new _scenes_SceneManager__WEBPACK_IMPORTED_MODULE_3__["SceneManager"](this);
+        this._input = new InputManager_1.InputManager();
+        this._renderer = new Canvas2DRenderer_1.Canvas2DRenderer(this._canvas);
+        this._sceneManager = new SceneManager_1.SceneManager(this);
         this._updateViewPort();
     }
     Object.defineProperty(Game.prototype, "viewPort", {
@@ -191,35 +263,31 @@ var Game = /** @class */ (function () {
      * @param dt
      */
     Game.prototype._render = function (dt) {
-        var clearRect = new _geometry_Rectangle__WEBPACK_IMPORTED_MODULE_0__["Rectangle"](this._viewPort.width, this._viewPort.height);
+        var clearRect = new Rectangle_1.Rectangle(this._viewPort.width, this._viewPort.height);
         this._renderer.renderRect(0, 0, clearRect, this._options.clearColor);
         this._sceneManager.renderScene();
     };
     return Game;
 }());
-
+exports.Game = Game;
 /**
  *
  */
 var _defaultOptions = {
     clearColor: "#000000"
 };
-
+//# sourceMappingURL=Game.js.map
 
 /***/ }),
 
-/***/ "./src/engine/components/Behaviour.ts":
-/*!********************************************!*\
-  !*** ./src/engine/components/Behaviour.ts ***!
-  \********************************************/
-/*! exports provided: Behaviour */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "../game-engine/lib/engine/components/Behaviour.js":
+/*!*********************************************************!*\
+  !*** ../game-engine/lib/engine/components/Behaviour.js ***!
+  \*********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Behaviour", function() { return Behaviour; });
-/* harmony import */ var _Component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Component */ "./src/engine/components/Component.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
+
+var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -232,7 +300,9 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Behaviour = void 0;
+var Component_1 = __webpack_require__(/*! ./Component */ "../game-engine/lib/engine/components/Component.js");
 var Behaviour = /** @class */ (function (_super) {
     __extends(Behaviour, _super);
     //********************************************
@@ -256,22 +326,21 @@ var Behaviour = /** @class */ (function (_super) {
         _super.prototype.dispose.call(this);
     };
     return Behaviour;
-}(_Component__WEBPACK_IMPORTED_MODULE_0__["Component"]));
-
-
+}(Component_1.Component));
+exports.Behaviour = Behaviour;
+//# sourceMappingURL=Behaviour.js.map
 
 /***/ }),
 
-/***/ "./src/engine/components/Component.ts":
-/*!********************************************!*\
-  !*** ./src/engine/components/Component.ts ***!
-  \********************************************/
-/*! exports provided: Component */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "../game-engine/lib/engine/components/Component.js":
+/*!*********************************************************!*\
+  !*** ../game-engine/lib/engine/components/Component.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Component", function() { return Component; });
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Component = void 0;
 var Component = /** @class */ (function () {
     //********************************************
     //** ctor:
@@ -286,26 +355,19 @@ var Component = /** @class */ (function () {
     Component.prototype.dispose = function () { };
     return Component;
 }());
-
-
+exports.Component = Component;
+//# sourceMappingURL=Component.js.map
 
 /***/ }),
 
-/***/ "./src/engine/components/ShapeRenderer.ts":
-/*!************************************************!*\
-  !*** ./src/engine/components/ShapeRenderer.ts ***!
-  \************************************************/
-/*! exports provided: ShapeRenderer */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "../game-engine/lib/engine/components/ShapeRenderer.js":
+/*!*************************************************************!*\
+  !*** ../game-engine/lib/engine/components/ShapeRenderer.js ***!
+  \*************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ShapeRenderer", function() { return ShapeRenderer; });
-/* harmony import */ var _Component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Component */ "./src/engine/components/Component.ts");
-/* harmony import */ var _Transform__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Transform */ "./src/engine/components/Transform.ts");
-/* harmony import */ var _geometry_Circle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../geometry/Circle */ "./src/engine/geometry/Circle.ts");
-/* harmony import */ var _geometry_Rectangle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../geometry/Rectangle */ "./src/engine/geometry/Rectangle.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
+
+var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -318,10 +380,12 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-
-
-
-
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ShapeRenderer = void 0;
+var Component_1 = __webpack_require__(/*! ./Component */ "../game-engine/lib/engine/components/Component.js");
+var Transform_1 = __webpack_require__(/*! ./Transform */ "../game-engine/lib/engine/components/Transform.js");
+var Circle_1 = __webpack_require__(/*! ../geometry/Circle */ "../game-engine/lib/engine/geometry/Circle.js");
+var Rectangle_1 = __webpack_require__(/*! ../geometry/Rectangle */ "../game-engine/lib/engine/geometry/Rectangle.js");
 var ShapeRenderer = /** @class */ (function (_super) {
     __extends(ShapeRenderer, _super);
     /**
@@ -340,7 +404,7 @@ var ShapeRenderer = /** @class */ (function (_super) {
      *
      */
     ShapeRenderer.prototype.initialize = function () {
-        this._transform = this._owner.getComponent(_Transform__WEBPACK_IMPORTED_MODULE_1__["Transform"]);
+        this._transform = this._owner.getComponent(Transform_1.Transform);
     };
     /**
      *
@@ -348,12 +412,12 @@ var ShapeRenderer = /** @class */ (function (_super) {
      */
     ShapeRenderer.prototype.render = function (renderer, camera) {
         var screenPos = camera.getScreenPosition(this._owner);
-        if (this.shape instanceof _geometry_Circle__WEBPACK_IMPORTED_MODULE_2__["Circle"]) {
-            var c = new _geometry_Circle__WEBPACK_IMPORTED_MODULE_2__["Circle"](this.shape.r * this._transform.scale.x);
+        if (this.shape instanceof Circle_1.Circle) {
+            var c = new Circle_1.Circle(this.shape.r * this._transform.scale.x);
             renderer.renderCircle(screenPos.x, screenPos.y, c, this.color);
         }
-        else if (this.shape instanceof _geometry_Rectangle__WEBPACK_IMPORTED_MODULE_3__["Rectangle"]) {
-            var rect = new _geometry_Rectangle__WEBPACK_IMPORTED_MODULE_3__["Rectangle"](this.shape.width * this._transform.scale.x, this.shape.heigth * this._transform.scale.y);
+        else if (this.shape instanceof Rectangle_1.Rectangle) {
+            var rect = new Rectangle_1.Rectangle(this.shape.width * this._transform.scale.x, this.shape.heigth * this._transform.scale.y);
             renderer.renderRect(screenPos.x, screenPos.y, this.shape, this.color);
         }
         /*else if (this.shape instanceof Line) {
@@ -368,25 +432,20 @@ var ShapeRenderer = /** @class */ (function (_super) {
         _super.prototype.dispose.call(this);
     };
     return ShapeRenderer;
-}(_Component__WEBPACK_IMPORTED_MODULE_0__["Component"]));
-
-
+}(Component_1.Component));
+exports.ShapeRenderer = ShapeRenderer;
+//# sourceMappingURL=ShapeRenderer.js.map
 
 /***/ }),
 
-/***/ "./src/engine/components/Transform.ts":
-/*!********************************************!*\
-  !*** ./src/engine/components/Transform.ts ***!
-  \********************************************/
-/*! exports provided: Transform */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "../game-engine/lib/engine/components/Transform.js":
+/*!*********************************************************!*\
+  !*** ../game-engine/lib/engine/components/Transform.js ***!
+  \*********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Transform", function() { return Transform; });
-/* harmony import */ var _math_Vector2D__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../math/Vector2D */ "./src/engine/math/Vector2D.ts");
-/* harmony import */ var _Component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Component */ "./src/engine/components/Component.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
+
+var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -399,15 +458,17 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-
-
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Transform = void 0;
+var Vector2D_1 = __webpack_require__(/*! ../math/Vector2D */ "../game-engine/lib/engine/math/Vector2D.js");
+var Component_1 = __webpack_require__(/*! ./Component */ "../game-engine/lib/engine/components/Component.js");
 var Transform = /** @class */ (function (_super) {
     __extends(Transform, _super);
     function Transform() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this._position = _math_Vector2D__WEBPACK_IMPORTED_MODULE_0__["Vector2D"].Zero;
-        _this._rotation = _math_Vector2D__WEBPACK_IMPORTED_MODULE_0__["Vector2D"].Zero;
-        _this._scale = _math_Vector2D__WEBPACK_IMPORTED_MODULE_0__["Vector2D"].One;
+        _this._position = Vector2D_1.Vector2D.Zero;
+        _this._rotation = Vector2D_1.Vector2D.Zero;
+        _this._scale = Vector2D_1.Vector2D.One;
         return _this;
     }
     Object.defineProperty(Transform.prototype, "position", {
@@ -445,24 +506,20 @@ var Transform = /** @class */ (function (_super) {
         }
     };
     return Transform;
-}(_Component__WEBPACK_IMPORTED_MODULE_1__["Component"]));
-
-
+}(Component_1.Component));
+exports.Transform = Transform;
+//# sourceMappingURL=Transform.js.map
 
 /***/ }),
 
-/***/ "./src/engine/gameobjects/Camera.ts":
-/*!******************************************!*\
-  !*** ./src/engine/gameobjects/Camera.ts ***!
-  \******************************************/
-/*! exports provided: Camera */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "../game-engine/lib/engine/gameobjects/Camera.js":
+/*!*******************************************************!*\
+  !*** ../game-engine/lib/engine/gameobjects/Camera.js ***!
+  \*******************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Camera", function() { return Camera; });
-/* harmony import */ var _gameobject__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gameobject */ "./src/engine/gameobjects/gameobject.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
+
+var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -475,7 +532,9 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Camera = void 0;
+var gameobject_1 = __webpack_require__(/*! ./gameobject */ "../game-engine/lib/engine/gameobjects/gameobject.js");
 var Camera = /** @class */ (function (_super) {
     __extends(Camera, _super);
     function Camera() {
@@ -508,24 +567,22 @@ var Camera = /** @class */ (function (_super) {
         return worldPos;
     };
     return Camera;
-}(_gameobject__WEBPACK_IMPORTED_MODULE_0__["GameObject"]));
-
-
+}(gameobject_1.GameObject));
+exports.Camera = Camera;
+//# sourceMappingURL=Camera.js.map
 
 /***/ }),
 
-/***/ "./src/engine/gameobjects/gameobject.ts":
-/*!**********************************************!*\
-  !*** ./src/engine/gameobjects/gameobject.ts ***!
-  \**********************************************/
-/*! exports provided: GameObject */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "../game-engine/lib/engine/gameobjects/gameobject.js":
+/*!***********************************************************!*\
+  !*** ../game-engine/lib/engine/gameobjects/gameobject.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GameObject", function() { return GameObject; });
-/* harmony import */ var _components_Transform__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Transform */ "./src/engine/components/Transform.ts");
 
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GameObject = void 0;
+var Transform_1 = __webpack_require__(/*! ../components/Transform */ "../game-engine/lib/engine/components/Transform.js");
 var GameObject = /** @class */ (function () {
     //********************************************
     //**ctor:
@@ -534,8 +591,8 @@ var GameObject = /** @class */ (function () {
         this._children = new Set();
         this._scene = scene;
         this._components = new Map();
-        this._transform = new _components_Transform__WEBPACK_IMPORTED_MODULE_0__["Transform"](this);
-        this._transform = this.attachComponent(_components_Transform__WEBPACK_IMPORTED_MODULE_0__["Transform"]);
+        this._transform = new Transform_1.Transform(this);
+        this._transform = this.attachComponent(Transform_1.Transform);
     }
     Object.defineProperty(GameObject.prototype, "transform", {
         //********************************************
@@ -608,7 +665,7 @@ var GameObject = /** @class */ (function () {
         if (type == null) {
             throw new Error("Component cannot be null or undefined");
         }
-        if (type === _components_Transform__WEBPACK_IMPORTED_MODULE_0__["Transform"] && this._components.has(type)) {
+        if (type === Transform_1.Transform && this._components.has(type)) {
             throw new Error("A game object can only have one Transform component.");
         }
         var component = new type(this);
@@ -680,21 +737,20 @@ var GameObject = /** @class */ (function () {
     };
     return GameObject;
 }());
-
-
+exports.GameObject = GameObject;
+//# sourceMappingURL=gameobject.js.map
 
 /***/ }),
 
-/***/ "./src/engine/geometry/Circle.ts":
-/*!***************************************!*\
-  !*** ./src/engine/geometry/Circle.ts ***!
-  \***************************************/
-/*! exports provided: Circle */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "../game-engine/lib/engine/geometry/Circle.js":
+/*!****************************************************!*\
+  !*** ../game-engine/lib/engine/geometry/Circle.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Circle", function() { return Circle; });
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Circle = void 0;
 var Circle = /** @class */ (function () {
     //********************************************
     //** ctor:
@@ -712,21 +768,82 @@ var Circle = /** @class */ (function () {
     });
     return Circle;
 }());
-
-
+exports.Circle = Circle;
+//# sourceMappingURL=Circle.js.map
 
 /***/ }),
 
-/***/ "./src/engine/geometry/Rectangle.ts":
-/*!******************************************!*\
-  !*** ./src/engine/geometry/Rectangle.ts ***!
-  \******************************************/
-/*! exports provided: Rectangle */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "../game-engine/lib/engine/geometry/IShape.js":
+/*!****************************************************!*\
+  !*** ../game-engine/lib/engine/geometry/IShape.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Rectangle", function() { return Rectangle; });
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+//# sourceMappingURL=IShape.js.map
+
+/***/ }),
+
+/***/ "../game-engine/lib/engine/geometry/Line.js":
+/*!**************************************************!*\
+  !*** ../game-engine/lib/engine/geometry/Line.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Line = void 0;
+var Vector2D_1 = __webpack_require__(/*! ../math/Vector2D */ "../game-engine/lib/engine/math/Vector2D.js");
+var Line = /** @class */ (function () {
+    //********************************************
+    //** ctor:
+    //********************************************
+    function Line(p1, p2) {
+        this._p1 = new Vector2D_1.Vector2D(p1.x, p1.y);
+        this._p2 = new Vector2D_1.Vector2D(p2.x, p2.y);
+        this._dir = this._p2.subtract(this._p1);
+        this._length = this._dir.length();
+    }
+    Object.defineProperty(Line.prototype, "p1", {
+        //********************************************
+        //** getters:
+        //********************************************
+        get: function () { return this._p1; },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Line.prototype, "p2", {
+        get: function () { return this._p2; },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Line.prototype, "direction", {
+        get: function () { return this._dir; },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Line.prototype, "length", {
+        get: function () { return this._length; },
+        enumerable: false,
+        configurable: true
+    });
+    return Line;
+}());
+exports.Line = Line;
+//# sourceMappingURL=Line.js.map
+
+/***/ }),
+
+/***/ "../game-engine/lib/engine/geometry/Rectangle.js":
+/*!*******************************************************!*\
+  !*** ../game-engine/lib/engine/geometry/Rectangle.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Rectangle = void 0;
 var Rectangle = /** @class */ (function () {
     //********************************************
     //** ctor:
@@ -750,21 +867,20 @@ var Rectangle = /** @class */ (function () {
     });
     return Rectangle;
 }());
-
-
+exports.Rectangle = Rectangle;
+//# sourceMappingURL=Rectangle.js.map
 
 /***/ }),
 
-/***/ "./src/engine/input/InputManager.ts":
-/*!******************************************!*\
-  !*** ./src/engine/input/InputManager.ts ***!
-  \******************************************/
-/*! exports provided: InputManager */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "../game-engine/lib/engine/input/InputManager.js":
+/*!*******************************************************!*\
+  !*** ../game-engine/lib/engine/input/InputManager.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "InputManager", function() { return InputManager; });
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.InputManager = void 0;
 var InputManager = /** @class */ (function () {
     function InputManager() {
         //********************************************
@@ -889,21 +1005,20 @@ var InputManager = /** @class */ (function () {
     };
     return InputManager;
 }());
-
-
+exports.InputManager = InputManager;
+//# sourceMappingURL=InputManager.js.map
 
 /***/ }),
 
-/***/ "./src/engine/input/KeyCode.ts":
-/*!*************************************!*\
-  !*** ./src/engine/input/KeyCode.ts ***!
-  \*************************************/
-/*! exports provided: KeyCode */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "../game-engine/lib/engine/input/KeyCode.js":
+/*!**************************************************!*\
+  !*** ../game-engine/lib/engine/input/KeyCode.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "KeyCode", function() { return KeyCode; });
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.KeyCode = void 0;
 var KeyCode;
 (function (KeyCode) {
     // Special keys
@@ -968,21 +1083,51 @@ var KeyCode;
     KeyCode[KeyCode["Dash"] = 189] = "Dash";
     KeyCode[KeyCode["Period"] = 190] = "Period";
     KeyCode[KeyCode["Tilde"] = 220] = "Tilde";
-})(KeyCode || (KeyCode = {}));
-
+})(KeyCode = exports.KeyCode || (exports.KeyCode = {}));
+//# sourceMappingURL=KeyCode.js.map
 
 /***/ }),
 
-/***/ "./src/engine/math/Vector2D.ts":
-/*!*************************************!*\
-  !*** ./src/engine/math/Vector2D.ts ***!
-  \*************************************/
-/*! exports provided: Vector2D */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "../game-engine/lib/engine/input/MouseButtonCode.js":
+/*!**********************************************************!*\
+  !*** ../game-engine/lib/engine/input/MouseButtonCode.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Vector2D", function() { return Vector2D; });
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.MouseButtonCode = void 0;
+var MouseButtonCode;
+(function (MouseButtonCode) {
+    MouseButtonCode[MouseButtonCode["Left"] = 0] = "Left";
+    MouseButtonCode[MouseButtonCode["Middle"] = 1] = "Middle";
+    MouseButtonCode[MouseButtonCode["Right"] = 2] = "Right";
+})(MouseButtonCode = exports.MouseButtonCode || (exports.MouseButtonCode = {}));
+//# sourceMappingURL=MouseButtonCode.js.map
+
+/***/ }),
+
+/***/ "../game-engine/lib/engine/math/Point.js":
+/*!***********************************************!*\
+  !*** ../game-engine/lib/engine/math/Point.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+//# sourceMappingURL=point.js.map
+
+/***/ }),
+
+/***/ "../game-engine/lib/engine/math/Vector2D.js":
+/*!**************************************************!*\
+  !*** ../game-engine/lib/engine/math/Vector2D.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Vector2D = void 0;
 var Vector2D = /** @class */ (function () {
     //********************************************
     //** ctor:
@@ -1190,23 +1335,21 @@ var Vector2D = /** @class */ (function () {
     Vector2D.Down = new Vector2D(0, 1);
     return Vector2D;
 }());
-
-
+exports.Vector2D = Vector2D;
+//# sourceMappingURL=Vector2D.js.map
 
 /***/ }),
 
-/***/ "./src/engine/rendering/Canvas2DRenderer.ts":
-/*!**************************************************!*\
-  !*** ./src/engine/rendering/Canvas2DRenderer.ts ***!
-  \**************************************************/
-/*! exports provided: Canvas2DRenderer */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "../game-engine/lib/engine/rendering/Canvas2DRenderer.js":
+/*!***************************************************************!*\
+  !*** ../game-engine/lib/engine/rendering/Canvas2DRenderer.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Canvas2DRenderer", function() { return Canvas2DRenderer; });
-/* harmony import */ var _geometry_Circle__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../geometry/Circle */ "./src/engine/geometry/Circle.ts");
 
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Canvas2DRenderer = void 0;
+var Circle_1 = __webpack_require__(/*! ./../geometry/Circle */ "../game-engine/lib/engine/geometry/Circle.js");
 var Canvas2DRenderer = /** @class */ (function () {
     //********************************************
     //** ctor:
@@ -1272,7 +1415,7 @@ var Canvas2DRenderer = /** @class */ (function () {
     Canvas2DRenderer.prototype.renderDirLine = function (l, color) {
         if (color === void 0) { color = "red"; }
         this.renderLine(l);
-        var c = new _geometry_Circle__WEBPACK_IMPORTED_MODULE_0__["Circle"](10);
+        var c = new Circle_1.Circle(10);
         this.renderCircle(l.p2.x, l.p2.y, c, color);
     };
     /**
@@ -1311,30 +1454,40 @@ var Canvas2DRenderer = /** @class */ (function () {
     };
     return Canvas2DRenderer;
 }());
-
-
+exports.Canvas2DRenderer = Canvas2DRenderer;
+//# sourceMappingURL=Canvas2DRenderer.js.map
 
 /***/ }),
 
-/***/ "./src/engine/rendering/RenderManager.ts":
-/*!***********************************************!*\
-  !*** ./src/engine/rendering/RenderManager.ts ***!
-  \***********************************************/
-/*! exports provided: RenderManager */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "../game-engine/lib/engine/rendering/IRenderable.js":
+/*!**********************************************************!*\
+  !*** ../game-engine/lib/engine/rendering/IRenderable.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RenderManager", function() { return RenderManager; });
-/* harmony import */ var _Canvas2DRenderer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Canvas2DRenderer */ "./src/engine/rendering/Canvas2DRenderer.ts");
 
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+//# sourceMappingURL=IRenderable.js.map
+
+/***/ }),
+
+/***/ "../game-engine/lib/engine/rendering/RenderManager.js":
+/*!************************************************************!*\
+  !*** ../game-engine/lib/engine/rendering/RenderManager.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.RenderManager = void 0;
+var Canvas2DRenderer_1 = __webpack_require__(/*! ./Canvas2DRenderer */ "../game-engine/lib/engine/rendering/Canvas2DRenderer.js");
 var RenderManager = /** @class */ (function () {
     //********************************************
     //**ctor:
     //********************************************
     function RenderManager(canvas, scene) {
         this._renderables = new Set();
-        this._renderer = new _Canvas2DRenderer__WEBPACK_IMPORTED_MODULE_0__["Canvas2DRenderer"](canvas);
+        this._renderer = new Canvas2DRenderer_1.Canvas2DRenderer(canvas);
         this._scene = scene;
     }
     Object.defineProperty(RenderManager.prototype, "camera", {
@@ -1391,25 +1544,22 @@ var RenderManager = /** @class */ (function () {
     };
     return RenderManager;
 }());
-
-
+exports.RenderManager = RenderManager;
+//# sourceMappingURL=RenderManager.js.map
 
 /***/ }),
 
-/***/ "./src/engine/scenes/Scene.ts":
-/*!************************************!*\
-  !*** ./src/engine/scenes/Scene.ts ***!
-  \************************************/
-/*! exports provided: Scene */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Scene", function() { return Scene; });
-/* harmony import */ var _update_UpdateManager__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../update/UpdateManager */ "./src/engine/update/UpdateManager.ts");
-/* harmony import */ var _rendering_RenderManager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../rendering/RenderManager */ "./src/engine/rendering/RenderManager.ts");
+/***/ "../game-engine/lib/engine/scenes/Scene.js":
+/*!*************************************************!*\
+  !*** ../game-engine/lib/engine/scenes/Scene.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Scene = void 0;
+var UpdateManager_1 = __webpack_require__(/*! ../update/UpdateManager */ "../game-engine/lib/engine/update/UpdateManager.js");
+var RenderManager_1 = __webpack_require__(/*! ../rendering/RenderManager */ "../game-engine/lib/engine/rendering/RenderManager.js");
 /**
  * A scene that can update and render game objects.
  */
@@ -1420,8 +1570,8 @@ var Scene = /** @class */ (function () {
     function Scene(game) {
         this._gameObjects = [];
         this._game = game;
-        this._updateManager = new _update_UpdateManager__WEBPACK_IMPORTED_MODULE_0__["UpdateManager"]();
-        this._rendererManager = new _rendering_RenderManager__WEBPACK_IMPORTED_MODULE_1__["RenderManager"](game.canvas, this);
+        this._updateManager = new UpdateManager_1.UpdateManager();
+        this._rendererManager = new RenderManager_1.RenderManager(game.canvas, this);
     }
     Object.defineProperty(Scene.prototype, "game", {
         //********************************************
@@ -1498,23 +1648,19 @@ var Scene = /** @class */ (function () {
     };
     return Scene;
 }());
-
-
+exports.Scene = Scene;
+//# sourceMappingURL=Scene.js.map
 
 /***/ }),
 
-/***/ "./src/engine/scenes/SceneManager.ts":
-/*!*******************************************!*\
-  !*** ./src/engine/scenes/SceneManager.ts ***!
-  \*******************************************/
-/*! exports provided: SceneManager */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "../game-engine/lib/engine/scenes/SceneManager.js":
+/*!********************************************************!*\
+  !*** ../game-engine/lib/engine/scenes/SceneManager.js ***!
+  \********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SceneManager", function() { return SceneManager; });
-/* harmony import */ var _state_StateMachine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../state/StateMachine */ "./src/engine/state/StateMachine.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
+
+var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -1527,7 +1673,9 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SceneManager = void 0;
+var StateMachine_1 = __webpack_require__(/*! ../state/StateMachine */ "../game-engine/lib/engine/state/StateMachine.js");
 /**
  * A manager for managing scenes.
  */
@@ -1556,22 +1704,33 @@ var SceneManager = /** @class */ (function (_super) {
         }
     };
     return SceneManager;
-}(_state_StateMachine__WEBPACK_IMPORTED_MODULE_0__["StateMachine"]));
-
-
+}(StateMachine_1.StateMachine));
+exports.SceneManager = SceneManager;
+//# sourceMappingURL=SceneManager.js.map
 
 /***/ }),
 
-/***/ "./src/engine/state/StateMachine.ts":
-/*!******************************************!*\
-  !*** ./src/engine/state/StateMachine.ts ***!
-  \******************************************/
-/*! exports provided: StateMachine */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "../game-engine/lib/engine/state/State.js":
+/*!************************************************!*\
+  !*** ../game-engine/lib/engine/state/State.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StateMachine", function() { return StateMachine; });
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+//# sourceMappingURL=State.js.map
+
+/***/ }),
+
+/***/ "../game-engine/lib/engine/state/StateMachine.js":
+/*!*******************************************************!*\
+  !*** ../game-engine/lib/engine/state/StateMachine.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.StateMachine = void 0;
 /**
  * A state machine for handeling states.
  */
@@ -1655,24 +1814,47 @@ var StateMachine = /** @class */ (function () {
     };
     return StateMachine;
 }());
-
+exports.StateMachine = StateMachine;
 var _defaultOptions = {
     maxHistoryLenght: 10
 };
-
+//# sourceMappingURL=StateMachine.js.map
 
 /***/ }),
 
-/***/ "./src/engine/update/UpdateManager.ts":
-/*!********************************************!*\
-  !*** ./src/engine/update/UpdateManager.ts ***!
-  \********************************************/
-/*! exports provided: UpdateManager */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "../game-engine/lib/engine/types/ViewPort.js":
+/*!***************************************************!*\
+  !*** ../game-engine/lib/engine/types/ViewPort.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UpdateManager", function() { return UpdateManager; });
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+//# sourceMappingURL=ViewPort.js.map
+
+/***/ }),
+
+/***/ "../game-engine/lib/engine/update/IUpdateable.js":
+/*!*******************************************************!*\
+  !*** ../game-engine/lib/engine/update/IUpdateable.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+//# sourceMappingURL=IUpdateable.js.map
+
+/***/ }),
+
+/***/ "../game-engine/lib/engine/update/UpdateManager.js":
+/*!*********************************************************!*\
+  !*** ../game-engine/lib/engine/update/UpdateManager.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.UpdateManager = void 0;
 var UpdateManager = /** @class */ (function () {
     //********************************************
     //**ctor:
@@ -1711,228 +1893,131 @@ var UpdateManager = /** @class */ (function () {
     };
     return UpdateManager;
 }());
-
-
-
-/***/ }),
-
-/***/ "./src/game/components/MoveCameraBehaviour.ts":
-/*!****************************************************!*\
-  !*** ./src/game/components/MoveCameraBehaviour.ts ***!
-  \****************************************************/
-/*! exports provided: MoveCameraBehaviour */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MoveCameraBehaviour", function() { return MoveCameraBehaviour; });
-/* harmony import */ var _engine_components_Behaviour__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../engine/components/Behaviour */ "./src/engine/components/Behaviour.ts");
-/* harmony import */ var _engine_math_Vector2D__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../engine/math/Vector2D */ "./src/engine/math/Vector2D.ts");
-/* harmony import */ var _engine_input_KeyCode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../engine/input/KeyCode */ "./src/engine/input/KeyCode.ts");
-/* harmony import */ var _engine_components_Transform__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../engine/components/Transform */ "./src/engine/components/Transform.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-
-
-
-
-var MoveCameraBehaviour = /** @class */ (function (_super) {
-    __extends(MoveCameraBehaviour, _super);
-    function MoveCameraBehaviour() {
-        //********************************************************************************
-        //** attributes:
-        //********************************************************************************
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.speed = 100;
-        return _this;
-    }
-    //********************************************************************************
-    //** public:
-    //********************************************************************************
-    /**
-     * Initialize component.
-     */
-    MoveCameraBehaviour.prototype.initialize = function () {
-        this._transform = this._owner.getComponent(_engine_components_Transform__WEBPACK_IMPORTED_MODULE_3__["Transform"]);
-    };
-    /**
-     * Update component.
-     * @param {number} deltaTime
-     */
-    MoveCameraBehaviour.prototype.update = function (deltaTime) {
-        var dir = _engine_math_Vector2D__WEBPACK_IMPORTED_MODULE_1__["Vector2D"].Zero;
-        if (this._input.isKeyDown(_engine_input_KeyCode__WEBPACK_IMPORTED_MODULE_2__["KeyCode"].Arrow_Left)) {
-            dir = dir.add(_engine_math_Vector2D__WEBPACK_IMPORTED_MODULE_1__["Vector2D"].Left);
-        }
-        if (this._input.isKeyDown(_engine_input_KeyCode__WEBPACK_IMPORTED_MODULE_2__["KeyCode"].Arrow_Right)) {
-            dir = dir.add(_engine_math_Vector2D__WEBPACK_IMPORTED_MODULE_1__["Vector2D"].Right);
-        }
-        if (this._input.isKeyDown(_engine_input_KeyCode__WEBPACK_IMPORTED_MODULE_2__["KeyCode"].Arrow_Up)) {
-            dir = dir.add(_engine_math_Vector2D__WEBPACK_IMPORTED_MODULE_1__["Vector2D"].Up);
-        }
-        if (this._input.isKeyDown(_engine_input_KeyCode__WEBPACK_IMPORTED_MODULE_2__["KeyCode"].Arrow_Down)) {
-            dir = dir.add(_engine_math_Vector2D__WEBPACK_IMPORTED_MODULE_1__["Vector2D"].Down);
-        }
-        var acceleration = dir.multiply(this.speed * deltaTime);
-        this._transform.translate(acceleration);
-    };
-    return MoveCameraBehaviour;
-}(_engine_components_Behaviour__WEBPACK_IMPORTED_MODULE_0__["Behaviour"]));
-
-
+exports.UpdateManager = UpdateManager;
+//# sourceMappingURL=UpdateManager.js.map
 
 /***/ }),
 
-/***/ "./src/game/components/PlayerInputBehaviour.ts":
-/*!*****************************************************!*\
-  !*** ./src/game/components/PlayerInputBehaviour.ts ***!
-  \*****************************************************/
-/*! exports provided: PlayerInputBehaviour */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PlayerInputBehaviour", function() { return PlayerInputBehaviour; });
-/* harmony import */ var _engine_components_Behaviour__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../engine/components/Behaviour */ "./src/engine/components/Behaviour.ts");
-/* harmony import */ var _engine_input_KeyCode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../engine/input/KeyCode */ "./src/engine/input/KeyCode.ts");
-/* harmony import */ var _engine_components_Transform__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../engine/components/Transform */ "./src/engine/components/Transform.ts");
-/* harmony import */ var _engine_math_Vector2D__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../engine/math/Vector2D */ "./src/engine/math/Vector2D.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+/***/ "../game-engine/lib/index.js":
+/*!***********************************!*\
+  !*** ../game-engine/lib/index.js ***!
+  \***********************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__webpack_require__(/*! ./abstract/IDisposable */ "../game-engine/lib/abstract/IDisposable.js"), exports);
+__exportStar(__webpack_require__(/*! ./engine/components/Behaviour */ "../game-engine/lib/engine/components/Behaviour.js"), exports);
+__exportStar(__webpack_require__(/*! ./engine/components/Component */ "../game-engine/lib/engine/components/Component.js"), exports);
+__exportStar(__webpack_require__(/*! ./engine/components/ShapeRenderer */ "../game-engine/lib/engine/components/ShapeRenderer.js"), exports);
+__exportStar(__webpack_require__(/*! ./engine/components/Transform */ "../game-engine/lib/engine/components/Transform.js"), exports);
+__exportStar(__webpack_require__(/*! ./engine/gameobjects/Camera */ "../game-engine/lib/engine/gameobjects/Camera.js"), exports);
+__exportStar(__webpack_require__(/*! ./engine/gameobjects/gameobject */ "../game-engine/lib/engine/gameobjects/gameobject.js"), exports);
+__exportStar(__webpack_require__(/*! ./engine/geometry/Circle */ "../game-engine/lib/engine/geometry/Circle.js"), exports);
+__exportStar(__webpack_require__(/*! ./engine/geometry/IShape */ "../game-engine/lib/engine/geometry/IShape.js"), exports);
+__exportStar(__webpack_require__(/*! ./engine/geometry/Line */ "../game-engine/lib/engine/geometry/Line.js"), exports);
+__exportStar(__webpack_require__(/*! ./engine/geometry/Rectangle */ "../game-engine/lib/engine/geometry/Rectangle.js"), exports);
+__exportStar(__webpack_require__(/*! ./engine/input/InputManager */ "../game-engine/lib/engine/input/InputManager.js"), exports);
+__exportStar(__webpack_require__(/*! ./engine/input/KeyCode */ "../game-engine/lib/engine/input/KeyCode.js"), exports);
+__exportStar(__webpack_require__(/*! ./engine/input/MouseButtonCode */ "../game-engine/lib/engine/input/MouseButtonCode.js"), exports);
+__exportStar(__webpack_require__(/*! ./engine/math/Point */ "../game-engine/lib/engine/math/Point.js"), exports);
+__exportStar(__webpack_require__(/*! ./engine/math/Vector2D */ "../game-engine/lib/engine/math/Vector2D.js"), exports);
+__exportStar(__webpack_require__(/*! ./engine/rendering/Canvas2DRenderer */ "../game-engine/lib/engine/rendering/Canvas2DRenderer.js"), exports);
+__exportStar(__webpack_require__(/*! ./engine/rendering/IRenderable */ "../game-engine/lib/engine/rendering/IRenderable.js"), exports);
+__exportStar(__webpack_require__(/*! ./engine/rendering/RenderManager */ "../game-engine/lib/engine/rendering/RenderManager.js"), exports); // no export needed?
+__exportStar(__webpack_require__(/*! ./engine/scenes/Scene */ "../game-engine/lib/engine/scenes/Scene.js"), exports);
+__exportStar(__webpack_require__(/*! ./engine/scenes/SceneManager */ "../game-engine/lib/engine/scenes/SceneManager.js"), exports); // no export needed?
+__exportStar(__webpack_require__(/*! ./engine/state/State */ "../game-engine/lib/engine/state/State.js"), exports);
+__exportStar(__webpack_require__(/*! ./engine/state/StateMachine */ "../game-engine/lib/engine/state/StateMachine.js"), exports);
+__exportStar(__webpack_require__(/*! ./engine/types/ViewPort */ "../game-engine/lib/engine/types/ViewPort.js"), exports);
+__exportStar(__webpack_require__(/*! ./engine/update/IUpdateable */ "../game-engine/lib/engine/update/IUpdateable.js"), exports);
+__exportStar(__webpack_require__(/*! ./engine/update/UpdateManager */ "../game-engine/lib/engine/update/UpdateManager.js"), exports); // no export needed?
+__exportStar(__webpack_require__(/*! ./engine/Game */ "../game-engine/lib/engine/Game.js"), exports);
+//# sourceMappingURL=index.js.map
 
+/***/ })
 
-var PlayerInputBehaviour = /** @class */ (function (_super) {
-    __extends(PlayerInputBehaviour, _super);
-    function PlayerInputBehaviour() {
-        //********************************************************************************
-        //** attributes:
-        //********************************************************************************
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.speed = 100;
-        return _this;
-    }
-    //********************************************************************************
-    //** public:
-    //********************************************************************************
-    /**
-     * Initialize component
-     */
-    PlayerInputBehaviour.prototype.initialize = function () {
-        this._transform = this._owner.getComponent(_engine_components_Transform__WEBPACK_IMPORTED_MODULE_2__["Transform"]);
-    };
-    /**
-     * Update component
-     * @param {number} deltaTime
-     */
-    PlayerInputBehaviour.prototype.update = function (deltaTime) {
-        var dir = _engine_math_Vector2D__WEBPACK_IMPORTED_MODULE_3__["Vector2D"].Zero;
-        if (this._input.isKeyDown(_engine_input_KeyCode__WEBPACK_IMPORTED_MODULE_1__["KeyCode"].A)) {
-            dir = dir.add(_engine_math_Vector2D__WEBPACK_IMPORTED_MODULE_3__["Vector2D"].Left);
-        }
-        if (this._input.isKeyDown(_engine_input_KeyCode__WEBPACK_IMPORTED_MODULE_1__["KeyCode"].D)) {
-            dir = dir.add(_engine_math_Vector2D__WEBPACK_IMPORTED_MODULE_3__["Vector2D"].Right);
-        }
-        if (this._input.isKeyDown(_engine_input_KeyCode__WEBPACK_IMPORTED_MODULE_1__["KeyCode"].W)) {
-            dir = dir.add(_engine_math_Vector2D__WEBPACK_IMPORTED_MODULE_3__["Vector2D"].Up);
-        }
-        if (this._input.isKeyDown(_engine_input_KeyCode__WEBPACK_IMPORTED_MODULE_1__["KeyCode"].S)) {
-            dir = dir.add(_engine_math_Vector2D__WEBPACK_IMPORTED_MODULE_3__["Vector2D"].Down);
-        }
-        var acceleration = dir.multiply(this.speed * deltaTime);
-        this._transform.translate(acceleration);
-    };
-    return PlayerInputBehaviour;
-}(_engine_components_Behaviour__WEBPACK_IMPORTED_MODULE_0__["Behaviour"]));
-
-
-
-/***/ }),
-
-/***/ "./src/main.ts":
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		if(__webpack_module_cache__[moduleId]) {
+/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+(() => {
+var exports = __webpack_exports__;
 /*!*********************!*\
   !*** ./src/main.ts ***!
   \*********************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _engine_Game__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./engine/Game */ "./src/engine/Game.ts");
-/* harmony import */ var _engine_scenes_Scene__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./engine/scenes/Scene */ "./src/engine/scenes/Scene.ts");
-/* harmony import */ var _engine_components_ShapeRenderer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./engine/components/ShapeRenderer */ "./src/engine/components/ShapeRenderer.ts");
-/* harmony import */ var _engine_geometry_Circle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./engine/geometry/Circle */ "./src/engine/geometry/Circle.ts");
-/* harmony import */ var _game_components_PlayerInputBehaviour__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./game/components/PlayerInputBehaviour */ "./src/game/components/PlayerInputBehaviour.ts");
-/* harmony import */ var _engine_gameobjects_gameobject__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./engine/gameobjects/gameobject */ "./src/engine/gameobjects/gameobject.ts");
-/* harmony import */ var _engine_gameobjects_Camera__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./engine/gameobjects/Camera */ "./src/engine/gameobjects/Camera.ts");
-/* harmony import */ var _game_components_MoveCameraBehaviour__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./game/components/MoveCameraBehaviour */ "./src/game/components/MoveCameraBehaviour.ts");
-/* harmony import */ var _engine_geometry_Rectangle__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./engine/geometry/Rectangle */ "./src/engine/geometry/Rectangle.ts");
-
-
-
-
-
-
-
-
-
-// create game instance.
-var game = new _engine_Game__WEBPACK_IMPORTED_MODULE_0__["Game"]({ clearColor: "cornflowerblue" });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+var game_engine_1 = __webpack_require__(/*! game-engine */ "../game-engine/lib/index.js");
+var MoveCameraBehaviour_1 = __webpack_require__(/*! ./game/components/MoveCameraBehaviour */ "./src/game/components/MoveCameraBehaviour.ts");
+var PlayerInputBehaviour_1 = __webpack_require__(/*! ./game/components/PlayerInputBehaviour */ "./src/game/components/PlayerInputBehaviour.ts");
+var game = new game_engine_1.Game({ clearColor: "cornflowerblue" });
 // create initial scene
-var initialScene = new _engine_scenes_Scene__WEBPACK_IMPORTED_MODULE_1__["Scene"](game);
+var scene = new game_engine_1.Scene(game);
 // create and add camera to scene
-var camera = new _engine_gameobjects_Camera__WEBPACK_IMPORTED_MODULE_6__["Camera"](initialScene);
-camera.attachComponent(_game_components_MoveCameraBehaviour__WEBPACK_IMPORTED_MODULE_7__["MoveCameraBehaviour"]);
-initialScene.setMainCamera(camera);
+var camera = new game_engine_1.Camera(scene);
+camera.attachComponent(MoveCameraBehaviour_1.MoveCameraBehaviour);
+scene.setMainCamera(camera);
 // create a game object that represents the player.
-var player = new _engine_gameobjects_gameobject__WEBPACK_IMPORTED_MODULE_5__["GameObject"](initialScene);
+var player = new game_engine_1.GameObject(scene);
 // attach a rendering component to player game object.
-var renderer = player.attachComponent(_engine_components_ShapeRenderer__WEBPACK_IMPORTED_MODULE_2__["ShapeRenderer"]);
+var renderer = player.attachComponent(game_engine_1.ShapeRenderer);
 renderer.color = "blue";
-renderer.shape = new _engine_geometry_Circle__WEBPACK_IMPORTED_MODULE_3__["Circle"](30);
+renderer.shape = new game_engine_1.Circle(30);
 // attach a PlayerInputBehaviour component to player.
-player.attachComponent(_game_components_PlayerInputBehaviour__WEBPACK_IMPORTED_MODULE_4__["PlayerInputBehaviour"]);
+player.attachComponent(PlayerInputBehaviour_1.PlayerInputBehaviour);
 // add player to scene.
-initialScene.addGameObject(player);
+scene.addGameObject(player);
 // create a game object that represents a obstacle
-var obstacle = new _engine_gameobjects_gameobject__WEBPACK_IMPORTED_MODULE_5__["GameObject"](initialScene);
+var obstacle = new game_engine_1.GameObject(scene);
 obstacle.transform.translate(100, 100);
-var obstacleShape = obstacle.attachComponent(_engine_components_ShapeRenderer__WEBPACK_IMPORTED_MODULE_2__["ShapeRenderer"]);
+var obstacleShape = obstacle.attachComponent(game_engine_1.ShapeRenderer);
 obstacleShape.color = "red";
-obstacleShape.shape = new _engine_geometry_Rectangle__WEBPACK_IMPORTED_MODULE_8__["Rectangle"](100, 100);
-initialScene.addGameObject(obstacle);
+obstacleShape.shape = new game_engine_1.Rectangle(100, 100);
+scene.addGameObject(obstacle);
 // push initial scene to game's scene manager.
-game.sceneManager.push(initialScene);
+game.sceneManager.push(scene);
 // initialize game
 game.init();
 // run game loop
 game.run();
 
+})();
 
-/***/ })
-
-/******/ });
+/******/ })()
+;
 //# sourceMappingURL=game.js.map
