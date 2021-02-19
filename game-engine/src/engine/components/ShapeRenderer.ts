@@ -10,6 +10,7 @@ import { Camera } from "../gameobjects/Camera";
 import { Vector2D } from "../math/Vector2D";
 import { Polygon } from '../geometry/Polygon';
 import { Triangle } from '../geometry/Triangle';
+import {degreesToRadians} from '../math/Trigonometry';
 
 export class ShapeRenderer extends Component implements IRenderable {
 
@@ -67,7 +68,7 @@ export class ShapeRenderer extends Component implements IRenderable {
             renderer.renderPolygon(
                 screenPos.x,
                 screenPos.y,
-                this._owner.transform.rotationRad + this.shape.rotationOffset,
+                this._owner.transform.rotationRad + degreesToRadians(this.shape.rotationOffset),
                 this.shape as Polygon,
                 this.color
             );

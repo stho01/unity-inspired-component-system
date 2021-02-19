@@ -15,9 +15,6 @@
             "es2015.symbol",
             "es2015.core",
             "es2015.iterable"
-        ],
-        "types": [
-            "game-engine"
         ]
     },
     "exclude": [

@@ -1,4 +1,5 @@
 import {Behaviour, KeyCode, Transform, Vector2D} from 'game-engine';
+import bullet from '../prefab/Bullet';
 
 export class PlayerInputBehaviour extends Behaviour {
 
@@ -6,7 +7,7 @@ export class PlayerInputBehaviour extends Behaviour {
     //** attributes:
     //********************************************************************************
 
-    public steeringForce = 360; // 360 deg/s
+    public steeringForce = 540; // deg/s
     public thrust: number = 100;
     public _force: Vector2D = Vector2D.Zero;
     public _velocity: Vector2D = Vector2D.Zero;
@@ -34,12 +35,24 @@ export class PlayerInputBehaviour extends Behaviour {
         if (this._input.isKeyDown(KeyCode.D)) {
             this._transform.rotate(this.steeringForce * deltaTime);
         }
+        if (this._input.isKeyDown(KeyCode.Q)) {
+            const force = this._transform.heading.rotate(-Math.PI/2).multiply(this.thrust);
+            this._applyForce(force);
+        }
+        if (this._input.isKeyDown(KeyCode.E)) {
+            const force = this._transform.heading.rotate(Math.PI/2).multiply(this.thrust);
+            this._applyForce(force);
+        }
         if (this._input.isKeyDown(KeyCode.W)) {
             this._applyForce(this._transform.heading.multiply(this.thrust));
         }
         if (this._input.isKeyDown(KeyCode.S)) {
             this._applyForce(this._transform.heading.multiply(-this.thrust));
         }
+        if (this._input.isKeyDown(KeyCode.Space)) {
+            this.instantiate(bullet, this._transform.position);
+        }
+
 
         if (this._isStandingStill()) {
             this._force = Vector2D.Zero;

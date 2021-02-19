@@ -1,5 +1,6 @@
 import { Vector2D } from "../math/Vector2D";
 import { Component } from "./Component";
+import {degreesToRadians} from '../math/Trigonometry';
 
 export class Transform extends Component {
 
@@ -23,7 +24,7 @@ export class Transform extends Component {
     public get rotation() : number { return this._rotation; }
     public set rotation(v : number) {
         this._rotation = v;
-        this._rotationRad = v * Math.PI / 180;
+        this._rotationRad = degreesToRadians(v);
         this._heading = new Vector2D(
             Math.cos(this._rotationRad),
             Math.sin(this._rotationRad)
@@ -58,7 +59,7 @@ export class Transform extends Component {
      */
     rotate(degrees: number): void {
         this._rotation += degrees;
-        this._rotationRad += degrees * Math.PI / 180;
+        this._rotationRad += degreesToRadians(degrees);
         this._heading = new Vector2D(
             Math.cos(this._rotationRad),
             Math.sin(this._rotationRad)

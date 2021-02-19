@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "node ./build/clean.js",
     "build": "node ./build/clean.js && tsc && tsc -m es6 -outDir lib-esm && webpack",
-    "build dev": "node ./build/clean.js && tsc"
+    "build dev": "node ./build"
   },
   "keywords": [],
   "author": "stho",

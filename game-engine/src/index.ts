@@ -5,6 +5,7 @@ export * from "./engine/components/ShapeRenderer";
 export * from "./engine/components/Transform";
 export * from "./engine/gameobjects/Camera";
 export * from "./engine/gameobjects/gameobject";
+export * from "./engine/gameobjects/Prefab";
 export * from "./engine/geometry/Circle";
 export * from "./engine/geometry/Shape";
 export * from "./engine/geometry/Line";
