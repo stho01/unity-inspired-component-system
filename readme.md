@@ -71,22 +71,22 @@ GameObject.add(component: Component);
 
 Install dependencies: 
 ```
-$ npm install
+$ yarn
 ```
 
 Run dev server: 
 
 ```
-$ npm run start
+$ yarn run start
 ```
 
 Build bundle:
 ```
-$ npm run build
+$ yarn run build
 ```
 
 
-## npm linking
+## yarn linking
 
 Navigate to the game-engine directory to link game engine as a local npm package.
 
@@ -95,7 +95,7 @@ Navigate to the game-engine directory to link game engine as a local npm package
 ```
 
 ```
-> npm link
+> yarn link
 ```
 
 Then link the game-engine to the example code
@@ -105,7 +105,7 @@ Then link the game-engine to the example code
 ```
 
 ```
-> npm link game-engine
+> yarn link stho-game-engine
 ```
 
-more info https://docs.npmjs.com/cli/v6/commands/npm-link
+more info https://classic.yarnpkg.com/en/docs/cli/link
