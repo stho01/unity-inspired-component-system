@@ -4,7 +4,7 @@ module.exports = {
     mode: "development",
     entry: "./src/main.ts",
     output: {
-        path: path.resolve(__dirname, "wwwroot/scripts"),
+        path: path.resolve(__dirname, "wwwroot"),
         filename: "game.js"
     },
     devtool: "source-map",
@@ -19,9 +19,9 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.js']
     },
     devServer: {
-        compress: true,
+        hot: true,
         port: 9000,
-        static: {
+        static:{
             directory: path.join(__dirname, "wwwroot"),
         }
     }

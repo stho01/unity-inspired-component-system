@@ -17,7 +17,7 @@ let player: GameObject = new GameObject(scene);
 
 // attach a rendering component to player game object.
 let renderer: ShapeRenderer = player.attachComponent(ShapeRenderer);
-renderer.color = "blue";
+renderer.color = "green";
 renderer.shape = new Circle(30);
 
 // attach a PlayerInputBehaviour component to player.

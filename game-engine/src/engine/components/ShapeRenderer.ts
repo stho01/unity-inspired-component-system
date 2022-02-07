@@ -1,4 +1,5 @@
-import { Shape } from "../geometry/Shape";
+import { Shape } from
+        "../geometry/Shape";
 import { Component } from "./Component";
 import { Transform } from "./Transform";
 import { Circle } from "../geometry/Circle";

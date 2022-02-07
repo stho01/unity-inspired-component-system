@@ -2,8 +2,7 @@
   "name": "stho-game-engine",
   "version": "0.0.4",
   "description": "A untity inspired game engine",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./src/index.ts",
   "scripts": {
     "clean": "node ./build/clean.js",
     "build": "node ./build/clean.js && tsc -m es6 -outDir dist",

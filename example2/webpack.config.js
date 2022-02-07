@@ -4,7 +4,7 @@ module.exports = {
     mode: "development",
     entry: "./src/main.ts",
     output: {
-        path: path.resolve(__dirname, "wwwroot/scripts"),
+        path: path.resolve(__dirname, "wwwroot"),
         filename: "game.js"
     },
     devtool: "source-map",
