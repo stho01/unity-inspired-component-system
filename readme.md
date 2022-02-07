@@ -1,5 +1,9 @@
 # A Unity inspired game component system  
 
+<a href="https://www.npmjs.com/package/stho-game-engine">
+    <img src="https://img.shields.io/npm/v/stho-game-engine.svg?sanitize=true" />
+</a>
+
 ## Description
 A unitiy inspired game component system that is written with TypeScript and HTML Canvas 2D Context.
 

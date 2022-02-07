@@ -1,6 +1,6 @@
-import { Rectangle } from './../geometry/Rectangle';
-import { Circle } from "./../geometry/Circle";
-import { Line } from "./../geometry/Line";
+import { Rectangle } from '../geometry/Rectangle';
+import { Circle } from '../geometry/Circle';
+import { Line } from '../geometry/Line';
 import { Vector2D } from "../math/Vector2D";
 import { Polygon } from '../geometry/Polygon';
 

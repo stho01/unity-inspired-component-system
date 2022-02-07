@@ -6,7 +6,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "clean": "node ./build/clean.js",
-    "build": "node ./build/clean.js && tsc && tsc -m es6 -outDir dist && webpack",
+    "build": "node ./build/clean.js && tsc -m es6 -outDir dist",
     "build dev": "node ./build"
   },
   "keywords": [],

@@ -1,3 +1,7 @@
 node_modules/
 .idea/
 dist
+lib
+lib-esm
+_bundles
+
