@@ -1,12 +1,12 @@
 {
   "name": "stho-game-engine",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A untity inspired game engine",
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "clean": "node ./build/clean.js",
-    "build": "node ./build/clean.js && tsc && tsc -m es6 -outDir dist/esm/game-engine && webpack",
+    "build": "node ./build/clean.js && tsc && tsc -m es6 -outDir dist && webpack",
     "build dev": "node ./build"
   },
   "keywords": [],
