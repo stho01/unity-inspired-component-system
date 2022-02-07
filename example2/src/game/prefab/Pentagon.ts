@@ -1,4 +1,4 @@
-import {GameObject, Scene, ShapeRenderer, Polygon, Vertex} from 'game-engine';
+import {GameObject, Scene, ShapeRenderer, Polygon, Vertex} from 'stho-game-engine';
 import {PlayerInputBehaviour} from '../components/PlayerInputBehaviour';
 
 const pentagonVertices: Vertex[] = [];

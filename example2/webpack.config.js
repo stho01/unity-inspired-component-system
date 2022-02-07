@@ -20,10 +20,11 @@ module.exports = {
     },
     devServer: {
         open: true,
-        contentBase: "./wwwroot",
         compress: true,
         port: 9000,
-        publicPath: "/scripts/",
+        static: {
+            directory: path.join(__dirname, 'wwwroot'),
+        },
         hot: true
     }
 }

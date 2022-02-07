@@ -1,4 +1,4 @@
-import {Triangle, GameObject, Scene, ShapeRenderer} from 'game-engine';
+import {Triangle, GameObject, Scene, ShapeRenderer} from 'stho-game-engine';
 import {PlayerInputBehaviour} from '../components/PlayerInputBehaviour';
 
 //********************************************

@@ -4,9 +4,9 @@ const cc = require("./console-colors");
 const fs = require("fs");
 
 [
-    path.resolve(__dirname, "../lib"),
-    path.resolve(__dirname, "../lib-esm"),
-    path.resolve(__dirname, "_bundles")
+    //path.resolve(__dirname, "../lib"),
+    path.resolve(__dirname, "../dist"),
+    //path.resolve(__dirname, "_bundles")
 ].forEach(path => {
     const timeStamp = new Date(Date.now()).toLocaleTimeString();
 

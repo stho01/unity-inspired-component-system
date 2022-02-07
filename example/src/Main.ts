@@ -1,4 +1,4 @@
-import { Camera, Circle, Game, GameObject, Rectangle, Scene, ShapeRenderer } from "game-engine";
+import { Camera, Circle, Game, GameObject, Rectangle, Scene, ShapeRenderer } from "stho-game-engine";
 import { MoveCameraBehaviour } from "./game/components/MoveCameraBehaviour";
 import { PlayerInputBehaviour } from "./game/components/PlayerInputBehaviour";
 

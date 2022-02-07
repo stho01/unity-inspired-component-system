@@ -1,4 +1,4 @@
-import {Circle, GameObject, Scene, ShapeRenderer} from 'game-engine';
+import {Circle, GameObject, Scene, ShapeRenderer} from 'stho-game-engine';
 import {PlayerInputBehaviour} from '../components/PlayerInputBehaviour';
 
 export default function playerFactory(scene: Scene): GameObject {

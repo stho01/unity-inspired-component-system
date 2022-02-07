@@ -1,4 +1,4 @@
-import { Camera, Game, Scene} from "game-engine";
+import { Camera, Game, Scene} from "stho-game-engine";
 import playerFactory from './game/prefab/Player';
 
 const game: Game = new Game({clearColor: "cornflowerblue"});

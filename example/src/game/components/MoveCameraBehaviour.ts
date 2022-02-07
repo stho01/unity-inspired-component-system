@@ -3,7 +3,7 @@ import {
     KeyCode,
     Transform,
     Vector2D
-} from "game-engine";
+} from "stho-game-engine";
 
 export class MoveCameraBehaviour extends Behaviour {
 

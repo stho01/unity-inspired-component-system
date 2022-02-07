@@ -1,4 +1,4 @@
-import { Behaviour, Transform, Vector2D } from "game-engine";
+import { Behaviour, Transform, Vector2D } from "stho-game-engine";
 
 export class CenterBehaviour extends Behaviour {
 

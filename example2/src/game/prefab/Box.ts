@@ -1,4 +1,4 @@
-import {GameObject, Rectangle, Scene, ShapeRenderer} from 'game-engine';
+import {GameObject, Rectangle, Scene, ShapeRenderer} from 'stho-game-engine';
 
 export default function boxFactory(scene: Scene): GameObject {
     const box = new GameObject(scene);

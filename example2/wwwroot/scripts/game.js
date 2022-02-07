@@ -2,185 +2,16 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/game/components/PlayerInputBehaviour.ts":
-/*!*****************************************************!*\
-  !*** ./src/game/components/PlayerInputBehaviour.ts ***!
-  \*****************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+/***/ "./node_modules/stho-game-engine/dist/abstract/IDisposable.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/abstract/IDisposable.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.PlayerInputBehaviour = void 0;
-var game_engine_1 = __webpack_require__(/*! game-engine */ "../game-engine/lib/index.js");
-var PlayerInputBehaviour = /** @class */ (function (_super) {
-    __extends(PlayerInputBehaviour, _super);
-    function PlayerInputBehaviour() {
-        //********************************************************************************
-        //** attributes:
-        //********************************************************************************
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.thrust = 100;
-        _this._force = game_engine_1.Vector2D.Zero;
-        _this._velocity = game_engine_1.Vector2D.Zero;
-        return _this;
-    }
-    //********************************************************************************
-    //** public:
-    //********************************************************************************
-    /**
-     * Initialize component
-     */
-    PlayerInputBehaviour.prototype.initialize = function () {
-        this._transform = this._owner.getComponent(game_engine_1.Transform);
-    };
-    /**
-     * Update component
-     * @param {number} deltaTime
-     */
-    PlayerInputBehaviour.prototype.update = function (deltaTime) {
-        if (this._input.isKeyDown(game_engine_1.KeyCode.A)) {
-            this._applyForce(game_engine_1.Vector2D.Left.multiply(this.thrust));
-        }
-        if (this._input.isKeyDown(game_engine_1.KeyCode.D)) {
-            this._applyForce(game_engine_1.Vector2D.Right.multiply(this.thrust));
-        }
-        if (this._input.isKeyDown(game_engine_1.KeyCode.W)) {
-            this._applyForce(game_engine_1.Vector2D.Up.multiply(this.thrust));
-        }
-        if (this._input.isKeyDown(game_engine_1.KeyCode.S)) {
-            this._applyForce(game_engine_1.Vector2D.Down.multiply(this.thrust));
-        }
-        this._applyFriction();
-        this._applyDrag();
-        var acceleration = this._force.multiply(deltaTime);
-        this._velocity = this._velocity.add(acceleration);
-        this._transform.translate(this._velocity);
-        this._force = game_engine_1.Vector2D.Zero;
-    };
-    PlayerInputBehaviour.prototype._applyDrag = function () {
-        var drag = this._velocity.normalize().multiply(-1);
-        var c = 0.1;
-        this._applyForce(drag.multiply(this._velocity.lengthSqr() * c));
-    };
-    PlayerInputBehaviour.prototype._applyFriction = function () {
-        var velLength = this._velocity.length();
-        var forceLength = this._force.length();
-        if (forceLength === 0 && velLength < 0.01 && velLength > -0.01) {
-            this._force = this._force.multiply(0);
-        }
-        else {
-            var f = this._velocity.normalize().multiply(-50);
-            this._force = this._force.add(f);
-        }
-    };
-    PlayerInputBehaviour.prototype._applyForce = function (force) {
-        this._force = this._force.add(force);
-    };
-    return PlayerInputBehaviour;
-}(game_engine_1.Behaviour));
-exports.PlayerInputBehaviour = PlayerInputBehaviour;
-
-
-/***/ }),
-
-/***/ "./src/game/prefab/Box.ts":
-/*!********************************!*\
-  !*** ./src/game/prefab/Box.ts ***!
-  \********************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-var game_engine_1 = __webpack_require__(/*! game-engine */ "../game-engine/lib/index.js");
-function boxFactory(scene) {
-    var box = new game_engine_1.GameObject(scene);
-    var render = box.attachComponent(game_engine_1.ShapeRenderer);
-    render.shape = new game_engine_1.Rectangle(100, 100);
-    render.color = "red";
-    return box;
-}
-exports.default = boxFactory;
-
-
-/***/ }),
-
-/***/ "./src/game/prefab/Pentagon.ts":
-/*!*************************************!*\
-  !*** ./src/game/prefab/Pentagon.ts ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-var game_engine_1 = __webpack_require__(/*! game-engine */ "../game-engine/lib/index.js");
-var pentagonVertices = [];
-var angle = (Math.PI * 2) / 5;
-for (var i = 0; i < 5; i++) {
-    pentagonVertices.push([
-        Math.cos(angle) * 50,
-        Math.sin(angle) * 50
-    ]);
-}
-function pentagonFactory(scene) {
-    var pentagon = new game_engine_1.GameObject(scene);
-    var shapeRenderer = pentagon.attachComponent(game_engine_1.ShapeRenderer);
-    shapeRenderer.shape = new game_engine_1.Polygon(pentagonVertices);
-    shapeRenderer.color = "green";
-    return pentagon;
-}
-exports.default = pentagonFactory;
-
-
-/***/ }),
-
-/***/ "./src/game/prefab/Player.ts":
-/*!***********************************!*\
-  !*** ./src/game/prefab/Player.ts ***!
-  \***********************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-var game_engine_1 = __webpack_require__(/*! game-engine */ "../game-engine/lib/index.js");
-var PlayerInputBehaviour_1 = __webpack_require__(/*! ../components/PlayerInputBehaviour */ "./src/game/components/PlayerInputBehaviour.ts");
-function playerFactory(scene) {
-    // create a game object that represents the player.
-    var player = new game_engine_1.GameObject(scene);
-    // attach a rendering component to player game object.
-    var renderer = player.attachComponent(game_engine_1.ShapeRenderer);
-    renderer.color = "blue";
-    renderer.shape = new game_engine_1.Circle(30);
-    // attach a PlayerInputBehaviour component to player.
-    player.attachComponent(PlayerInputBehaviour_1.PlayerInputBehaviour);
-    return player;
-}
-exports.default = playerFactory;
-
-
-/***/ }),
-
-/***/ "../game-engine/lib/abstract/IDisposable.js":
-/*!**************************************************!*\
-  !*** ../game-engine/lib/abstract/IDisposable.js ***!
-  \**************************************************/
-/***/ ((__unused_webpack_module, exports) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.isDisposable = void 0;
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "isDisposable": () => (/* binding */ isDisposable)
+/* harmony export */ });
 /**
  * Checks if object is disposable.
  * @param object
@@ -188,24 +19,28 @@ exports.isDisposable = void 0;
 function isDisposable(object) {
     return typeof object["dispose"] === "function";
 }
-exports.isDisposable = isDisposable;
 //# sourceMappingURL=IDisposable.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/Game.js":
-/*!*****************************************!*\
-  !*** ../game-engine/lib/engine/Game.js ***!
-  \*****************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ "./node_modules/stho-game-engine/dist/engine/Game.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/Game.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Game": () => (/* binding */ Game)
+/* harmony export */ });
+/* harmony import */ var _geometry_Rectangle__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./geometry/Rectangle */ "./node_modules/stho-game-engine/dist/engine/geometry/Rectangle.js");
+/* harmony import */ var _rendering_Canvas2DRenderer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./rendering/Canvas2DRenderer */ "./node_modules/stho-game-engine/dist/engine/rendering/Canvas2DRenderer.js");
+/* harmony import */ var _input_InputManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./input/InputManager */ "./node_modules/stho-game-engine/dist/engine/input/InputManager.js");
+/* harmony import */ var _scenes_SceneManager__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./scenes/SceneManager */ "./node_modules/stho-game-engine/dist/engine/scenes/SceneManager.js");
 
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Game = void 0;
-var Rectangle_1 = __webpack_require__(/*! ./geometry/Rectangle */ "../game-engine/lib/engine/geometry/Rectangle.js");
-var Canvas2DRenderer_1 = __webpack_require__(/*! ./rendering/Canvas2DRenderer */ "../game-engine/lib/engine/rendering/Canvas2DRenderer.js");
-var InputManager_1 = __webpack_require__(/*! ./input/InputManager */ "../game-engine/lib/engine/input/InputManager.js");
-var SceneManager_1 = __webpack_require__(/*! ./scenes/SceneManager */ "../game-engine/lib/engine/scenes/SceneManager.js");
+
+
 var Game = /** @class */ (function () {
     //********************************************
     //** ctor:
@@ -214,9 +49,9 @@ var Game = /** @class */ (function () {
         this._previousDelta = 0;
         this._options = Object.assign({}, _defaultOptions, options);
         this._canvas = document.getElementById("c");
-        this._input = new InputManager_1.InputManager();
-        this._renderer = new Canvas2DRenderer_1.Canvas2DRenderer(this._canvas);
-        this._sceneManager = new SceneManager_1.SceneManager(this);
+        this._input = new _input_InputManager__WEBPACK_IMPORTED_MODULE_2__.InputManager();
+        this._renderer = new _rendering_Canvas2DRenderer__WEBPACK_IMPORTED_MODULE_1__.Canvas2DRenderer(this._canvas);
+        this._sceneManager = new _scenes_SceneManager__WEBPACK_IMPORTED_MODULE_3__.SceneManager(this);
         this._updateViewPort();
     }
     Object.defineProperty(Game.prototype, "viewPort", {
@@ -293,13 +128,13 @@ var Game = /** @class */ (function () {
      * @param dt
      */
     Game.prototype._render = function (dt) {
-        var clearRect = new Rectangle_1.Rectangle(this._viewPort.width, this._viewPort.height);
+        var clearRect = new _geometry_Rectangle__WEBPACK_IMPORTED_MODULE_0__.Rectangle(this._viewPort.width, this._viewPort.height);
         this._renderer.renderRect(0, 0, clearRect, this._options.clearColor);
         this._sceneManager.renderScene();
     };
     return Game;
 }());
-exports.Game = Game;
+
 /**
  *
  */
@@ -310,14 +145,19 @@ var _defaultOptions = {
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/components/Behaviour.js":
-/*!*********************************************************!*\
-  !*** ../game-engine/lib/engine/components/Behaviour.js ***!
-  \*********************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+/***/ "./node_modules/stho-game-engine/dist/engine/components/Behaviour.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/components/Behaviour.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-
-var __extends = (this && this.__extends) || (function () {
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Behaviour": () => (/* binding */ Behaviour)
+/* harmony export */ });
+/* harmony import */ var _Component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Component */ "./node_modules/stho-game-engine/dist/engine/components/Component.js");
+/* harmony import */ var _math_Vector2D__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../math/Vector2D */ "./node_modules/stho-game-engine/dist/engine/math/Vector2D.js");
+var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -330,9 +170,8 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Behaviour = void 0;
-var Component_1 = __webpack_require__(/*! ./Component */ "../game-engine/lib/engine/components/Component.js");
+
+
 var Behaviour = /** @class */ (function (_super) {
     __extends(Behaviour, _super);
     //********************************************
@@ -346,7 +185,7 @@ var Behaviour = /** @class */ (function (_super) {
         return _this;
     }
     //********************************************
-    //** 
+    //** public methods:
     //********************************************
     /**
      * Remove component from update manager
@@ -355,22 +194,35 @@ var Behaviour = /** @class */ (function (_super) {
         this._owner.scene.updateManager.remove(this);
         _super.prototype.dispose.call(this);
     };
+    //********************************************
+    /**
+     * Instantiate a prefab.
+     * @param prefab
+     * @param position
+     * @param rotation
+     */
+    Behaviour.prototype.instantiate = function (prefab, position, rotation) {
+        if (position === void 0) { position = _math_Vector2D__WEBPACK_IMPORTED_MODULE_1__.Vector2D.Zero; }
+        if (rotation === void 0) { rotation = 0; }
+        return this._owner.instantiate(prefab, position, rotation);
+    };
     return Behaviour;
-}(Component_1.Component));
-exports.Behaviour = Behaviour;
+}(_Component__WEBPACK_IMPORTED_MODULE_0__.Component));
+
 //# sourceMappingURL=Behaviour.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/components/Component.js":
-/*!*********************************************************!*\
-  !*** ../game-engine/lib/engine/components/Component.js ***!
-  \*********************************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ "./node_modules/stho-game-engine/dist/engine/components/Component.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/components/Component.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Component = void 0;
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Component": () => (/* binding */ Component)
+/* harmony export */ });
 var Component = /** @class */ (function () {
     //********************************************
     //** ctor:
@@ -385,19 +237,29 @@ var Component = /** @class */ (function () {
     Component.prototype.dispose = function () { };
     return Component;
 }());
-exports.Component = Component;
+
 //# sourceMappingURL=Component.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/components/ShapeRenderer.js":
-/*!*************************************************************!*\
-  !*** ../game-engine/lib/engine/components/ShapeRenderer.js ***!
-  \*************************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+/***/ "./node_modules/stho-game-engine/dist/engine/components/ShapeRenderer.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/components/ShapeRenderer.js ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-
-var __extends = (this && this.__extends) || (function () {
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ShapeRenderer": () => (/* binding */ ShapeRenderer)
+/* harmony export */ });
+/* harmony import */ var _Component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Component */ "./node_modules/stho-game-engine/dist/engine/components/Component.js");
+/* harmony import */ var _Transform__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Transform */ "./node_modules/stho-game-engine/dist/engine/components/Transform.js");
+/* harmony import */ var _geometry_Circle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../geometry/Circle */ "./node_modules/stho-game-engine/dist/engine/geometry/Circle.js");
+/* harmony import */ var _geometry_Rectangle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../geometry/Rectangle */ "./node_modules/stho-game-engine/dist/engine/geometry/Rectangle.js");
+/* harmony import */ var _geometry_Polygon__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../geometry/Polygon */ "./node_modules/stho-game-engine/dist/engine/geometry/Polygon.js");
+/* harmony import */ var _geometry_Triangle__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../geometry/Triangle */ "./node_modules/stho-game-engine/dist/engine/geometry/Triangle.js");
+/* harmony import */ var _math_Trigonometry__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../math/Trigonometry */ "./node_modules/stho-game-engine/dist/engine/math/Trigonometry.js");
+var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -410,13 +272,13 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ShapeRenderer = void 0;
-var Component_1 = __webpack_require__(/*! ./Component */ "../game-engine/lib/engine/components/Component.js");
-var Transform_1 = __webpack_require__(/*! ./Transform */ "../game-engine/lib/engine/components/Transform.js");
-var Circle_1 = __webpack_require__(/*! ../geometry/Circle */ "../game-engine/lib/engine/geometry/Circle.js");
-var Rectangle_1 = __webpack_require__(/*! ../geometry/Rectangle */ "../game-engine/lib/engine/geometry/Rectangle.js");
-var Polygon_1 = __webpack_require__(/*! ../geometry/Polygon */ "../game-engine/lib/engine/geometry/Polygon.js");
+
+
+
+
+
+
+
 var ShapeRenderer = /** @class */ (function (_super) {
     __extends(ShapeRenderer, _super);
     /**
@@ -435,7 +297,7 @@ var ShapeRenderer = /** @class */ (function (_super) {
      *
      */
     ShapeRenderer.prototype.initialize = function () {
-        this._transform = this._owner.getComponent(Transform_1.Transform);
+        this._transform = this._owner.getComponent(_Transform__WEBPACK_IMPORTED_MODULE_1__.Transform);
     };
     /**
      *
@@ -443,20 +305,16 @@ var ShapeRenderer = /** @class */ (function (_super) {
      */
     ShapeRenderer.prototype.render = function (renderer, camera) {
         var screenPos = camera.getScreenPosition(this._owner);
-        if (this.shape instanceof Circle_1.Circle) {
-            var c = new Circle_1.Circle(this.shape.r * this._transform.scale.x);
-            renderer.renderCircle(screenPos.x, screenPos.y, c, this.color);
+        if (this.shape instanceof _geometry_Circle__WEBPACK_IMPORTED_MODULE_2__.Circle) {
+            renderer.renderCircle(screenPos.x, screenPos.y, this.shape, this.color);
         }
-        else if (this.shape instanceof Rectangle_1.Rectangle) {
-            var rect = new Rectangle_1.Rectangle(this.shape.width * this._transform.scale.x, this.shape.heigth * this._transform.scale.y);
+        else if (this.shape instanceof _geometry_Rectangle__WEBPACK_IMPORTED_MODULE_3__.Rectangle) {
             renderer.renderRect(screenPos.x, screenPos.y, this.shape, this.color);
         }
-        else if (this.shape instanceof Polygon_1.Polygon) {
-            renderer.renderPolygon(screenPos.x, screenPos.y, this._owner.transform.rotation.angle(), this.shape);
+        else if (this.shape instanceof _geometry_Polygon__WEBPACK_IMPORTED_MODULE_4__.Polygon
+            || this.shape instanceof _geometry_Triangle__WEBPACK_IMPORTED_MODULE_5__.Triangle) {
+            renderer.renderPolygon(screenPos.x, screenPos.y, this._owner.transform.rotationRad + (0,_math_Trigonometry__WEBPACK_IMPORTED_MODULE_6__.degreesToRadians)(this.shape.rotationOffset), this.shape, this.color);
         }
-        /*else if (this.shape instanceof Line) {
-            renderer.renderLine(this.shape, this.color);
-        }*/
     };
     /**
      * Remove component from renderer.
@@ -466,20 +324,26 @@ var ShapeRenderer = /** @class */ (function (_super) {
         _super.prototype.dispose.call(this);
     };
     return ShapeRenderer;
-}(Component_1.Component));
-exports.ShapeRenderer = ShapeRenderer;
+}(_Component__WEBPACK_IMPORTED_MODULE_0__.Component));
+
 //# sourceMappingURL=ShapeRenderer.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/components/Transform.js":
-/*!*********************************************************!*\
-  !*** ../game-engine/lib/engine/components/Transform.js ***!
-  \*********************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+/***/ "./node_modules/stho-game-engine/dist/engine/components/Transform.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/components/Transform.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-
-var __extends = (this && this.__extends) || (function () {
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Transform": () => (/* binding */ Transform)
+/* harmony export */ });
+/* harmony import */ var _math_Vector2D__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../math/Vector2D */ "./node_modules/stho-game-engine/dist/engine/math/Vector2D.js");
+/* harmony import */ var _Component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Component */ "./node_modules/stho-game-engine/dist/engine/components/Component.js");
+/* harmony import */ var _math_Trigonometry__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../math/Trigonometry */ "./node_modules/stho-game-engine/dist/engine/math/Trigonometry.js");
+var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -492,20 +356,27 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Transform = void 0;
-var Vector2D_1 = __webpack_require__(/*! ../math/Vector2D */ "../game-engine/lib/engine/math/Vector2D.js");
-var Component_1 = __webpack_require__(/*! ./Component */ "../game-engine/lib/engine/components/Component.js");
+
+
+
 var Transform = /** @class */ (function (_super) {
     __extends(Transform, _super);
     function Transform() {
+        //********************************************
+        //** attributes:
+        //********************************************
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this._position = Vector2D_1.Vector2D.Zero;
-        _this._rotation = Vector2D_1.Vector2D.Zero;
-        _this._scale = Vector2D_1.Vector2D.One;
+        _this._position = _math_Vector2D__WEBPACK_IMPORTED_MODULE_0__.Vector2D.Zero;
+        _this._rotation = 0;
+        _this._rotationRad = 0;
+        _this._heading = _math_Vector2D__WEBPACK_IMPORTED_MODULE_0__.Vector2D.Zero;
+        _this._scale = _math_Vector2D__WEBPACK_IMPORTED_MODULE_0__.Vector2D.One;
         return _this;
     }
     Object.defineProperty(Transform.prototype, "position", {
+        //********************************************
+        //** props:
+        //********************************************
         get: function () { return this._position; },
         set: function (v) { this._position = v; },
         enumerable: false,
@@ -513,7 +384,21 @@ var Transform = /** @class */ (function (_super) {
     });
     Object.defineProperty(Transform.prototype, "rotation", {
         get: function () { return this._rotation; },
-        set: function (v) { this._rotation = v; },
+        set: function (v) {
+            this._rotation = v;
+            this._rotationRad = (0,_math_Trigonometry__WEBPACK_IMPORTED_MODULE_2__.degreesToRadians)(v);
+            this._heading = new _math_Vector2D__WEBPACK_IMPORTED_MODULE_0__.Vector2D(Math.cos(this._rotationRad), Math.sin(this._rotationRad));
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Transform.prototype, "rotationRad", {
+        get: function () { return this._rotationRad; },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Transform.prototype, "heading", {
+        get: function () { return this._heading; },
         enumerable: false,
         configurable: true
     });
@@ -527,7 +412,7 @@ var Transform = /** @class */ (function (_super) {
     //** public:
     //********************************************************************************
     /**
-     * Translate the position in the direction of the vector.
+     * Translate the game object's position.
      *
      * @param {Vector2D} vec
      */
@@ -539,21 +424,34 @@ var Transform = /** @class */ (function (_super) {
             this._position = this._position.add(vec);
         }
     };
+    /**
+     * Sets the game object's angle of rotation
+     * @param degrees
+     */
+    Transform.prototype.rotate = function (degrees) {
+        this._rotation += degrees;
+        this._rotationRad += (0,_math_Trigonometry__WEBPACK_IMPORTED_MODULE_2__.degreesToRadians)(degrees);
+        this._heading = new _math_Vector2D__WEBPACK_IMPORTED_MODULE_0__.Vector2D(Math.cos(this._rotationRad), Math.sin(this._rotationRad));
+    };
     return Transform;
-}(Component_1.Component));
-exports.Transform = Transform;
+}(_Component__WEBPACK_IMPORTED_MODULE_1__.Component));
+
 //# sourceMappingURL=Transform.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/gameobjects/Camera.js":
-/*!*******************************************************!*\
-  !*** ../game-engine/lib/engine/gameobjects/Camera.js ***!
-  \*******************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+/***/ "./node_modules/stho-game-engine/dist/engine/gameobjects/Camera.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/gameobjects/Camera.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-
-var __extends = (this && this.__extends) || (function () {
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Camera": () => (/* binding */ Camera)
+/* harmony export */ });
+/* harmony import */ var _gameobject__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gameobject */ "./node_modules/stho-game-engine/dist/engine/gameobjects/gameobject.js");
+var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -566,9 +464,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Camera = void 0;
-var gameobject_1 = __webpack_require__(/*! ./gameobject */ "../game-engine/lib/engine/gameobjects/gameobject.js");
+
 var Camera = /** @class */ (function (_super) {
     __extends(Camera, _super);
     function Camera() {
@@ -601,22 +497,39 @@ var Camera = /** @class */ (function (_super) {
         return worldPos;
     };
     return Camera;
-}(gameobject_1.GameObject));
-exports.Camera = Camera;
+}(_gameobject__WEBPACK_IMPORTED_MODULE_0__.GameObject));
+
 //# sourceMappingURL=Camera.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/gameobjects/gameobject.js":
-/*!***********************************************************!*\
-  !*** ../game-engine/lib/engine/gameobjects/gameobject.js ***!
-  \***********************************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ "./node_modules/stho-game-engine/dist/engine/gameobjects/Prefab.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/gameobjects/Prefab.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+
+//# sourceMappingURL=Prefab.js.map
+
+/***/ }),
+
+/***/ "./node_modules/stho-game-engine/dist/engine/gameobjects/gameobject.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/gameobjects/gameobject.js ***!
+  \*****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "GameObject": () => (/* binding */ GameObject)
+/* harmony export */ });
+/* harmony import */ var _components_Transform__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Transform */ "./node_modules/stho-game-engine/dist/engine/components/Transform.js");
+/* harmony import */ var _math_Vector2D__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../math/Vector2D */ "./node_modules/stho-game-engine/dist/engine/math/Vector2D.js");
 
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.GameObject = void 0;
-var Transform_1 = __webpack_require__(/*! ../components/Transform */ "../game-engine/lib/engine/components/Transform.js");
+//********************************************
 var GameObject = /** @class */ (function () {
     //********************************************
     //**ctor:
@@ -625,8 +538,8 @@ var GameObject = /** @class */ (function () {
         this._children = new Set();
         this._scene = scene;
         this._components = new Map();
-        this._transform = new Transform_1.Transform(this);
-        this._transform = this.attachComponent(Transform_1.Transform);
+        this._transform = new _components_Transform__WEBPACK_IMPORTED_MODULE_0__.Transform(this);
+        this._transform = this.attachComponent(_components_Transform__WEBPACK_IMPORTED_MODULE_0__.Transform);
     }
     Object.defineProperty(GameObject.prototype, "transform", {
         //********************************************
@@ -699,7 +612,7 @@ var GameObject = /** @class */ (function () {
         if (type == null) {
             throw new Error("Component cannot be null or undefined");
         }
-        if (type === Transform_1.Transform && this._components.has(type)) {
+        if (type === _components_Transform__WEBPACK_IMPORTED_MODULE_0__.Transform && this._components.has(type)) {
             throw new Error("A game object can only have one Transform component.");
         }
         var component = new type(this);
@@ -764,6 +677,21 @@ var GameObject = /** @class */ (function () {
         return this._components.get(type);
     };
     /**
+     * Instantiate prefab
+     * @param prefab
+     * @param position
+     * @param rotation
+     */
+    GameObject.prototype.instantiate = function (prefab, position, rotation) {
+        if (position === void 0) { position = _math_Vector2D__WEBPACK_IMPORTED_MODULE_1__.Vector2D.Zero; }
+        if (rotation === void 0) { rotation = 0; }
+        var gm = prefab(this.scene);
+        gm.transform.translate(position);
+        gm.transform.rotate(rotation);
+        // gm.setParent(this);
+        return gm;
+    };
+    /**
      *
      */
     GameObject.prototype.dispose = function () {
@@ -771,26 +699,45 @@ var GameObject = /** @class */ (function () {
     };
     return GameObject;
 }());
-exports.GameObject = GameObject;
+
 //# sourceMappingURL=gameobject.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/geometry/Circle.js":
-/*!****************************************************!*\
-  !*** ../game-engine/lib/engine/geometry/Circle.js ***!
-  \****************************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ "./node_modules/stho-game-engine/dist/engine/geometry/Circle.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/geometry/Circle.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Circle": () => (/* binding */ Circle)
+/* harmony export */ });
+/* harmony import */ var _Shape__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Shape */ "./node_modules/stho-game-engine/dist/engine/geometry/Shape.js");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Circle = void 0;
-var Circle = /** @class */ (function () {
+var Circle = /** @class */ (function (_super) {
+    __extends(Circle, _super);
     //********************************************
     //** ctor:
     //********************************************
     function Circle(radius) {
-        this._r = radius;
+        var _this = _super.call(this) || this;
+        _this._r = radius;
+        return _this;
     }
     Object.defineProperty(Circle.prototype, "r", {
         //********************************************
@@ -801,43 +748,51 @@ var Circle = /** @class */ (function () {
         configurable: true
     });
     return Circle;
-}());
-exports.Circle = Circle;
+}(_Shape__WEBPACK_IMPORTED_MODULE_0__.Shape));
+
 //# sourceMappingURL=Circle.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/geometry/IShape.js":
-/*!****************************************************!*\
-  !*** ../game-engine/lib/engine/geometry/IShape.js ***!
-  \****************************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ "./node_modules/stho-game-engine/dist/engine/geometry/Line.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/geometry/Line.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Line": () => (/* binding */ Line)
+/* harmony export */ });
+/* harmony import */ var _math_Vector2D__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../math/Vector2D */ "./node_modules/stho-game-engine/dist/engine/math/Vector2D.js");
+/* harmony import */ var _Shape__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Shape */ "./node_modules/stho-game-engine/dist/engine/geometry/Shape.js");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-//# sourceMappingURL=IShape.js.map
-
-/***/ }),
-
-/***/ "../game-engine/lib/engine/geometry/Line.js":
-/*!**************************************************!*\
-  !*** ../game-engine/lib/engine/geometry/Line.js ***!
-  \**************************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Line = void 0;
-var Vector2D_1 = __webpack_require__(/*! ../math/Vector2D */ "../game-engine/lib/engine/math/Vector2D.js");
-var Line = /** @class */ (function () {
+var Line = /** @class */ (function (_super) {
+    __extends(Line, _super);
     //********************************************
     //** ctor:
     //********************************************
     function Line(p1, p2) {
-        this._p1 = new Vector2D_1.Vector2D(p1.x, p1.y);
-        this._p2 = new Vector2D_1.Vector2D(p2.x, p2.y);
-        this._dir = this._p2.subtract(this._p1);
-        this._length = this._dir.length();
+        var _this = _super.call(this) || this;
+        _this._p1 = new _math_Vector2D__WEBPACK_IMPORTED_MODULE_0__.Vector2D(p1.x, p1.y);
+        _this._p2 = new _math_Vector2D__WEBPACK_IMPORTED_MODULE_0__.Vector2D(p2.x, p2.y);
+        _this._dir = _this._p2.subtract(_this._p1);
+        _this._length = _this._dir.length();
+        return _this;
     }
     Object.defineProperty(Line.prototype, "p1", {
         //********************************************
@@ -863,27 +818,46 @@ var Line = /** @class */ (function () {
         configurable: true
     });
     return Line;
-}());
-exports.Line = Line;
+}(_Shape__WEBPACK_IMPORTED_MODULE_1__.Shape));
+
 //# sourceMappingURL=Line.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/geometry/Polygon.js":
-/*!*****************************************************!*\
-  !*** ../game-engine/lib/engine/geometry/Polygon.js ***!
-  \*****************************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ "./node_modules/stho-game-engine/dist/engine/geometry/Polygon.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/geometry/Polygon.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Polygon": () => (/* binding */ Polygon)
+/* harmony export */ });
+/* harmony import */ var _Shape__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Shape */ "./node_modules/stho-game-engine/dist/engine/geometry/Shape.js");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Polygon = void 0;
-var Polygon = /** @class */ (function () {
+var Polygon = /** @class */ (function (_super) {
+    __extends(Polygon, _super);
     //********************************************
     //** ctor:
     //********************************************
     function Polygon(vertices) {
-        this._vertices = vertices;
+        var _this = _super.call(this) || this;
+        _this._vertices = vertices;
+        return _this;
     }
     Object.defineProperty(Polygon.prototype, "vertices", {
         //********************************************
@@ -925,28 +899,47 @@ var Polygon = /** @class */ (function () {
         };
     };
     return Polygon;
-}());
-exports.Polygon = Polygon;
+}(_Shape__WEBPACK_IMPORTED_MODULE_0__.Shape));
+
 //# sourceMappingURL=Polygon.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/geometry/Rectangle.js":
-/*!*******************************************************!*\
-  !*** ../game-engine/lib/engine/geometry/Rectangle.js ***!
-  \*******************************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ "./node_modules/stho-game-engine/dist/engine/geometry/Rectangle.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/geometry/Rectangle.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Rectangle": () => (/* binding */ Rectangle)
+/* harmony export */ });
+/* harmony import */ var _Shape__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Shape */ "./node_modules/stho-game-engine/dist/engine/geometry/Shape.js");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Rectangle = void 0;
-var Rectangle = /** @class */ (function () {
+var Rectangle = /** @class */ (function (_super) {
+    __extends(Rectangle, _super);
     //********************************************
     //** ctor:
     //********************************************
     function Rectangle(width, height) {
-        this._width = width;
-        this._height = height;
+        var _this = _super.call(this) || this;
+        _this._width = width;
+        _this._height = height;
+        return _this;
     }
     Object.defineProperty(Rectangle.prototype, "width", {
         //********************************************
@@ -962,21 +955,103 @@ var Rectangle = /** @class */ (function () {
         configurable: true
     });
     return Rectangle;
-}());
-exports.Rectangle = Rectangle;
+}(_Shape__WEBPACK_IMPORTED_MODULE_0__.Shape));
+
 //# sourceMappingURL=Rectangle.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/input/InputManager.js":
-/*!*******************************************************!*\
-  !*** ../game-engine/lib/engine/input/InputManager.js ***!
-  \*******************************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ "./node_modules/stho-game-engine/dist/engine/geometry/Shape.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/geometry/Shape.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Shape": () => (/* binding */ Shape)
+/* harmony export */ });
+var Shape = /** @class */ (function () {
+    function Shape() {
+        //********************************************
+        //** attributes:
+        //********************************************
+        this.rotationOffset = 0;
+    }
+    return Shape;
+}());
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.InputManager = void 0;
+//# sourceMappingURL=Shape.js.map
+
+/***/ }),
+
+/***/ "./node_modules/stho-game-engine/dist/engine/geometry/Triangle.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/geometry/Triangle.js ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Triangle": () => (/* binding */ Triangle)
+/* harmony export */ });
+/* harmony import */ var _Polygon__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Polygon */ "./node_modules/stho-game-engine/dist/engine/geometry/Polygon.js");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+var Triangle = /** @class */ (function (_super) {
+    __extends(Triangle, _super);
+    //********************************************
+    //** ctor:
+    //********************************************
+    function Triangle(width, height) {
+        var _this = _super.call(this, [
+            [0, height * -0.5],
+            [width * 0.5, height * 0.5],
+            [width * -0.5, height * 0.5],
+        ]) || this;
+        _this._width = width;
+        _this._height = height;
+        return _this;
+    }
+    Object.defineProperty(Triangle.prototype, "width", {
+        get: function () { return this._width; },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Triangle.prototype, "height", {
+        get: function () { return this._height; },
+        enumerable: false,
+        configurable: true
+    });
+    return Triangle;
+}(_Polygon__WEBPACK_IMPORTED_MODULE_0__.Polygon));
+
+//# sourceMappingURL=Triangle.js.map
+
+/***/ }),
+
+/***/ "./node_modules/stho-game-engine/dist/engine/input/InputManager.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/input/InputManager.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "InputManager": () => (/* binding */ InputManager)
+/* harmony export */ });
 var InputManager = /** @class */ (function () {
     function InputManager() {
         //********************************************
@@ -1101,20 +1176,21 @@ var InputManager = /** @class */ (function () {
     };
     return InputManager;
 }());
-exports.InputManager = InputManager;
+
 //# sourceMappingURL=InputManager.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/input/KeyCode.js":
-/*!**************************************************!*\
-  !*** ../game-engine/lib/engine/input/KeyCode.js ***!
-  \**************************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ "./node_modules/stho-game-engine/dist/engine/input/KeyCode.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/input/KeyCode.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.KeyCode = void 0;
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "KeyCode": () => (/* binding */ KeyCode)
+/* harmony export */ });
 var KeyCode;
 (function (KeyCode) {
     // Special keys
@@ -1179,51 +1255,74 @@ var KeyCode;
     KeyCode[KeyCode["Dash"] = 189] = "Dash";
     KeyCode[KeyCode["Period"] = 190] = "Period";
     KeyCode[KeyCode["Tilde"] = 220] = "Tilde";
-})(KeyCode = exports.KeyCode || (exports.KeyCode = {}));
+})(KeyCode || (KeyCode = {}));
 //# sourceMappingURL=KeyCode.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/input/MouseButtonCode.js":
-/*!**********************************************************!*\
-  !*** ../game-engine/lib/engine/input/MouseButtonCode.js ***!
-  \**********************************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ "./node_modules/stho-game-engine/dist/engine/input/MouseButtonCode.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/input/MouseButtonCode.js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.MouseButtonCode = void 0;
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "MouseButtonCode": () => (/* binding */ MouseButtonCode)
+/* harmony export */ });
 var MouseButtonCode;
 (function (MouseButtonCode) {
     MouseButtonCode[MouseButtonCode["Left"] = 0] = "Left";
     MouseButtonCode[MouseButtonCode["Middle"] = 1] = "Middle";
     MouseButtonCode[MouseButtonCode["Right"] = 2] = "Right";
-})(MouseButtonCode = exports.MouseButtonCode || (exports.MouseButtonCode = {}));
+})(MouseButtonCode || (MouseButtonCode = {}));
 //# sourceMappingURL=MouseButtonCode.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/math/Point.js":
-/*!***********************************************!*\
-  !*** ../game-engine/lib/engine/math/Point.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ "./node_modules/stho-game-engine/dist/engine/math/Point.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/math/Point.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+__webpack_require__.r(__webpack_exports__);
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
 //# sourceMappingURL=point.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/math/Vector2D.js":
-/*!**************************************************!*\
-  !*** ../game-engine/lib/engine/math/Vector2D.js ***!
-  \**************************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ "./node_modules/stho-game-engine/dist/engine/math/Trigonometry.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/math/Trigonometry.js ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "degreesToRadians": () => (/* binding */ degreesToRadians),
+/* harmony export */   "radiansToDegrees": () => (/* binding */ radiansToDegrees)
+/* harmony export */ });
+function degreesToRadians(degrees) {
+    return degrees * Math.PI / 180;
+}
+function radiansToDegrees(rad) {
+    return rad * 180 / Math.PI;
+}
+//# sourceMappingURL=Trigonometry.js.map
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Vector2D = void 0;
+/***/ }),
+
+/***/ "./node_modules/stho-game-engine/dist/engine/math/Vector2D.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/math/Vector2D.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Vector2D": () => (/* binding */ Vector2D)
+/* harmony export */ });
 var Vector2D = /** @class */ (function () {
     //********************************************
     //** ctor:
@@ -1443,21 +1542,23 @@ var Vector2D = /** @class */ (function () {
     Vector2D.Down = new Vector2D(0, 1);
     return Vector2D;
 }());
-exports.Vector2D = Vector2D;
+
 //# sourceMappingURL=Vector2D.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/rendering/Canvas2DRenderer.js":
-/*!***************************************************************!*\
-  !*** ../game-engine/lib/engine/rendering/Canvas2DRenderer.js ***!
-  \***************************************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ "./node_modules/stho-game-engine/dist/engine/rendering/Canvas2DRenderer.js":
+/*!*********************************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/rendering/Canvas2DRenderer.js ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Canvas2DRenderer": () => (/* binding */ Canvas2DRenderer)
+/* harmony export */ });
+/* harmony import */ var _geometry_Circle__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../geometry/Circle */ "./node_modules/stho-game-engine/dist/engine/geometry/Circle.js");
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Canvas2DRenderer = void 0;
-var Circle_1 = __webpack_require__(/*! ./../geometry/Circle */ "../game-engine/lib/engine/geometry/Circle.js");
 var Canvas2DRenderer = /** @class */ (function () {
     //********************************************
     //** ctor:
@@ -1523,7 +1624,7 @@ var Canvas2DRenderer = /** @class */ (function () {
     Canvas2DRenderer.prototype.renderDirLine = function (l, color) {
         if (color === void 0) { color = "red"; }
         this.renderLine(l);
-        var c = new Circle_1.Circle(10);
+        var c = new _geometry_Circle__WEBPACK_IMPORTED_MODULE_0__.Circle(10);
         this.renderCircle(l.p2.x, l.p2.y, c, color);
     };
     /**
@@ -1570,9 +1671,10 @@ var Canvas2DRenderer = /** @class */ (function () {
         this._ctx.save();
         this._ctx.fillStyle = color;
         var origin = polygon.origin || [0, 0];
-        this._ctx.translate(x + origin[0], y + origin[1]);
+        this._ctx.translate(x, y);
+        this._ctx.translate(origin[0], origin[1]);
         this._ctx.rotate(rotation);
-        this._ctx.translate(-origin[0], -origin[1]);
+        this._ctx.translate(x - origin[0], y - origin[1]);
         this._ctx.beginPath();
         polygon.vertices.forEach(function (vertex, i) {
             (i === 0)
@@ -1586,40 +1688,42 @@ var Canvas2DRenderer = /** @class */ (function () {
     };
     return Canvas2DRenderer;
 }());
-exports.Canvas2DRenderer = Canvas2DRenderer;
+
 //# sourceMappingURL=Canvas2DRenderer.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/rendering/IRenderable.js":
-/*!**********************************************************!*\
-  !*** ../game-engine/lib/engine/rendering/IRenderable.js ***!
-  \**********************************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ "./node_modules/stho-game-engine/dist/engine/rendering/IRenderable.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/rendering/IRenderable.js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+__webpack_require__.r(__webpack_exports__);
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
 //# sourceMappingURL=IRenderable.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/rendering/RenderManager.js":
-/*!************************************************************!*\
-  !*** ../game-engine/lib/engine/rendering/RenderManager.js ***!
-  \************************************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ "./node_modules/stho-game-engine/dist/engine/rendering/RenderManager.js":
+/*!******************************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/rendering/RenderManager.js ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "RenderManager": () => (/* binding */ RenderManager)
+/* harmony export */ });
+/* harmony import */ var _Canvas2DRenderer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Canvas2DRenderer */ "./node_modules/stho-game-engine/dist/engine/rendering/Canvas2DRenderer.js");
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.RenderManager = void 0;
-var Canvas2DRenderer_1 = __webpack_require__(/*! ./Canvas2DRenderer */ "../game-engine/lib/engine/rendering/Canvas2DRenderer.js");
 var RenderManager = /** @class */ (function () {
     //********************************************
     //**ctor:
     //********************************************
     function RenderManager(canvas, scene) {
         this._renderables = new Set();
-        this._renderer = new Canvas2DRenderer_1.Canvas2DRenderer(canvas);
+        this._renderer = new _Canvas2DRenderer__WEBPACK_IMPORTED_MODULE_0__.Canvas2DRenderer(canvas);
         this._scene = scene;
     }
     Object.defineProperty(RenderManager.prototype, "camera", {
@@ -1676,22 +1780,25 @@ var RenderManager = /** @class */ (function () {
     };
     return RenderManager;
 }());
-exports.RenderManager = RenderManager;
+
 //# sourceMappingURL=RenderManager.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/scenes/Scene.js":
-/*!*************************************************!*\
-  !*** ../game-engine/lib/engine/scenes/Scene.js ***!
-  \*************************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ "./node_modules/stho-game-engine/dist/engine/scenes/Scene.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/scenes/Scene.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Scene": () => (/* binding */ Scene)
+/* harmony export */ });
+/* harmony import */ var _update_UpdateManager__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../update/UpdateManager */ "./node_modules/stho-game-engine/dist/engine/update/UpdateManager.js");
+/* harmony import */ var _rendering_RenderManager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../rendering/RenderManager */ "./node_modules/stho-game-engine/dist/engine/rendering/RenderManager.js");
 
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Scene = void 0;
-var UpdateManager_1 = __webpack_require__(/*! ../update/UpdateManager */ "../game-engine/lib/engine/update/UpdateManager.js");
-var RenderManager_1 = __webpack_require__(/*! ../rendering/RenderManager */ "../game-engine/lib/engine/rendering/RenderManager.js");
 /**
  * A scene that can update and render game objects.
  */
@@ -1702,8 +1809,8 @@ var Scene = /** @class */ (function () {
     function Scene(game) {
         this._gameObjects = [];
         this._game = game;
-        this._updateManager = new UpdateManager_1.UpdateManager();
-        this._rendererManager = new RenderManager_1.RenderManager(game.canvas, this);
+        this._updateManager = new _update_UpdateManager__WEBPACK_IMPORTED_MODULE_0__.UpdateManager();
+        this._rendererManager = new _rendering_RenderManager__WEBPACK_IMPORTED_MODULE_1__.RenderManager(game.canvas, this);
     }
     Object.defineProperty(Scene.prototype, "game", {
         //********************************************
@@ -1762,7 +1869,7 @@ var Scene = /** @class */ (function () {
      * @param entity
      */
     Scene.prototype.pause = function (entity) {
-        //TODO: pause rendering and updating    
+        //TODO: pause rendering and updating
     };
     /**
      * Resume scene.
@@ -1780,19 +1887,23 @@ var Scene = /** @class */ (function () {
     };
     return Scene;
 }());
-exports.Scene = Scene;
+
 //# sourceMappingURL=Scene.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/scenes/SceneManager.js":
-/*!********************************************************!*\
-  !*** ../game-engine/lib/engine/scenes/SceneManager.js ***!
-  \********************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+/***/ "./node_modules/stho-game-engine/dist/engine/scenes/SceneManager.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/scenes/SceneManager.js ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-
-var __extends = (this && this.__extends) || (function () {
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "SceneManager": () => (/* binding */ SceneManager)
+/* harmony export */ });
+/* harmony import */ var _state_StateMachine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../state/StateMachine */ "./node_modules/stho-game-engine/dist/engine/state/StateMachine.js");
+var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -1805,9 +1916,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.SceneManager = void 0;
-var StateMachine_1 = __webpack_require__(/*! ../state/StateMachine */ "../game-engine/lib/engine/state/StateMachine.js");
+
 /**
  * A manager for managing scenes.
  */
@@ -1836,33 +1945,34 @@ var SceneManager = /** @class */ (function (_super) {
         }
     };
     return SceneManager;
-}(StateMachine_1.StateMachine));
-exports.SceneManager = SceneManager;
+}(_state_StateMachine__WEBPACK_IMPORTED_MODULE_0__.StateMachine));
+
 //# sourceMappingURL=SceneManager.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/state/State.js":
-/*!************************************************!*\
-  !*** ../game-engine/lib/engine/state/State.js ***!
-  \************************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ "./node_modules/stho-game-engine/dist/engine/state/State.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/state/State.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+__webpack_require__.r(__webpack_exports__);
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
 //# sourceMappingURL=State.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/state/StateMachine.js":
-/*!*******************************************************!*\
-  !*** ../game-engine/lib/engine/state/StateMachine.js ***!
-  \*******************************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ "./node_modules/stho-game-engine/dist/engine/state/StateMachine.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/state/StateMachine.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.StateMachine = void 0;
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "StateMachine": () => (/* binding */ StateMachine)
+/* harmony export */ });
 /**
  * A state machine for handeling states.
  */
@@ -1946,7 +2056,7 @@ var StateMachine = /** @class */ (function () {
     };
     return StateMachine;
 }());
-exports.StateMachine = StateMachine;
+
 var _defaultOptions = {
     maxHistoryLenght: 10
 };
@@ -1954,51 +2064,52 @@ var _defaultOptions = {
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/types/CommonTypes.js":
-/*!******************************************************!*\
-  !*** ../game-engine/lib/engine/types/CommonTypes.js ***!
-  \******************************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ "./node_modules/stho-game-engine/dist/engine/types/CommonTypes.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/types/CommonTypes.js ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+__webpack_require__.r(__webpack_exports__);
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
 //# sourceMappingURL=CommonTypes.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/types/ViewPort.js":
-/*!***************************************************!*\
-  !*** ../game-engine/lib/engine/types/ViewPort.js ***!
-  \***************************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ "./node_modules/stho-game-engine/dist/engine/types/ViewPort.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/types/ViewPort.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+__webpack_require__.r(__webpack_exports__);
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
 //# sourceMappingURL=ViewPort.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/update/IUpdateable.js":
-/*!*******************************************************!*\
-  !*** ../game-engine/lib/engine/update/IUpdateable.js ***!
-  \*******************************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ "./node_modules/stho-game-engine/dist/engine/update/IUpdateable.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/update/IUpdateable.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+__webpack_require__.r(__webpack_exports__);
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
 //# sourceMappingURL=IUpdateable.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/engine/update/UpdateManager.js":
-/*!*********************************************************!*\
-  !*** ../game-engine/lib/engine/update/UpdateManager.js ***!
-  \*********************************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ "./node_modules/stho-game-engine/dist/engine/update/UpdateManager.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/engine/update/UpdateManager.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.UpdateManager = void 0;
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "UpdateManager": () => (/* binding */ UpdateManager)
+/* harmony export */ });
 var UpdateManager = /** @class */ (function () {
     //********************************************
     //**ctor:
@@ -2037,59 +2148,269 @@ var UpdateManager = /** @class */ (function () {
     };
     return UpdateManager;
 }());
-exports.UpdateManager = UpdateManager;
+
 //# sourceMappingURL=UpdateManager.js.map
 
 /***/ }),
 
-/***/ "../game-engine/lib/index.js":
-/*!***********************************!*\
-  !*** ../game-engine/lib/index.js ***!
-  \***********************************/
+/***/ "./node_modules/stho-game-engine/dist/index.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/stho-game-engine/dist/index.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "isDisposable": () => (/* reexport safe */ _abstract_IDisposable__WEBPACK_IMPORTED_MODULE_0__.isDisposable),
+/* harmony export */   "Behaviour": () => (/* reexport safe */ _engine_components_Behaviour__WEBPACK_IMPORTED_MODULE_1__.Behaviour),
+/* harmony export */   "Component": () => (/* reexport safe */ _engine_components_Component__WEBPACK_IMPORTED_MODULE_2__.Component),
+/* harmony export */   "ShapeRenderer": () => (/* reexport safe */ _engine_components_ShapeRenderer__WEBPACK_IMPORTED_MODULE_3__.ShapeRenderer),
+/* harmony export */   "Transform": () => (/* reexport safe */ _engine_components_Transform__WEBPACK_IMPORTED_MODULE_4__.Transform),
+/* harmony export */   "Camera": () => (/* reexport safe */ _engine_gameobjects_Camera__WEBPACK_IMPORTED_MODULE_5__.Camera),
+/* harmony export */   "GameObject": () => (/* reexport safe */ _engine_gameobjects_gameobject__WEBPACK_IMPORTED_MODULE_6__.GameObject),
+/* harmony export */   "Circle": () => (/* reexport safe */ _engine_geometry_Circle__WEBPACK_IMPORTED_MODULE_8__.Circle),
+/* harmony export */   "Shape": () => (/* reexport safe */ _engine_geometry_Shape__WEBPACK_IMPORTED_MODULE_9__.Shape),
+/* harmony export */   "Line": () => (/* reexport safe */ _engine_geometry_Line__WEBPACK_IMPORTED_MODULE_10__.Line),
+/* harmony export */   "Rectangle": () => (/* reexport safe */ _engine_geometry_Rectangle__WEBPACK_IMPORTED_MODULE_11__.Rectangle),
+/* harmony export */   "Polygon": () => (/* reexport safe */ _engine_geometry_Polygon__WEBPACK_IMPORTED_MODULE_12__.Polygon),
+/* harmony export */   "Triangle": () => (/* reexport safe */ _engine_geometry_Triangle__WEBPACK_IMPORTED_MODULE_13__.Triangle),
+/* harmony export */   "InputManager": () => (/* reexport safe */ _engine_input_InputManager__WEBPACK_IMPORTED_MODULE_14__.InputManager),
+/* harmony export */   "KeyCode": () => (/* reexport safe */ _engine_input_KeyCode__WEBPACK_IMPORTED_MODULE_15__.KeyCode),
+/* harmony export */   "MouseButtonCode": () => (/* reexport safe */ _engine_input_MouseButtonCode__WEBPACK_IMPORTED_MODULE_16__.MouseButtonCode),
+/* harmony export */   "Vector2D": () => (/* reexport safe */ _engine_math_Vector2D__WEBPACK_IMPORTED_MODULE_18__.Vector2D),
+/* harmony export */   "Canvas2DRenderer": () => (/* reexport safe */ _engine_rendering_Canvas2DRenderer__WEBPACK_IMPORTED_MODULE_19__.Canvas2DRenderer),
+/* harmony export */   "RenderManager": () => (/* reexport safe */ _engine_rendering_RenderManager__WEBPACK_IMPORTED_MODULE_21__.RenderManager),
+/* harmony export */   "Scene": () => (/* reexport safe */ _engine_scenes_Scene__WEBPACK_IMPORTED_MODULE_22__.Scene),
+/* harmony export */   "SceneManager": () => (/* reexport safe */ _engine_scenes_SceneManager__WEBPACK_IMPORTED_MODULE_23__.SceneManager),
+/* harmony export */   "StateMachine": () => (/* reexport safe */ _engine_state_StateMachine__WEBPACK_IMPORTED_MODULE_25__.StateMachine),
+/* harmony export */   "UpdateManager": () => (/* reexport safe */ _engine_update_UpdateManager__WEBPACK_IMPORTED_MODULE_29__.UpdateManager),
+/* harmony export */   "Game": () => (/* reexport safe */ _engine_Game__WEBPACK_IMPORTED_MODULE_30__.Game)
+/* harmony export */ });
+/* harmony import */ var _abstract_IDisposable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./abstract/IDisposable */ "./node_modules/stho-game-engine/dist/abstract/IDisposable.js");
+/* harmony import */ var _engine_components_Behaviour__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./engine/components/Behaviour */ "./node_modules/stho-game-engine/dist/engine/components/Behaviour.js");
+/* harmony import */ var _engine_components_Component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./engine/components/Component */ "./node_modules/stho-game-engine/dist/engine/components/Component.js");
+/* harmony import */ var _engine_components_ShapeRenderer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./engine/components/ShapeRenderer */ "./node_modules/stho-game-engine/dist/engine/components/ShapeRenderer.js");
+/* harmony import */ var _engine_components_Transform__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./engine/components/Transform */ "./node_modules/stho-game-engine/dist/engine/components/Transform.js");
+/* harmony import */ var _engine_gameobjects_Camera__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./engine/gameobjects/Camera */ "./node_modules/stho-game-engine/dist/engine/gameobjects/Camera.js");
+/* harmony import */ var _engine_gameobjects_gameobject__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./engine/gameobjects/gameobject */ "./node_modules/stho-game-engine/dist/engine/gameobjects/gameobject.js");
+/* harmony import */ var _engine_gameobjects_Prefab__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./engine/gameobjects/Prefab */ "./node_modules/stho-game-engine/dist/engine/gameobjects/Prefab.js");
+/* harmony import */ var _engine_geometry_Circle__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./engine/geometry/Circle */ "./node_modules/stho-game-engine/dist/engine/geometry/Circle.js");
+/* harmony import */ var _engine_geometry_Shape__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./engine/geometry/Shape */ "./node_modules/stho-game-engine/dist/engine/geometry/Shape.js");
+/* harmony import */ var _engine_geometry_Line__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./engine/geometry/Line */ "./node_modules/stho-game-engine/dist/engine/geometry/Line.js");
+/* harmony import */ var _engine_geometry_Rectangle__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./engine/geometry/Rectangle */ "./node_modules/stho-game-engine/dist/engine/geometry/Rectangle.js");
+/* harmony import */ var _engine_geometry_Polygon__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./engine/geometry/Polygon */ "./node_modules/stho-game-engine/dist/engine/geometry/Polygon.js");
+/* harmony import */ var _engine_geometry_Triangle__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./engine/geometry/Triangle */ "./node_modules/stho-game-engine/dist/engine/geometry/Triangle.js");
+/* harmony import */ var _engine_input_InputManager__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./engine/input/InputManager */ "./node_modules/stho-game-engine/dist/engine/input/InputManager.js");
+/* harmony import */ var _engine_input_KeyCode__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./engine/input/KeyCode */ "./node_modules/stho-game-engine/dist/engine/input/KeyCode.js");
+/* harmony import */ var _engine_input_MouseButtonCode__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./engine/input/MouseButtonCode */ "./node_modules/stho-game-engine/dist/engine/input/MouseButtonCode.js");
+/* harmony import */ var _engine_math_Point__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./engine/math/Point */ "./node_modules/stho-game-engine/dist/engine/math/Point.js");
+/* harmony import */ var _engine_math_Vector2D__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./engine/math/Vector2D */ "./node_modules/stho-game-engine/dist/engine/math/Vector2D.js");
+/* harmony import */ var _engine_rendering_Canvas2DRenderer__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./engine/rendering/Canvas2DRenderer */ "./node_modules/stho-game-engine/dist/engine/rendering/Canvas2DRenderer.js");
+/* harmony import */ var _engine_rendering_IRenderable__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./engine/rendering/IRenderable */ "./node_modules/stho-game-engine/dist/engine/rendering/IRenderable.js");
+/* harmony import */ var _engine_rendering_RenderManager__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./engine/rendering/RenderManager */ "./node_modules/stho-game-engine/dist/engine/rendering/RenderManager.js");
+/* harmony import */ var _engine_scenes_Scene__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./engine/scenes/Scene */ "./node_modules/stho-game-engine/dist/engine/scenes/Scene.js");
+/* harmony import */ var _engine_scenes_SceneManager__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./engine/scenes/SceneManager */ "./node_modules/stho-game-engine/dist/engine/scenes/SceneManager.js");
+/* harmony import */ var _engine_state_State__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./engine/state/State */ "./node_modules/stho-game-engine/dist/engine/state/State.js");
+/* harmony import */ var _engine_state_StateMachine__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./engine/state/StateMachine */ "./node_modules/stho-game-engine/dist/engine/state/StateMachine.js");
+/* harmony import */ var _engine_types_ViewPort__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./engine/types/ViewPort */ "./node_modules/stho-game-engine/dist/engine/types/ViewPort.js");
+/* harmony import */ var _engine_types_CommonTypes__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./engine/types/CommonTypes */ "./node_modules/stho-game-engine/dist/engine/types/CommonTypes.js");
+/* harmony import */ var _engine_update_IUpdateable__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./engine/update/IUpdateable */ "./node_modules/stho-game-engine/dist/engine/update/IUpdateable.js");
+/* harmony import */ var _engine_update_UpdateManager__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./engine/update/UpdateManager */ "./node_modules/stho-game-engine/dist/engine/update/UpdateManager.js");
+/* harmony import */ var _engine_Game__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./engine/Game */ "./node_modules/stho-game-engine/dist/engine/Game.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ // no export needed?
+
+ // no export needed?
+
+
+
+
+
+ // no export needed?
+
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ "./src/game/components/PlayerInputBehaviour.ts":
+/*!*****************************************************!*\
+  !*** ./src/game/components/PlayerInputBehaviour.ts ***!
+  \*****************************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__webpack_require__(/*! ./abstract/IDisposable */ "../game-engine/lib/abstract/IDisposable.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/components/Behaviour */ "../game-engine/lib/engine/components/Behaviour.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/components/Component */ "../game-engine/lib/engine/components/Component.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/components/ShapeRenderer */ "../game-engine/lib/engine/components/ShapeRenderer.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/components/Transform */ "../game-engine/lib/engine/components/Transform.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/gameobjects/Camera */ "../game-engine/lib/engine/gameobjects/Camera.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/gameobjects/gameobject */ "../game-engine/lib/engine/gameobjects/gameobject.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/geometry/Circle */ "../game-engine/lib/engine/geometry/Circle.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/geometry/IShape */ "../game-engine/lib/engine/geometry/IShape.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/geometry/Line */ "../game-engine/lib/engine/geometry/Line.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/geometry/Rectangle */ "../game-engine/lib/engine/geometry/Rectangle.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/geometry/Polygon */ "../game-engine/lib/engine/geometry/Polygon.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/input/InputManager */ "../game-engine/lib/engine/input/InputManager.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/input/KeyCode */ "../game-engine/lib/engine/input/KeyCode.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/input/MouseButtonCode */ "../game-engine/lib/engine/input/MouseButtonCode.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/math/Point */ "../game-engine/lib/engine/math/Point.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/math/Vector2D */ "../game-engine/lib/engine/math/Vector2D.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/rendering/Canvas2DRenderer */ "../game-engine/lib/engine/rendering/Canvas2DRenderer.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/rendering/IRenderable */ "../game-engine/lib/engine/rendering/IRenderable.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/rendering/RenderManager */ "../game-engine/lib/engine/rendering/RenderManager.js"), exports); // no export needed?
-__exportStar(__webpack_require__(/*! ./engine/scenes/Scene */ "../game-engine/lib/engine/scenes/Scene.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/scenes/SceneManager */ "../game-engine/lib/engine/scenes/SceneManager.js"), exports); // no export needed?
-__exportStar(__webpack_require__(/*! ./engine/state/State */ "../game-engine/lib/engine/state/State.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/state/StateMachine */ "../game-engine/lib/engine/state/StateMachine.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/types/ViewPort */ "../game-engine/lib/engine/types/ViewPort.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/types/CommonTypes */ "../game-engine/lib/engine/types/CommonTypes.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/update/IUpdateable */ "../game-engine/lib/engine/update/IUpdateable.js"), exports);
-__exportStar(__webpack_require__(/*! ./engine/update/UpdateManager */ "../game-engine/lib/engine/update/UpdateManager.js"), exports); // no export needed?
-__exportStar(__webpack_require__(/*! ./engine/Game */ "../game-engine/lib/engine/Game.js"), exports);
-//# sourceMappingURL=index.js.map
+exports.PlayerInputBehaviour = void 0;
+var stho_game_engine_1 = __webpack_require__(/*! stho-game-engine */ "./node_modules/stho-game-engine/dist/index.js");
+var Bullet_1 = __webpack_require__(/*! ../prefab/Bullet */ "./src/game/prefab/Bullet.ts");
+var PlayerInputBehaviour = /** @class */ (function (_super) {
+    __extends(PlayerInputBehaviour, _super);
+    function PlayerInputBehaviour() {
+        //********************************************************************************
+        //** attributes:
+        //********************************************************************************
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.steeringForce = 540; // deg/s
+        _this.thrust = 100;
+        _this._force = stho_game_engine_1.Vector2D.Zero;
+        _this._velocity = stho_game_engine_1.Vector2D.Zero;
+        return _this;
+    }
+    //********************************************************************************
+    //** public:
+    //********************************************************************************
+    /**
+     * Initialize component
+     */
+    PlayerInputBehaviour.prototype.initialize = function () {
+        this._transform = this._owner.getComponent(stho_game_engine_1.Transform);
+    };
+    /**
+     * Update component
+     * @param {number} deltaTime
+     */
+    PlayerInputBehaviour.prototype.update = function (deltaTime) {
+        if (this._input.isKeyDown(stho_game_engine_1.KeyCode.A)) {
+            this._transform.rotate(-this.steeringForce * deltaTime);
+        }
+        if (this._input.isKeyDown(stho_game_engine_1.KeyCode.D)) {
+            this._transform.rotate(this.steeringForce * deltaTime);
+        }
+        if (this._input.isKeyDown(stho_game_engine_1.KeyCode.Q)) {
+            var force = this._transform.heading.rotate(-Math.PI / 2).multiply(this.thrust);
+            this._applyForce(force);
+        }
+        if (this._input.isKeyDown(stho_game_engine_1.KeyCode.E)) {
+            var force = this._transform.heading.rotate(Math.PI / 2).multiply(this.thrust);
+            this._applyForce(force);
+        }
+        if (this._input.isKeyDown(stho_game_engine_1.KeyCode.W)) {
+            this._applyForce(this._transform.heading.multiply(this.thrust));
+        }
+        if (this._input.isKeyDown(stho_game_engine_1.KeyCode.S)) {
+            this._applyForce(this._transform.heading.multiply(-this.thrust));
+        }
+        if (this._input.isKeyDown(stho_game_engine_1.KeyCode.Space)) {
+            this.instantiate(Bullet_1.default, this._transform.position);
+        }
+        if (this._isStandingStill()) {
+            this._force = stho_game_engine_1.Vector2D.Zero;
+            this._velocity = stho_game_engine_1.Vector2D.Zero;
+        }
+        else {
+            this._applyFriction();
+            this._applyDrag();
+        }
+        var acceleration = this._force.multiply(deltaTime);
+        this._velocity = this._velocity.add(acceleration);
+        this._transform.translate(this._velocity);
+        this._force = stho_game_engine_1.Vector2D.Zero;
+    };
+    PlayerInputBehaviour.prototype._applyDrag = function () {
+        var drag = this._velocity.normalize().multiply(-1);
+        var c = 0.1;
+        this._applyForce(drag.multiply(this._velocity.lengthSqr() * c));
+    };
+    PlayerInputBehaviour.prototype._applyFriction = function () {
+        var f = this._velocity.normalize().multiply(-50);
+        this._force = this._force.add(f);
+    };
+    PlayerInputBehaviour.prototype._isStandingStill = function () {
+        var velLength = this._velocity.lengthSqr();
+        var forceLength = this._force.lengthSqr();
+        return forceLength === 0
+            && velLength < 0.1
+            && velLength > -0.1;
+    };
+    PlayerInputBehaviour.prototype._applyForce = function (force) {
+        this._force = this._force.add(force);
+    };
+    return PlayerInputBehaviour;
+}(stho_game_engine_1.Behaviour));
+exports.PlayerInputBehaviour = PlayerInputBehaviour;
+
+
+/***/ }),
+
+/***/ "./src/game/prefab/Bullet.ts":
+/*!***********************************!*\
+  !*** ./src/game/prefab/Bullet.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+var stho_game_engine_1 = __webpack_require__(/*! stho-game-engine */ "./node_modules/stho-game-engine/dist/index.js");
+var bullet = function (scene) {
+    var gm = new stho_game_engine_1.GameObject(scene);
+    var renderer = gm.attachComponent(stho_game_engine_1.ShapeRenderer);
+    renderer.shape = new stho_game_engine_1.Circle(5);
+    renderer.color = "black";
+    return gm;
+};
+exports.default = bullet;
+
+
+/***/ }),
+
+/***/ "./src/game/prefab/Player.ts":
+/*!***********************************!*\
+  !*** ./src/game/prefab/Player.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+var stho_game_engine_1 = __webpack_require__(/*! stho-game-engine */ "./node_modules/stho-game-engine/dist/index.js");
+var PlayerInputBehaviour_1 = __webpack_require__(/*! ../components/PlayerInputBehaviour */ "./src/game/components/PlayerInputBehaviour.ts");
+//********************************************
+function playerFactory(scene) {
+    // create a game object that represents the player.
+    var player = new stho_game_engine_1.GameObject(scene);
+    // attach a rendering component to player game object.
+    var renderer = player.attachComponent(stho_game_engine_1.ShapeRenderer);
+    renderer.color = "purple";
+    renderer.shape = new stho_game_engine_1.Triangle(30, 40);
+    renderer.shape.rotationOffset = 90;
+    // attach a PlayerInputBehaviour component to player.
+    player.attachComponent(PlayerInputBehaviour_1.PlayerInputBehaviour);
+    return player;
+}
+exports.default = playerFactory;
+
 
 /***/ })
 
@@ -2119,6 +2440,35 @@ __exportStar(__webpack_require__(/*! ./engine/Game */ "../game-engine/lib/engine
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
@@ -2128,29 +2478,16 @@ var exports = __webpack_exports__;
   \*********************/
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-var game_engine_1 = __webpack_require__(/*! game-engine */ "../game-engine/lib/index.js");
+var stho_game_engine_1 = __webpack_require__(/*! stho-game-engine */ "./node_modules/stho-game-engine/dist/index.js");
 var Player_1 = __webpack_require__(/*! ./game/prefab/Player */ "./src/game/prefab/Player.ts");
-var Box_1 = __webpack_require__(/*! ./game/prefab/Box */ "./src/game/prefab/Box.ts");
-var Pentagon_1 = __webpack_require__(/*! ./game/prefab/Pentagon */ "./src/game/prefab/Pentagon.ts");
-var game = new game_engine_1.Game({ clearColor: "cornflowerblue" });
+var game = new stho_game_engine_1.Game({ clearColor: "cornflowerblue" });
 // create initial scene
-var scene = new game_engine_1.Scene(game);
+var scene = new stho_game_engine_1.Scene(game);
 // create and add camera to scene
-var camera = new game_engine_1.Camera(scene);
+var camera = new stho_game_engine_1.Camera(scene);
 scene.setMainCamera(camera);
 // player
-var player = Player_1.default(scene);
-scene.addGameObject(player);
-// box
-var box1 = Box_1.default(scene);
-box1.transform.translate(-100, -100);
-scene.addGameObject(box1);
-var box2 = Box_1.default(scene);
-box2.transform.translate(100, 0);
-scene.addGameObject(box2);
-var pentagon = Pentagon_1.default(scene);
-// pentagon.transform.translate()
-scene.addGameObject(pentagon);
+scene.addGameObject(Player_1.default(scene));
 // push initial scene to game's scene manager.
 game.sceneManager.push(scene);
 // initialize game

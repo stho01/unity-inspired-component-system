@@ -1,4 +1,4 @@
-import {Circle, GameObject, Prefab, ShapeRenderer} from 'game-engine';
+import {Circle, GameObject, Prefab, ShapeRenderer} from 'stho-game-engine';
 
 const bullet: Prefab = (scene) => {
     const gm = new GameObject(scene);

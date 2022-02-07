@@ -1,4 +1,4 @@
-import {Behaviour, KeyCode, Transform, Vector2D} from 'game-engine';
+import {Behaviour, KeyCode, Transform, Vector2D} from 'stho-game-engine';
 import bullet from '../prefab/Bullet';
 
 export class PlayerInputBehaviour extends Behaviour {
