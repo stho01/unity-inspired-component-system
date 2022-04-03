@@ -13,7 +13,7 @@ export class SceneManager extends StateMachine<Game> {
     update(deltaTime: number): void {
         let scene: Scene = this.peek() as Scene;
         if (scene != null) {
-            scene.updateManager.update(deltaTime);
+            scene.update(deltaTime);
         }
     }
 
@@ -22,8 +22,9 @@ export class SceneManager extends StateMachine<Game> {
      */
     renderScene(): void {
         let scene: Scene = this.peek() as Scene;
+        
         if (scene != null) {
-            scene.renderer.render();
+            scene.draw();
         }
     }
 }

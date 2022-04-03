@@ -1,9 +1,8 @@
 import { IState } from "../state/State";
 import { Game } from "../Game";
-import { UpdateManager } from "../update/UpdateManager";
-import { RenderManager } from "../rendering/RenderManager";
-import { GameObject } from "../gameobjects/gameobject";
-import { Camera } from "../gameobjects/Camera";
+import {ECSRegistry, Entity} from "../ecs/Ecs";
+import MovementSystem from "../systems/MovementSystem";
+import {RenderingSystem} from "../systems/RenderingSystem";
 
 /**
  * A scene that can update and render game objects.
@@ -15,10 +14,7 @@ export class Scene implements IState<Game> {
     //********************************************
 
     private readonly _game            : Game;
-    private readonly _updateManager   : UpdateManager;
-    private readonly _rendererManager : RenderManager;
-    private readonly _gameObjects     : GameObject[] = [];
-    private _camera: Camera;
+    private readonly _registry        : ECSRegistry;
 
     //********************************************
     //**ctor:
@@ -26,8 +22,7 @@ export class Scene implements IState<Game> {
 
     constructor(game: Game) {
         this._game = game;
-        this._updateManager = new UpdateManager();
-        this._rendererManager = new RenderManager(game.canvas, this);
+        this._registry = new ECSRegistry();
     }
 
     //********************************************
@@ -35,31 +30,16 @@ export class Scene implements IState<Game> {
     //********************************************
 
     get game()          : Game          { return this._game;}
-    get updateManager() : UpdateManager { return this._updateManager; }
-    get renderer()      : RenderManager { return this._rendererManager; }
-    get camera()        : Camera        { return this._camera; }
 
     //********************************************
     //**public:
     //********************************************
 
     /**
-     * Adds a game object to the scene
-     *
-     * @param {GameObject} gameobject
+     * Create entity
      */
-    addGameObject(gameobject: GameObject): void {
-        this._gameObjects.push(gameobject);
-    }
-
-    /**
-     * Sets the main camera and adds camera to scene
-     * @param {Camera} camera
-     */
-    setMainCamera(camera: Camera): void {
-        this._camera = camera;
-        this._rendererManager.camera = camera;
-        this.addGameObject(camera);
+    createEntity(): Entity {
+        return this._registry.createEntity();
     }
 
     /**
@@ -69,30 +49,46 @@ export class Scene implements IState<Game> {
      * @param {Game} game
      */
     initialize(game: Game): void {
-        this._gameObjects.forEach(x => x.initialize());
+        this._registry.addSystem(MovementSystem);
+        this._registry.addSystem(RenderingSystem);
+    }
+
+    /**
+     * Update scene
+     */
+    update(deltaTime: number): void {
+        this._registry.update();
+        this._registry.getSystem(MovementSystem).update(deltaTime);
+    }
+
+    /**
+     *
+     */
+    draw(): void {
+        this._registry.getSystem(RenderingSystem).draw(this.game.renderer);
     }
 
     /**
      * Pause scene
-     * @param entity
+     * @param game
      */
-    pause(entity: any): void {
+    pause(game: any): void {
         //TODO: pause rendering and updating
     }
 
     /**
      * Resume scene.
-     * @param entity
+     * @param game
      */
-    resume(entity: any): void {
+    resume(game: any): void {
         //TODO: resume rendering and updating
     }
 
     /**
      * Dispose scene and all its components.
-     * @param {Game} entity
+     * @param {Game} game
      */
-    dispose(entity: Game): void {
-        this._gameObjects.forEach(x => x.dispose());
+    dispose(game: Game): void {
+
     }
 }

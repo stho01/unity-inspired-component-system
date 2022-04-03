@@ -3,8 +3,10 @@ import { Circle } from '../geometry/Circle';
 import { Line } from '../geometry/Line';
 import { Vector2D } from "../math/Vector2D";
 import { Polygon } from '../geometry/Polygon';
+import IRenderer from "./IRenderer";
 
-export class Canvas2DRenderer {
+// noinspection JSUnusedGlobalSymbols
+export class Canvas2DRenderer implements IRenderer {
 
     //********************************************
     //** attributes:
@@ -20,6 +22,7 @@ export class Canvas2DRenderer {
         this._ctx = canvas.getContext("2d");
     }
 
+    //********************************************
 
     get renderingContext(): CanvasRenderingContext2D { return this._ctx; }
 
@@ -31,8 +34,7 @@ export class Canvas2DRenderer {
      *
      * @param x
      * @param y
-     * @param w
-     * @param h
+     * @param rect
      * @param colorStyle
      */
     public renderRect(x: number, y: number, rect: Rectangle, colorStyle: string = "gray"): void {
@@ -46,7 +48,7 @@ export class Canvas2DRenderer {
      *
      * @param x
      * @param y
-     * @param r
+     * @param c
      * @param colorStyle
      */
     public renderCircle(x: number, y: number, c: Circle, colorStyle: string = "gray"): void {
@@ -59,6 +61,7 @@ export class Canvas2DRenderer {
     /**
      *
      * @param l
+     * @param color
      */
     public renderLine(l: Line, color: string = "red"): void {
         this._ctx.strokeStyle = color;

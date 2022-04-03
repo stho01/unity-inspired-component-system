@@ -3,17 +3,20 @@ import { Canvas2DRenderer } from "./rendering/Canvas2DRenderer";
 import { InputManager } from "./input/InputManager";
 import { ViewPort } from "./types/ViewPort";
 import { SceneManager } from './scenes/SceneManager';
+import { ECSRegistry } from "./ecs/Ecs"
+import MovementSystem from "./systems/MovementSystem";
+import IRenderer from "./rendering/IRenderer";
 
 export class Game {
     "use strict";
     
-    //****************************************x|****
+    //********************************************
     //** attributes
     //********************************************
     
     public  readonly _input         : InputManager;
     private readonly _canvas        : HTMLCanvasElement;
-    private readonly _renderer      : Canvas2DRenderer;
+    private readonly _renderer      : IRenderer;
     private readonly _sceneManager  : SceneManager;
     private _options                : GameOptions;
     private _previousDelta          : number = 0;
@@ -41,6 +44,7 @@ export class Game {
     get input()         : InputManager  { return this._input; }
     get sceneManager()  : SceneManager  { return this._sceneManager; }
     get canvas()        : HTMLCanvasElement { return this._canvas; }
+    get renderer()      : IRenderer { return this._renderer; }
     
     //********************************************
     //**public:
@@ -51,11 +55,7 @@ export class Game {
      * @param options 
      */
     init(): Game {
-
         this._input.init();
-        
-        
-
         return this;
     }
 
