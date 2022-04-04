@@ -24,6 +24,7 @@ export default class MovementSystem extends System {
             const rigidBody = e.getComponent(RigidBody);
 
             transform.position = transform.position.add(rigidBody.velocity.multiply(deltaTime));
+            transform.angle += 180 * deltaTime;
         });
     }
 }

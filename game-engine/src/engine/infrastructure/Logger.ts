@@ -21,7 +21,7 @@ export default class Logger {
     log(level: LogLevel, msg: string): void {
         const timeStamp = this._timeStamp();
         const levelName: string = LogLevel[level];
-        const logLine: string = `${timeStamp} ${this._source} [${levelName}]: ${msg}`;
+        const logLine: string = `[stho-game-engine] ${timeStamp} ${this._source} [${levelName}]: ${msg}`;
         console.log(logLine);
     }
 

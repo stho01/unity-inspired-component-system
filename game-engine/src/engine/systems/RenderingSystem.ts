@@ -45,7 +45,8 @@ export class RenderingSystem extends System {
                 height: texture.height * transform.scale.y
             };
 
-            context.renderTexture(texture, source, dest);
+
+            context.renderTexture(texture, source, dest, transform.angle);
         });
     }
 }

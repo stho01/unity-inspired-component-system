@@ -368,10 +368,12 @@ var ContentStore = /** @class */ (function () {
     //********************************************
     ContentStore.prototype.addTexture = function (path) {
         var _this = this;
+        logger.debug("Adding texture " + path);
         return new Promise(function (resolve, reject) {
             var image = new Image();
             image.addEventListener("load", function () {
                 _this._textures.set(path, image);
+                logger.info("Texture " + path + " loaded and added to store.");
                 resolve();
             });
             image.src = path;
@@ -578,7 +580,7 @@ var Pool = /** @class */ (function () {
     Pool.prototype.add = function (object) { this.components.push(object); };
     Pool.prototype.set = function (index, object) { this.components[index] = object; };
     Pool.prototype.get = function (index) {
-        if (index) {
+        if (typeof index == "number") {
             return this.components[index];
         }
         else {
@@ -700,7 +702,7 @@ var ECSRegistry = /** @class */ (function () {
             args[_i - 1] = arguments[_i];
         }
         if (!this._systems.has(ctor)) {
-            var system = new ctor(args);
+            var system = new (ctor.bind.apply(ctor, __spreadArrays([void 0], args)))();
             this._systems.set(ctor, system);
         }
     };
@@ -1095,7 +1097,7 @@ var Logger = /** @class */ (function () {
     Logger.prototype.log = function (level, msg) {
         var timeStamp = this._timeStamp();
         var levelName = LogLevel[level];
-        var logLine = timeStamp + " " + this._source + " [" + levelName + "]: " + msg;
+        var logLine = "[stho-game-engine] " + timeStamp + " " + this._source + " [" + levelName + "]: " + msg;
         console.log(logLine);
     };
     Logger.prototype.error = function (msg) { this.log(LogLevel.ERROR, msg); };
@@ -1625,8 +1627,31 @@ var Canvas2DRenderer = /** @class */ (function () {
     //********************************************
     //** public:
     //********************************************
-    Canvas2DRenderer.prototype.renderTexture = function (texture, source, dest) {
-        this._ctx.drawImage(texture, source.x, source.y, source.width, source.height, dest.x, dest.y, dest.width, dest.height);
+    Canvas2DRenderer.prototype.renderTexture = function (texture, source, dest, rotation) {
+        if (rotation === void 0) { rotation = 0; }
+        this._ctx.setTransform(1, 0, 0, 1, dest.x, dest.y); // sets scales and origin
+        this._ctx.rotate(rotation * Math.PI / 180);
+        this._ctx.drawImage(texture, -texture.width / 2, -texture.height / 2);
+        /*
+        this._ctx.save();
+        this._ctx.translate(
+            this._ctx.canvas.width / 2,
+            this._ctx.canvas.height / 2);
+
+        // rotate the canvas to the specified degrees
+
+        const radians = rotation * Math.PI / 180;
+
+        this._ctx.setTransform(1, 0, 0, 1, x, y); // sets scale and origin
+        this._ctx.rotate(rotation);
+
+        this._ctx.drawImage(
+            texture,
+            source.x, source.y, source.width, source.height,
+            dest.x, dest.y, dest.width, dest.height);
+
+        this._ctx.restore();
+ */
     };
     /**
      *
@@ -1837,7 +1862,7 @@ var Scene = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         this._registry.addSystem(MovementSystem_1.default);
-                        this._registry.addSystem(RenderingSystem_1.RenderingSystem);
+                        this._registry.addSystem(RenderingSystem_1.RenderingSystem, game.contentStore);
                         // preload all textures and other contents
                         // before the scene starts running.
                         return [4 /*yield*/, this._contentLoader.preload()];
@@ -1882,6 +1907,7 @@ var Scene = /** @class */ (function () {
      * @param {Game} game
      */
     Scene.prototype.dispose = function (game) {
+        // todo: unload used content
     };
     return Scene;
 }());
@@ -2147,6 +2173,7 @@ var MovementSystem = /** @class */ (function (_super) {
             var transform = e.getComponent(Transform_1.Transform);
             var rigidBody = e.getComponent(RigidBody_1.RigidBody);
             transform.position = transform.position.add(rigidBody.velocity.multiply(deltaTime));
+            transform.angle += 180 * deltaTime;
         });
     };
     return MovementSystem;
@@ -2213,7 +2240,7 @@ var RenderingSystem = /** @class */ (function (_super) {
                 width: texture.width * transform.scale.x,
                 height: texture.height * transform.scale.y
             };
-            context.renderTexture(texture, source, dest);
+            context.renderTexture(texture, source, dest, transform.angle);
         });
     };
     return RenderingSystem;
@@ -2334,13 +2361,12 @@ var Sprite_1 = __webpack_require__(/*! stho-game-engine/src/engine/components/Sp
 var game = new stho_game_engine_1.Game({ clearColor: "cornflowerblue" });
 var scene = new stho_game_engine_1.Scene(game);
 var player = scene.createEntity();
-player.addComponent(stho_game_engine_1.Transform, stho_game_engine_1.Vector2D.from(10, 20));
+player.addComponent(stho_game_engine_1.Transform, stho_game_engine_1.Vector2D.from(100, 100));
 player.addComponent(stho_game_engine_1.RigidBody, stho_game_engine_1.Vector2D.from(1, 0));
 player.addComponent(Sprite_1.Sprite, "/box.png", 10, 20);
-game.sceneManager.push(scene).then(function () {
-    game.init();
-    game.run();
-});
+game.sceneManager.push(scene);
+game.init();
+game.run();
 // initialize game
 //game.init();
 // run game loop

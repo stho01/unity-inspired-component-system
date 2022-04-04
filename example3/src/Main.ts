@@ -13,14 +13,14 @@ let game: Game = new Game({clearColor: "cornflowerblue"});
 let scene: Scene = new Scene(game);
 
 const player = scene.createEntity();
-player.addComponent(Transform, Vector2D.from(10, 20));
-player.addComponent(RigidBody, Vector2D.from(1, 0));
+player.addComponent(Transform, Vector2D.from(100, 100));
+player.addComponent(RigidBody, Vector2D.from(100, 0));
 player.addComponent(Sprite, "/box.png", 10, 20);
 
-game.sceneManager.push(scene).then(() => {
-    game.init();
-    game.run();
-});
+game.sceneManager.push(scene);
+
+game.init();
+game.run();
 
 // initialize game
 //game.init();

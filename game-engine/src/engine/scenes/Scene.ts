@@ -17,6 +17,7 @@ export class Scene implements IState<Game> {
     private readonly _game            : Game;
     private readonly _registry        : ECSRegistry;
     private readonly _contentLoader   : ContentLoader;
+    private _paused: boolean = false;
 
     //********************************************
     //**ctor:
@@ -32,7 +33,8 @@ export class Scene implements IState<Game> {
     //**getters:
     //********************************************
 
-    get game()          : Game          { return this._game;}
+    get game()   : Game          { return this._game;}
+    get paused() : boolean { return this._paused; }
 
     //********************************************
     //**public:
@@ -80,6 +82,7 @@ export class Scene implements IState<Game> {
      * @param game
      */
     pause(game: any): void {
+        this._paused = true;
         //TODO: pause rendering and updating
     }
 
@@ -88,6 +91,7 @@ export class Scene implements IState<Game> {
      * @param game
      */
     resume(game: any): void {
+        this._paused = false;
         //TODO: resume rendering and updating
     }
 

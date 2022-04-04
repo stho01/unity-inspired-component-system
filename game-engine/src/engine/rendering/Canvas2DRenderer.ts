@@ -30,11 +30,31 @@ export class Canvas2DRenderer implements IRenderer {
     //** public:
     //********************************************
 
-    public renderTexture(texture: HTMLImageElement, source: RenderRect, dest: RenderRect) {
+    public renderTexture(texture: HTMLImageElement, source: RenderRect, dest: RenderRect, rotation: number = 0) {
+
+        this._ctx.setTransform(1, 0, 0, 1, dest.x, dest.y); // sets scales and origin
+        this._ctx.rotate(rotation * Math.PI / 180);
+        this._ctx.drawImage(texture, -texture.width / 2, -texture.height / 2);
+        /*
+        this._ctx.save();
+        this._ctx.translate(
+            this._ctx.canvas.width / 2,
+            this._ctx.canvas.height / 2);
+
+        // rotate the canvas to the specified degrees
+
+        const radians = rotation * Math.PI / 180;
+
+        this._ctx.setTransform(1, 0, 0, 1, x, y); // sets scale and origin
+        this._ctx.rotate(rotation);
+
         this._ctx.drawImage(
             texture,
             source.x, source.y, source.width, source.height,
             dest.x, dest.y, dest.width, dest.height);
+
+        this._ctx.restore();
+ */
     }
 
     /**

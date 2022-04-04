@@ -12,7 +12,7 @@ export type RenderRect = {
 }
 
 export default interface IRenderer {
-    renderTexture(texture: HTMLImageElement, source: RenderRect, dest: RenderRect);
+    renderTexture(texture: HTMLImageElement, source: RenderRect, dest: RenderRect, rotation?: number);
     renderRect(x: number, y:number, rect: Rectangle, colorStyle?: string): void;
     renderCircle(x: number, y: number, c: Circle, colorStyle?: string): void;
     renderLine(l: Line, color?: string): void;

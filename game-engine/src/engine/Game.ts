@@ -7,6 +7,7 @@ import { ECSRegistry } from "./ecs/Ecs"
 import MovementSystem from "./systems/MovementSystem";
 import IRenderer from "./rendering/IRenderer";
 import {ContentStore} from "./content/ContentStore";
+import {Scene} from "./scenes/Scene";
 
 export class Game {
     "use strict";
