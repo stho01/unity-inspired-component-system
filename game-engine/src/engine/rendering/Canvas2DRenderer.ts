@@ -3,7 +3,7 @@ import { Circle } from '../geometry/Circle';
 import { Line } from '../geometry/Line';
 import { Vector2D } from "../math/Vector2D";
 import { Polygon } from '../geometry/Polygon';
-import IRenderer from "./IRenderer";
+import IRenderer, {RenderRect} from "./IRenderer";
 
 // noinspection JSUnusedGlobalSymbols
 export class Canvas2DRenderer implements IRenderer {
@@ -29,6 +29,13 @@ export class Canvas2DRenderer implements IRenderer {
     //********************************************
     //** public:
     //********************************************
+
+    public renderTexture(texture: HTMLImageElement, source: RenderRect, dest: RenderRect) {
+        this._ctx.drawImage(
+            texture,
+            source.x, source.y, source.width, source.height,
+            dest.x, dest.y, dest.width, dest.height);
+    }
 
     /**
      *
@@ -145,4 +152,6 @@ export class Canvas2DRenderer implements IRenderer {
         // this._ctx.stroke();
         this._ctx.restore();
     }
+
+
 }

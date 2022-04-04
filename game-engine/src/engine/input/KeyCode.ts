@@ -4,7 +4,7 @@ export enum KeyCode  {
     Tab        = 9,
     Enter      = 13,
     Shift      = 16,
-    Cntr       = 17,
+    Ctrl       = 17,
     Alt        = 18,
     PauseBreak = 19,
     CapsLock   = 20,

@@ -3,6 +3,7 @@ import { Game } from "../Game";
 import {ECSRegistry, Entity} from "../ecs/Ecs";
 import MovementSystem from "../systems/MovementSystem";
 import {RenderingSystem} from "../systems/RenderingSystem";
+import {ContentLoader} from "../content/ContentLoader";
 
 /**
  * A scene that can update and render game objects.
@@ -15,6 +16,7 @@ export class Scene implements IState<Game> {
 
     private readonly _game            : Game;
     private readonly _registry        : ECSRegistry;
+    private readonly _contentLoader   : ContentLoader;
 
     //********************************************
     //**ctor:
@@ -23,6 +25,7 @@ export class Scene implements IState<Game> {
     constructor(game: Game) {
         this._game = game;
         this._registry = new ECSRegistry();
+        this._contentLoader = new ContentLoader(this._registry, game.contentStore);
     }
 
     //********************************************
@@ -48,9 +51,13 @@ export class Scene implements IState<Game> {
      *
      * @param {Game} game
      */
-    initialize(game: Game): void {
+    async initialize(game: Game): Promise<void> {
         this._registry.addSystem(MovementSystem);
-        this._registry.addSystem(RenderingSystem);
+        this._registry.addSystem(RenderingSystem, game.contentStore);
+
+        // preload all textures and other contents
+        // before the scene starts running.
+        await this._contentLoader.preload();
     }
 
     /**
@@ -89,6 +96,6 @@ export class Scene implements IState<Game> {
      * @param {Game} game
      */
     dispose(game: Game): void {
-
+        // todo: unload used content
     }
 }

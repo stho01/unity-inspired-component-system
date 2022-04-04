@@ -36,6 +36,7 @@ var Rectangle_1 = __webpack_require__(/*! ./geometry/Rectangle */ "../game-engin
 var Canvas2DRenderer_1 = __webpack_require__(/*! ./rendering/Canvas2DRenderer */ "../game-engine/src/engine/rendering/Canvas2DRenderer.ts");
 var InputManager_1 = __webpack_require__(/*! ./input/InputManager */ "../game-engine/src/engine/input/InputManager.ts");
 var SceneManager_1 = __webpack_require__(/*! ./scenes/SceneManager */ "../game-engine/src/engine/scenes/SceneManager.ts");
+var ContentStore_1 = __webpack_require__(/*! ./content/ContentStore */ "../game-engine/src/engine/content/ContentStore.ts");
 var Game = /** @class */ (function () {
     //********************************************
     //** ctor:
@@ -47,6 +48,7 @@ var Game = /** @class */ (function () {
         this._input = new InputManager_1.InputManager();
         this._renderer = new Canvas2DRenderer_1.Canvas2DRenderer(this._canvas);
         this._sceneManager = new SceneManager_1.SceneManager(this);
+        this._contentStore = new ContentStore_1.ContentStore();
         this._updateViewPort();
     }
     Object.defineProperty(Game.prototype, "viewPort", {
@@ -74,6 +76,11 @@ var Game = /** @class */ (function () {
     });
     Object.defineProperty(Game.prototype, "renderer", {
         get: function () { return this._renderer; },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Game.prototype, "contentStore", {
+        get: function () { return this._contentStore; },
         enumerable: false,
         configurable: true
     });
@@ -158,7 +165,6 @@ var Vector2D_1 = __webpack_require__(/*! ../math/Vector2D */ "../game-engine/src
 var RigidBody = /** @class */ (function () {
     function RigidBody(velocity) {
         if (velocity === void 0) { velocity = Vector2D_1.Vector2D.Zero; }
-        console.log(velocity.x, velocity.y);
         this.velocity = velocity;
         this.acceleration = Vector2D_1.Vector2D.Zero;
     }
@@ -179,11 +185,12 @@ exports.RigidBody = RigidBody;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Sprite = void 0;
 var Sprite = /** @class */ (function () {
-    function Sprite(width, height) {
+    function Sprite(path, width, height) {
         if (width === void 0) { width = 0; }
         if (height === void 0) { height = 0; }
         this.width = 0;
         this.height = 0;
+        this.path = path;
         this.width = width;
         this.height = height;
     }
@@ -216,6 +223,181 @@ var Transform = /** @class */ (function () {
     return Transform;
 }());
 exports.Transform = Transform;
+
+
+/***/ }),
+
+/***/ "../game-engine/src/engine/content/ContentLoader.ts":
+/*!**********************************************************!*\
+  !*** ../game-engine/src/engine/content/ContentLoader.ts ***!
+  \**********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ContentLoader = void 0;
+var Sprite_1 = __webpack_require__(/*! ../components/Sprite */ "../game-engine/src/engine/components/Sprite.ts");
+var ContentLoader = /** @class */ (function () {
+    //********************************************
+    //** ctor:
+    //********************************************
+    function ContentLoader(registry, contentStore) {
+        this._registry = registry;
+        this._contentStore = contentStore;
+    }
+    //********************************************
+    //** public:
+    //********************************************
+    ContentLoader.prototype.preload = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var sprites, tasks;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        sprites = this._registry.getAllComponents(Sprite_1.Sprite);
+                        tasks = sprites.map(function (sprite) {
+                            return _this._contentStore.addTexture(sprite.path);
+                        });
+                        return [4 /*yield*/, Promise.all(tasks)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return ContentLoader;
+}());
+exports.ContentLoader = ContentLoader;
+
+
+/***/ }),
+
+/***/ "../game-engine/src/engine/content/ContentStore.ts":
+/*!*********************************************************!*\
+  !*** ../game-engine/src/engine/content/ContentStore.ts ***!
+  \*********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ContentStore = void 0;
+var Logger_1 = __webpack_require__(/*! ../infrastructure/Logger */ "../game-engine/src/engine/infrastructure/Logger.ts");
+var Sprite_1 = __webpack_require__(/*! ../components/Sprite */ "../game-engine/src/engine/components/Sprite.ts");
+var logger = Logger_1.default.from("ContentStore.ts");
+var ContentStore = /** @class */ (function () {
+    //********************************************
+    function ContentStore() {
+        //********************************************
+        this._textures = new Map();
+        logger.info("ContentStore constructor called!");
+    }
+    //********************************************
+    ContentStore.prototype.addTexture = function (path) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            var image = new Image();
+            image.addEventListener("load", function () {
+                _this._textures.set(path, image);
+                resolve();
+            });
+            image.src = path;
+        });
+    };
+    //********************************************
+    ContentStore.prototype.getTexture = function (name) {
+        return this._textures.get(name);
+    };
+    //********************************************
+    ContentStore.prototype.clear = function () {
+        this._textures.clear();
+    };
+    //********************************************
+    ContentStore.prototype.preload = function (registry) {
+        return __awaiter(this, void 0, void 0, function () {
+            var sprites;
+            return __generator(this, function (_a) {
+                sprites = registry.getAllComponents(Sprite_1.Sprite);
+                return [2 /*return*/];
+            });
+        });
+    };
+    return ContentStore;
+}());
+exports.ContentStore = ContentStore;
 
 
 /***/ }),
@@ -395,7 +577,14 @@ var Pool = /** @class */ (function () {
     Pool.prototype.clear = function () { this.components = []; };
     Pool.prototype.add = function (object) { this.components.push(object); };
     Pool.prototype.set = function (index, object) { this.components[index] = object; };
-    Pool.prototype.get = function (index) { return this.components[index]; };
+    Pool.prototype.get = function (index) {
+        if (index) {
+            return this.components[index];
+        }
+        else {
+            return this.components;
+        }
+    };
     return Pool;
 }());
 //********************************************
@@ -461,7 +650,6 @@ var ECSRegistry = /** @class */ (function () {
         if (!this._componentPools.get(componentId)) {
             this._componentPools.set(componentId, new Pool());
         }
-        //const component = new (Function.prototype.bind.apply(type, args));
         var component = new (type.bind.apply(type, __spreadArrays([void 0], args)))();
         this._componentPools.get(componentId).set(entity.id, component);
         logger.info("Added component " + componentId + " to entity " + entity.id);
@@ -497,6 +685,13 @@ var ECSRegistry = /** @class */ (function () {
             return null;
         }
         return this._componentPools.get(componentId).get(entity.id);
+    };
+    //********************************************
+    ECSRegistry.prototype.getAllComponents = function (type) {
+        var componentId = Component.getId(type);
+        return this._componentPools.has(componentId)
+            ? this._componentPools.get(componentId).get()
+            : [];
     };
     //********************************************
     ECSRegistry.prototype.addSystem = function (ctor) {
@@ -1073,7 +1268,7 @@ var KeyCode;
     KeyCode[KeyCode["Tab"] = 9] = "Tab";
     KeyCode[KeyCode["Enter"] = 13] = "Enter";
     KeyCode[KeyCode["Shift"] = 16] = "Shift";
-    KeyCode[KeyCode["Cntr"] = 17] = "Cntr";
+    KeyCode[KeyCode["Ctrl"] = 17] = "Ctrl";
     KeyCode[KeyCode["Alt"] = 18] = "Alt";
     KeyCode[KeyCode["PauseBreak"] = 19] = "PauseBreak";
     KeyCode[KeyCode["CapsLock"] = 20] = "CapsLock";
@@ -1430,6 +1625,9 @@ var Canvas2DRenderer = /** @class */ (function () {
     //********************************************
     //** public:
     //********************************************
+    Canvas2DRenderer.prototype.renderTexture = function (texture, source, dest) {
+        this._ctx.drawImage(texture, source.x, source.y, source.width, source.height, dest.x, dest.y, dest.width, dest.height);
+    };
     /**
      *
      * @param x
@@ -1553,14 +1751,51 @@ exports.Canvas2DRenderer = Canvas2DRenderer;
 /*!*************************************************!*\
   !*** ../game-engine/src/engine/scenes/Scene.ts ***!
   \*************************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Scene = void 0;
 var Ecs_1 = __webpack_require__(/*! ../ecs/Ecs */ "../game-engine/src/engine/ecs/Ecs.ts");
 var MovementSystem_1 = __webpack_require__(/*! ../systems/MovementSystem */ "../game-engine/src/engine/systems/MovementSystem.ts");
 var RenderingSystem_1 = __webpack_require__(/*! ../systems/RenderingSystem */ "../game-engine/src/engine/systems/RenderingSystem.ts");
+var ContentLoader_1 = __webpack_require__(/*! ../content/ContentLoader */ "../game-engine/src/engine/content/ContentLoader.ts");
 /**
  * A scene that can update and render game objects.
  */
@@ -1571,6 +1806,7 @@ var Scene = /** @class */ (function () {
     function Scene(game) {
         this._game = game;
         this._registry = new Ecs_1.ECSRegistry();
+        this._contentLoader = new ContentLoader_1.ContentLoader(this._registry, game.contentStore);
     }
     Object.defineProperty(Scene.prototype, "game", {
         //********************************************
@@ -1596,8 +1832,23 @@ var Scene = /** @class */ (function () {
      * @param {Game} game
      */
     Scene.prototype.initialize = function (game) {
-        this._registry.addSystem(MovementSystem_1.default);
-        this._registry.addSystem(RenderingSystem_1.RenderingSystem);
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this._registry.addSystem(MovementSystem_1.default);
+                        this._registry.addSystem(RenderingSystem_1.RenderingSystem);
+                        // preload all textures and other contents
+                        // before the scene starts running.
+                        return [4 /*yield*/, this._contentLoader.preload()];
+                    case 1:
+                        // preload all textures and other contents
+                        // before the scene starts running.
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     /**
      * Update scene
@@ -1614,23 +1865,23 @@ var Scene = /** @class */ (function () {
     };
     /**
      * Pause scene
-     * @param entity
+     * @param game
      */
-    Scene.prototype.pause = function (entity) {
+    Scene.prototype.pause = function (game) {
         //TODO: pause rendering and updating
     };
     /**
      * Resume scene.
-     * @param entity
+     * @param game
      */
-    Scene.prototype.resume = function (entity) {
+    Scene.prototype.resume = function (game) {
         //TODO: resume rendering and updating
     };
     /**
      * Dispose scene and all its components.
-     * @param {Game} entity
+     * @param {Game} game
      */
-    Scene.prototype.dispose = function (entity) {
+    Scene.prototype.dispose = function (game) {
     };
     return Scene;
 }());
@@ -1712,9 +1963,45 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 /*!*******************************************************!*\
   !*** ../game-engine/src/engine/state/StateMachine.ts ***!
   \*******************************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ (function(__unused_webpack_module, exports) {
 
 
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.StateMachine = void 0;
 /**
@@ -1740,14 +2027,24 @@ var StateMachine = /** @class */ (function () {
      * @param state
      */
     StateMachine.prototype.push = function (state) {
-        if (state == null) {
-            throw new Error("Cannot push null or undefinde to state stack");
-        }
-        if (this._stateStack.length > 0) {
-            this.peek().pause(this._entity);
-        }
-        this._stateStack.push(state);
-        state.initialize(this._entity);
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (state == null) {
+                            throw new Error("Cannot push null or undefinde to state stack");
+                        }
+                        if (this._stateStack.length > 0) {
+                            this.peek().pause(this._entity);
+                        }
+                        this._stateStack.push(state);
+                        return [4 /*yield*/, state.initialize(this._entity)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     /**
      * Sets the active state and removes resets history.
@@ -1842,6 +2139,7 @@ var MovementSystem = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.requireComponent(Transform_1.Transform);
         _this.requireComponent(RigidBody_1.RigidBody);
+        logger.info("MovementSystem created...");
         return _this;
     }
     MovementSystem.prototype.update = function (deltaTime) {
@@ -1883,20 +2181,39 @@ exports.RenderingSystem = void 0;
 var Ecs_1 = __webpack_require__(/*! ../ecs/Ecs */ "../game-engine/src/engine/ecs/Ecs.ts");
 var Transform_1 = __webpack_require__(/*! ../components/Transform */ "../game-engine/src/engine/components/Transform.ts");
 var Sprite_1 = __webpack_require__(/*! ../components/Sprite */ "../game-engine/src/engine/components/Sprite.ts");
-var Rectangle_1 = __webpack_require__(/*! ../geometry/Rectangle */ "../game-engine/src/engine/geometry/Rectangle.ts");
+var Logger_1 = __webpack_require__(/*! ../infrastructure/Logger */ "../game-engine/src/engine/infrastructure/Logger.ts");
+var logger = Logger_1.default.from("RenderingSystem.ts");
 var RenderingSystem = /** @class */ (function (_super) {
     __extends(RenderingSystem, _super);
-    function RenderingSystem() {
+    function RenderingSystem(contentStore) {
         var _this = _super.call(this) || this;
+        _this._contentStore = contentStore;
         _this.requireComponent(Transform_1.Transform);
         _this.requireComponent(Sprite_1.Sprite);
+        logger.info("RenderingSystem created...");
         return _this;
     }
+    RenderingSystem.prototype.setCamera = function () {
+    };
     RenderingSystem.prototype.draw = function (context) {
+        var _this = this;
         this.entities.forEach(function (e) {
             var transform = e.getComponent(Transform_1.Transform);
             var sprite = e.getComponent(Sprite_1.Sprite);
-            context.renderRect(transform.position.x, transform.position.y, new Rectangle_1.Rectangle(sprite.width, sprite.height));
+            var texture = _this._contentStore.getTexture(sprite.path);
+            var source = {
+                x: 0,
+                y: 0,
+                width: texture.width,
+                height: texture.height
+            };
+            var dest = {
+                x: transform.position.x,
+                y: transform.position.y,
+                width: texture.width * transform.scale.x,
+                height: texture.height * transform.scale.y
+            };
+            context.renderTexture(texture, source, dest);
         });
     };
     return RenderingSystem;
@@ -1971,6 +2288,7 @@ __exportStar(__webpack_require__(/*! ./engine/types/CommonTypes */ "../game-engi
 __exportStar(__webpack_require__(/*! ./engine/Game */ "../game-engine/src/engine/Game.ts"), exports);
 __exportStar(__webpack_require__(/*! ./engine/components/Transform */ "../game-engine/src/engine/components/Transform.ts"), exports);
 __exportStar(__webpack_require__(/*! ./engine/components/RigidBody */ "../game-engine/src/engine/components/RigidBody.ts"), exports);
+__exportStar(__webpack_require__(/*! ./engine/content/ContentStore */ "../game-engine/src/engine/content/ContentStore.ts"), exports);
 
 
 /***/ })
@@ -2017,13 +2335,16 @@ var game = new stho_game_engine_1.Game({ clearColor: "cornflowerblue" });
 var scene = new stho_game_engine_1.Scene(game);
 var player = scene.createEntity();
 player.addComponent(stho_game_engine_1.Transform, stho_game_engine_1.Vector2D.from(10, 20));
-player.addComponent(stho_game_engine_1.RigidBody, stho_game_engine_1.Vector2D.from(0, 0));
-player.addComponent(Sprite_1.Sprite, 10, 20);
-game.sceneManager.push(scene);
+player.addComponent(stho_game_engine_1.RigidBody, stho_game_engine_1.Vector2D.from(1, 0));
+player.addComponent(Sprite_1.Sprite, "/box.png", 10, 20);
+game.sceneManager.push(scene).then(function () {
+    game.init();
+    game.run();
+});
 // initialize game
-game.init();
+//game.init();
 // run game loop
-game.run();
+//game.run();
 
 })();
 

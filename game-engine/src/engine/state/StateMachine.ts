@@ -33,7 +33,7 @@ export class StateMachine<T> {
      * 
      * @param state 
      */
-    push(state: IState<T>): void {
+    async push(state: IState<T>): Promise<void> {
         if(state == null) {
             throw new Error("Cannot push null or undefinde to state stack");
         }
@@ -43,7 +43,7 @@ export class StateMachine<T> {
         }
 
         this._stateStack.push(state);
-        state.initialize(this._entity);
+        await state.initialize(this._entity);
     }
 
     /**

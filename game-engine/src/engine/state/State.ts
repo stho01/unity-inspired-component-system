@@ -2,7 +2,7 @@ export interface IState<T> {
     /**
      * Initialize a scene
      */
-    initialize(entity: T): void;
+    initialize(entity: T): Promise<void>;
 
     /**
      * Unload scene  

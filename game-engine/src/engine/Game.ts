@@ -6,6 +6,7 @@ import { SceneManager } from './scenes/SceneManager';
 import { ECSRegistry } from "./ecs/Ecs"
 import MovementSystem from "./systems/MovementSystem";
 import IRenderer from "./rendering/IRenderer";
+import {ContentStore} from "./content/ContentStore";
 
 export class Game {
     "use strict";
@@ -18,6 +19,7 @@ export class Game {
     private readonly _canvas        : HTMLCanvasElement;
     private readonly _renderer      : IRenderer;
     private readonly _sceneManager  : SceneManager;
+    private readonly _contentStore  : ContentStore;
     private _options                : GameOptions;
     private _previousDelta          : number = 0;
     private _viewPort               : ViewPort;
@@ -32,6 +34,7 @@ export class Game {
         this._input         = new InputManager();
         this._renderer      = new Canvas2DRenderer(this._canvas);
         this._sceneManager  = new SceneManager(this);
+        this._contentStore  = new ContentStore();
 
         this._updateViewPort();
     }
@@ -45,6 +48,7 @@ export class Game {
     get sceneManager()  : SceneManager  { return this._sceneManager; }
     get canvas()        : HTMLCanvasElement { return this._canvas; }
     get renderer()      : IRenderer { return this._renderer; }
+    get contentStore()  : ContentStore {return this._contentStore;}
     
     //********************************************
     //**public:

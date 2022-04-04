@@ -172,7 +172,16 @@ class Pool<T> {
     clear(): void { this.components = []; }
     add(object: T): void { this.components.push(object); }
     set(index: number, object: T) { this.components[index] = object; }
-    get(index: number) : T {return this.components[index];}
+
+    get() : T[];
+    get(index: number) : T;
+    get(index?: number) : T | T[] {
+        if (typeof index == "number") {
+            return this.components[index];
+        } else {
+            return this.components;
+        }
+    }
 }
 
 //********************************************
@@ -297,9 +306,18 @@ export class ECSRegistry {
 
     //********************************************
 
+    public getAllComponents<T>(type: ComponentConstructor<T>): T[] {
+        const componentId = Component.getId(type);
+        return this._componentPools.has(componentId)
+            ? this._componentPools.get(componentId).get()
+            : [];
+    }
+
+    //********************************************
+
     public addSystem<T extends System>(ctor: SystemConstructor<T>, ...args: any[]): void {
         if (!this._systems.has(ctor)) {
-            const system = new ctor(args);
+            const system = new ctor(...args);
             this._systems.set(ctor, system);
         }
     }

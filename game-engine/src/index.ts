@@ -21,3 +21,4 @@ export * from "./engine/types/CommonTypes";
 export * from "./engine/Game";
 export * from "./engine/components/Transform";
 export * from "./engine/components/RigidBody";
+export * from "./engine/content/ContentStore";
