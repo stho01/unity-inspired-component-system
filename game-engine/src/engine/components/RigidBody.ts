@@ -6,7 +6,6 @@ export class RigidBody {
     acceleration: Vector2D;
 
     constructor(velocity: Vector2D = Vector2D.Zero) {
-        console.log(velocity.x, velocity.y);
         this.velocity = velocity;
         this.acceleration = Vector2D.Zero;
     }

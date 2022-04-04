@@ -14,7 +14,7 @@ let scene: Scene = new Scene(game);
 
 const player = scene.createEntity();
 player.addComponent(Transform, Vector2D.from(10, 20));
-player.addComponent(RigidBody);
+player.addComponent(RigidBody, Vector2D.from(1, 0));
 player.addComponent(Sprite, 10, 20);
 
 game.sceneManager.push(scene);

@@ -16,7 +16,12 @@ export class RenderingSystem extends System {
         logger.info("RenderingSystem created...");
     }
 
+    setCamera(): void {
+
+    }
+
     draw(context: IRenderer): void {
+
         this.entities.forEach(e => {
             const transform = e.getComponent(Transform);
             const sprite = e.getComponent(Sprite);

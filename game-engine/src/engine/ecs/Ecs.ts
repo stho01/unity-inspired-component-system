@@ -248,7 +248,6 @@ export class ECSRegistry {
             this._componentPools.set(componentId, new Pool<T>());
         }
 
-        //const component = new (Function.prototype.bind.apply(type, args));
         const component = new type(...args);
 
         this._componentPools.get(componentId).set(entity.id, component);
